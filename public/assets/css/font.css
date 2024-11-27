@@ -1,0 +1,15 @@
+/* Rabar_022 */
+@font-face {
+    font-family: 'Rabar';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/Rabar_022.ttf) format('truetype');
+}
+
+/* Rabar_021 */
+@font-face {
+    font-family: 'Rabar';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../fonts/Rabar_021.ttf) format('truetype');
+}
