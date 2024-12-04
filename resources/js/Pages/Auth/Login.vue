@@ -205,12 +205,17 @@ import { useForm } from '@inertiajs/vue3'
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import { getDefaultSettings } from '@/settings.js';
 import 'vue3-carousel/dist/carousel.css'
+import { usePage } from '@inertiajs/vue3';
 
 import IconMail from '@/components/icon/icon-mail.vue';
 import IconLockDots from '@/components/icon/icon-lock-dots.vue';
 
 const settings = getDefaultSettings()
 const emits = defineEmits();
+
+const page = usePage()
+
+console.log(page.props)
 
 const form = useForm({
     email: 'test@example.com',

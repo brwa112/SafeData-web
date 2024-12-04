@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const getDefaultSettings = () => {
     return {
         isDarkMode: false,
@@ -38,6 +40,11 @@ export const getDefaultSettings = () => {
                 localStorage.setItem('language', lang);
             }
             localStorage.setItem('language', lang);
+
+            axios.post(route('lang', { locale: lang }))
+                .catch(error => {
+                    console.log(error);
+                });
         },
         toggleDir: (dir) => {
             dir = dir || getDefaultSettings.rtlClass; // rtl, ltr

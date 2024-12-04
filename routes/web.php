@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +9,13 @@ use Illuminate\Support\Facades\Route;
 if (app()->isProduction()) {
     URL::forceScheme('https');
 }
+
+// Route Locale
+Route::post('lang/{locale}', function ($locale) {
+    session()->put('locale', $locale);
+    if (in_array($locale, ['en', 'ar', 'ckb']))
+        App::setLocale($locale);
+})->name('lang');
 
 // Dashboard routes
 Route::middleware('auth')->group(function () {
@@ -420,18 +429,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/maintenence', function () {
             return Inertia::render('Pages/Maintenence');
         })->name('maintenence');
-        
     });
 
     // logout route
-    Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 // Auth routes
 Route::middleware('guest')->group(function () {
 
-    Route::get('/login', [App\Http\Controllers\AuthController::class, 'index'])->name('login');
-    Route::post('/login', [App\Http\Controllers\AuthController::class, 'checkLogin'])->name('login');
+    Route::get('/login', [AuthController::class, 'index'])->name('login');
+    Route::post('/login', [AuthController::class, 'checkLogin'])->name('login');
 
     // Route::get('/register', function () {
     //     return Inertia::render('Auth/Register');
