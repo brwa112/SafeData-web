@@ -18,6 +18,7 @@ class UserRequest extends FormRequest
             'is_active' => 'nullable|boolean',
             'roles' => 'nullable|array',
             'permissions' => 'nullable|array',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

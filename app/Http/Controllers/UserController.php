@@ -54,12 +54,14 @@ class UserController extends Controller
         $user->syncRoles($data['roles']);
         $user->syncPermissions($data['permissions']);
 
-        return redirect()->route('users.index');
+        return redirect()->route('control.system.users.index');
     }
 
-    public function edit(User $user)
+    public function edit($user)
     {
-        $this->authorize('update', $user);
+        $this->authorize('update', User::class);
+
+        $user = User::with('roles', 'permissions')->findOrFail($user);
 
         return Inertia::render('Users/Form', [
             'user' => $user->load('roles', 'permissions'),
@@ -94,7 +96,13 @@ class UserController extends Controller
 
     protected function options()
     {
-        $roles = Role::query()->get();
+        $roles = Role::query()
+            ->with([
+                'permissions' => function ($query) {
+                    $query->select(['id', 'name', 'group']);
+                },
+            ])
+            ->get();
 
         $permission_groups = Permission::query()
             ->select(['id', 'name', 'group'])
