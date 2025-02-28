@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.8",
         "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-permission": "^6.13",
+        "spatie/laravel-translatable": "^6.11",
         "tightenco/ziggy": "^1.8"
     },
     "require-dev": {

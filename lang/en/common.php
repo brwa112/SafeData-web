@@ -27,4 +27,9 @@ return [
     'are_you_sure' => 'Are you sure?',
     'delete_this' => 'You won\'t be able to revert this!',
     'confirm' => 'Yes, delete it!',
+    'actions' => 'Actions',
+    'name' => 'Name',
+    'description' => 'Description',
+    'discard' => 'Discard',
+    'save' => 'Save',
 ];

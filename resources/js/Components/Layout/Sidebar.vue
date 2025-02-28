@@ -62,13 +62,54 @@
                                 stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
+                            <span>{{ $t('nav.pages') }}</span>
+                        </h2>
+
+                        <li class="nav-item">
+                            <ul>
+                                <li v-if="$can('view_services')" class="nav-item">
+                                    <Link :href="route('control.pages.services.index')" class="nav-link group w-full"
+                                        :class="{ active: $page.component === 'Pages/Services' }">
+                                    <div class="flex items-center">
+                                        <Svg name="service" class="size-5"></Svg>
+
+                                        <span
+                                            class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#7d96c5] dark:group-hover:text-white-dark">
+                                            {{ $t('nav.services') }}
+                                        </span>
+                                    </div>
+                                    </Link>
+                                </li>
+                                <li v-if="$can('view_products')" class="nav-item">
+                                    <Link :href="route('control.pages.products.index')" class="nav-link group w-full"
+                                        :class="{ active: $page.component === 'Pages/Products' }">
+                                    <div class="flex items-center">
+                                        <Svg name="box" class="size-5"></Svg>
+
+                                        <span
+                                            class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#7d96c5] dark:group-hover:text-white-dark">
+                                            {{ $t('nav.products') }}
+                                        </span>
+                                    </div>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <h2
+                            class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
+                            <svg class="w-4 h-5 flex-none hidden" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
                             <span>{{ $t('nav.system') }}</span>
                         </h2>
 
                         <li class="nav-item">
                             <ul>
                                 <li class="nav-item">
-                                    <Link :href="route('control.system.users.index')" class="nav-link group w-full"
+                                    <Link v-if="$can('view_users')" :href="route('control.system.users.index')"
+                                        class="nav-link group w-full"
                                         :class="{ active: $page.component === 'Users/Index' }">
                                     <div class="flex items-center">
                                         <Svg name="user" class="size-5"></Svg>
@@ -110,7 +151,7 @@
                         </li>
 
                         <h2
-                            class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
+                            class="py-3 px-7 !mt-96 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                             <svg class="w-4 h-5 flex-none hidden" viewBox="0 0 24 24" stroke="currentColor"
                                 stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1052,7 +1093,8 @@
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link :href="route('control.faq')" :class="{ active: $page.component === 'Pages/Faq' }">
+                                        <Link :href="route('control.faq')"
+                                            :class="{ active: $page.component === 'Pages/Faq' }">
                                         Faq
                                         </Link>
                                     </li>

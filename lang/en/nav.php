@@ -13,4 +13,8 @@ return [
     'system' => 'System',
     'permissions' => 'Permissions',
     'roles' => 'Roles',
+    'apps' => 'Apps',
+    'pages' => 'Pages',
+    'services' => 'Services',
+    'products' => 'Products',
 ];

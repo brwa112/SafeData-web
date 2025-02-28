@@ -302,7 +302,8 @@
                                 offsetDistance="8" class="!block align-middle">
                                 <button type="button" class="relative group block">
                                     <img class="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
-                                        :src="'/assets/images/user-profile.jpeg'" alt="" />
+                                        :src="$page.props.auth.user.avatar || '/assets/images/avatar.png'"
+                                        alt="avatar" />
                                 </button>
                                 <template #content="{ close }">
                                     <ul
@@ -311,16 +312,16 @@
                                             <div class="flex items-center px-4 py-4">
                                                 <div class="flex-none">
                                                     <img class="rounded-md w-10 h-10 object-cover"
-                                                        :src="'/assets/images/user-profile.jpeg'" alt="" />
+                                                        :src="$page.props.auth.user.avatar || '/assets/images/avatar.png'"
+                                                        alt="avatar" />
                                                 </div>
                                                 <div class="ltr:pl-4 rtl:pr-4 truncate">
                                                     <h4 class="text-base">
-                                                        John Doe
-                                                        <span
-                                                            class="text-xs bg-success-light rounded text-success px-1 ltr:ml-2 rtl:ml-2">Pro</span>
+                                                        {{ $page.props.auth.user.name }}
                                                     </h4>
-                                                    <a class="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white"
-                                                        href="javascript:;">johndoe@gmail.com</a>
+                                                    <p class="text-black/60 dark:text-dark-light/60">
+                                                        {{ $page.props.auth.user.email }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </li>
@@ -331,7 +332,7 @@
                                             {{ $t('nav.profile') }}
                                             </Link>
                                         </li>
-                                        <li>
+                                        <li v-if="0">
                                             <Link href="" class="dark:hover:text-white" @click="close()">
                                             <icon-mail class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
 

@@ -170,6 +170,7 @@ const columns =
             title: wTrans('common.id'),
             isUnique: true,
             width: '25px',
+            type: 'number',
         },
         {
             field: 'user',
@@ -189,7 +190,7 @@ const columns =
         },
         {
             field: 'actions',
-            title: wTrans('system.actions'),
+            title: wTrans('common.actions'),
             sort: false
         },
     ]) || [];

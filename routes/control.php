@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Pages\ProductController;
+use App\Http\Controllers\Pages\ServiceController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\URL;
@@ -43,6 +45,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+    // pages routes
+    Route::prefix('pages')->as('pages.')->group(function () {
+        // Route::get('/services', [ServiceController::class, 'index'])->name('services');    
+        Route::resource('services', ServiceController::class);                      
+        Route::resource('products', ProductController::class);                      
     });
 
     // apps routes

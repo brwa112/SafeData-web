@@ -57,6 +57,11 @@ class HandleInertiaRequests extends Middleware
                 'params' => $request->route()->parameters(),
                 'query' => $request->query(),
             ],
+            'languages' => [
+                'en' => 'English',
+                'ku' => 'Kurdish',
+                'ar' => 'Arabic',
+            ],
         ]);
     }
 }

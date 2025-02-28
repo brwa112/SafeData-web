@@ -15,6 +15,8 @@ import Svg from '@/Components/Svg.vue';
 import helpers from './helpers';
 import permissions from './permissions';
 import Vue3Shortkey from 'vue3-shortkey';
+import PermissionPlugin from './Plugins/PermissionPlugin';
+
 
 const app = createApp({});
 

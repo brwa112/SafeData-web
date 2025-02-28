@@ -48,12 +48,11 @@
             </div>
         </div>
 
-        <!-- <vue3-datatable ref="datatable" :skin="skin" :columns="columns" :rows="filtered(props.rows)" v-bind="$attrs" :hasCheckbox="checkable" :sortable="true" :sort-column="null" :firstArrow="double_arrows" :lastArrow="last_arrow" :previousArrow="previous_arrow" :nextArrow="next_arrow" class="alt-pagination"> -->
         <vue3-datatable ref="datatable" :skin="skin" :columns="columns" :rows="rows" v-bind="$attrs"
             :hasCheckbox="checkable" :sortable="true" :firstArrow="double_arrows" :lastArrow="last_arrow"
             :previousArrow="previous_arrow" :nextArrow="next_arrow" class="alt-pagination" :pagination="false"
-            :sortColumn="props.sortBy ?? filter.sort_by" :sortDirection="props.sortDirection ?? filter.sort_direction"
-            @sortChange="changeSort">
+            :sortColumn="filter.sort_by" :sortDirection="filter.sort_direction" :isServerMode="true"
+            :totalRows="totalRows" @sortChange="changeSort">
             <template v-for="column in columns" v-slot:[column.field]="data">
                 <slot v-if="hasSlot(column.field)" :name="column.field" v-bind="data"></slot>
                 <template v-else>
@@ -133,6 +132,10 @@ const props = defineProps({
         type: Boolean,
         default: true
     },
+    totalRows: {
+        type: Number,
+        default: 0
+    },
     isTop: {
         type: Boolean,
         default: true
@@ -158,9 +161,14 @@ const props = defineProps({
 const datatable = ref(null);
 
 const rows = ref(props.isPaginate ? props.rows.data : props.rows);
+const totalRows = ref(props.totalRows);
 
 watch(() => props.rows, (newValue) => {
     rows.value = props.isPaginate ? newValue.data : newValue;
+});
+
+watch(() => props.totalRows, (newValue) => {
+    totalRows.value = newValue;
 });
 
 const numberRows = ref(props.numberRows);
