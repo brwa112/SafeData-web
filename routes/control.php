@@ -17,6 +17,15 @@ if (app()->isProduction()) {
 
 Route::middleware('auth')->group(function () {
 
+    Route::prefix('system/users')->as('system.users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
     Route::get('/', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
@@ -34,14 +43,14 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('system')->as('system.')->group(function () {
-        Route::prefix('users')->as('users.')->group(function () {
-            Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/create', [UserController::class, 'create'])->name('create');
-            Route::post('/', [UserController::class, 'store'])->name('store');
-            Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
-            Route::put('/{user}', [UserController::class, 'update'])->name('update');
-            Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
-        });
+        // Route::prefix('users')->as('users.')->group(function () {
+        //     Route::get('/', [UserController::class, 'index'])->name('index');
+        //     Route::get('/create', [UserController::class, 'create'])->name('create');
+        //     Route::post('/', [UserController::class, 'store'])->name('store');
+        //     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        //     Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        //     Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+        // });
 
         Route::prefix('roles')->as('roles.')->group(function () {
             Route::get('/', [RoleController::class, 'index'])->name('index');

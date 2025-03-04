@@ -52,24 +52,26 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
 
-        $data = request()->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required',
-            'password' => 'required|min:8',
-            'is_active' => 'required',
-            'roles' => 'array',
-            'permissions' => 'array',
-        ]);
+        // $data = request()->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|email|unique:users,email',
+        //     'phone' => 'required',
+        //     'password' => 'required|min:8',
+        //     'is_active' => 'required',
+        //     'roles' => 'array',
+        //     'permissions' => 'array',
+        // ]);
 
-        $data['password'] = bcrypt($data['password']);
+        // $data = $request->validated();
 
-        $user = User::create($data);
+        // $data['password'] = bcrypt($data['password']);
 
-        $user->syncRoles($data['roles']);
-        $user->syncPermissions($data['permissions']);
+        // $user = User::create($data);
 
-        return redirect()->route('control.system.users.index');
+        // $user->roles()->sync(collect($data['roles'])->pluck('id'));
+        // $user->permissions()->sync(collect($data['permissions'])->pluck('id'));
+
+        // return redirect()->route('control.system.users.index');
     }
 
     public function edit($user)

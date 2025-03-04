@@ -345,6 +345,7 @@ let form = useForm({
 const save = () => {
 
     if (!form?.id) {
+        console.log('store');
         form.post(route('control.system.users.store'), {
             formData: true,
             // preserveScroll: true,

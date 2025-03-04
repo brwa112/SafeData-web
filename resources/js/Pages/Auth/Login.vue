@@ -216,8 +216,6 @@ const emits = defineEmits();
 
 const page = usePage()
 
-console.log(page.props)
-
 const form = useForm({
     login: 'test@example.com',
     password: 'password',
