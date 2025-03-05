@@ -2,14 +2,14 @@
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
-                <p>Dashboard</p>
+                <p>{{ $t('dashboard.dashboard') }}</p>
             </li>
         </ul>
 
         <div class="pt-5">
             <div class="panel h-full">
                 <h1 class="text-xl">
-                    Welcome to the Dashboard, <span class="font-semibold">{{ $page.props.auth.user.name }}</span>
+                    {{ $t('dashboard.welcome') }} - <span class="font-semibold">{{ $page.props.auth.user.name }}</span>
                 </h1>
             </div>
         </div>

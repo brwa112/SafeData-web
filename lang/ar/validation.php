@@ -1,18 +1,6 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
-
     'accepted' => 'يجب قبول الحقل :attribute',
     'accepted_if' => 'الحقل :attribute مقبول في حال ما إذا كان :other يساوي :value.',
     'active_url' => 'الحقل :attribute لا يُمثّل رابطًا صحيحًا',
@@ -135,70 +123,67 @@ return [
     'uploaded' => 'فشل في تحميل الـ :attribute',
     'url' => 'صيغة الرابط :attribute غير صحيحة',
     'uuid' => 'الحقل :attribute يجب ان ايكون رقم UUID صحيح.',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
-
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attributes
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used to swap our attribute placeholder
-    | with something more reader friendly such as "E-Mail Address" instead
-    | of "email". This simply helps us make our message more expressive.
-    |
-    */
-
     'attributes' => [
-        'name'                  => 'الاسم',
-        'username'              => 'اسم المُستخدم',
-        'email'                 => 'البريد الالكتروني',
-        'first_name'            => 'الاسم',
-        'last_name'             => 'اسم العائلة',
-        'password'              => 'كلمة المرور',
+        'name' => 'الاسم',
+        'username' => 'اسم المُستخدم',
+        'email' => 'البريد الالكتروني',
+        'first_name' => 'الاسم',
+        'last_name' => 'اسم العائلة',
+        'password' => 'كلمة المرور',
         'password_confirmation' => 'تأكيد كلمة المرور',
-        'city'                  => 'المدينة',
-        'country'               => 'الدولة',
-        'address'               => 'العنوان',
-        'phone'                 => 'الهاتف',
-        'mobile'                => 'الجوال',
-        'age'                   => 'العمر',
-        'sex'                   => 'الجنس',
-        'gender'                => 'النوع',
-        'day'                   => 'اليوم',
-        'month'                 => 'الشهر',
-        'year'                  => 'السنة',
-        'hour'                  => 'ساعة',
-        'minute'                => 'دقيقة',
-        'second'                => 'ثانية',
-        'content'               => 'المُحتوى',
-        'description'           => 'الوصف',
-        'excerpt'               => 'المُلخص',
-        'date'                  => 'التاريخ',
-        'time'                  => 'الوقت',
-        'available'             => 'مُتاح',
-        'size'                  => 'الحجم',
-        'price'                 => 'السعر',
-        'desc'                  => 'نبذه',
-        'title'                 => 'العنوان',
-        'q'                     => 'البحث',
-        'link'                  => ' ',
-        'slug'                  => ' ',
+        'city' => 'المدينة',
+        'country' => 'الدولة',
+        'address' => 'العنوان',
+        'phone' => 'الهاتف',
+        'mobile' => 'الجوال',
+        'age' => 'العمر',
+        'sex' => 'الجنس',
+        'gender' => 'النوع',
+        'day' => 'اليوم',
+        'month' => 'الشهر',
+        'year' => 'السنة',
+        'hour' => 'ساعة',
+        'minute' => 'دقيقة',
+        'second' => 'ثانية',
+        'content' => 'المُحتوى',
+        'description' => 'الوصف',
+        'excerpt' => 'المُلخص',
+        'date' => 'التاريخ',
+        'time' => 'الوقت',
+        'available' => 'مُتاح',
+        'size' => 'الحجم',
+        'price' => 'السعر',
+        'desc' => 'نبذه',
+        'title' => 'العنوان',
+        'q' => 'البحث',
+        'link' => ' ',
+        'slug' => ' ',
     ],
-
+    'ascii' => 'The :attribute field must only contain single-byte alphanumeric characters and symbols.',
+    'can' => 'The :attribute field contains an unauthorized value.',
+    'decimal' => 'The :attribute field must have :decimal decimal places.',
+    'doesnt_end_with' => 'The :attribute field must not end with one of the following: :values.',
+    'doesnt_start_with' => 'The :attribute field must not start with one of the following: :values.',
+    'extensions' => 'The :attribute field must have one of the following extensions: :values.',
+    'hex_color' => 'The :attribute field must be a valid hexadecimal color.',
+    'lowercase' => 'The :attribute field must be lowercase.',
+    'max_digits' => 'The :attribute field must not have more than :max digits.',
+    'min_digits' => 'The :attribute field must have at least :min digits.',
+    'missing' => 'The :attribute field must be missing.',
+    'missing_if' => 'The :attribute field must be missing when :other is :value.',
+    'missing_unless' => 'The :attribute field must be missing unless :other is :value.',
+    'missing_with' => 'The :attribute field must be missing when :values is present.',
+    'missing_with_all' => 'The :attribute field must be missing when :values are present.',
+    'present_if' => 'The :attribute field must be present when :other is :value.',
+    'present_unless' => 'The :attribute field must be present unless :other is :value.',
+    'present_with' => 'The :attribute field must be present when :values is present.',
+    'present_with_all' => 'The :attribute field must be present when :values are present.',
+    'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
+    'uppercase' => 'The :attribute field must be uppercase.',
+    'ulid' => 'The :attribute field must be a valid ULID.',
 ];

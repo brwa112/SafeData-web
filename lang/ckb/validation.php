@@ -1,18 +1,6 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
-
     'accepted' => 'پێویستە :attribute قبوڵ بکرێت',
     'accepted_if' => 'پێویستە :attribute قبوڵ بکرێت کاتێک :other :value بێت.',
     'active_url' => ':attribute بەستەرێکی ڕاست نیە',
@@ -75,7 +63,7 @@ return [
         'numeric' => ':attribute دەبێت کەمتر بێت لە :value.',
         'file' => ':attribute پێویستە کەمتر لە :value کیلۆبایت بێت.',
         'string' => ':attribute پێویستە کەمتر لە :value پیت بێت.',
-        'array' => ':attribute پێویستە کەمتر لە :value بڕگەی هەبێت.'
+        'array' => ':attribute پێویستە کەمتر لە :value بڕگەی هەبێت.',
     ],
     'lte' => [
         'numeric' => ':attribute دەبێت کەمتر یان یەکسان بێت بە :value.',
@@ -87,8 +75,8 @@ return [
     'max' => [
         'file' => 'پێویستە :attribute گەورەتر نەبێت لە :max کیلۆبایت.',
         'numeric' => 'پێویستە :attribute گەورەتر نەبێت لە :max.',
-        'string' => 'پێویستە :attribute نابێت گەورەتر نەبێت  :max پیت.',
         'string' => 'نابێت :attribute لە پیتەکانی :max گەورەتر بێت.',
+        'array' => 'The :attribute field must not have more than :max items.',
     ],
     'max_digits' => 'نابێت :attribute ژمارە زیاتری لە :max هەبێت.',
     'mimes' => ':attribute دەبێت فایلێک بێت لە جۆری: :values.',
@@ -139,35 +127,29 @@ return [
     'uploaded' => 'بەرزبوونەوەی :attribute سەرکەوتوو نەبوو',
     'url' => 'جۆری :attribute دروست نیە',
     'uuid' => ' :attribute پێویستە ناسنامەکەی گونجاو بێت',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
-
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attributes
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used to swap our attribute placeholder
-    | with something more reader friendly such as "E-Mail Address" instead
-    | of "email". This simply helps us make our message more expressive.
-    |
-    */
-
-    'attributes' => [],
-
+    'attributes' => [
+    ],
+    'ascii' => 'The :attribute field must only contain single-byte alphanumeric characters and symbols.',
+    'can' => 'The :attribute field contains an unauthorized value.',
+    'decimal' => 'The :attribute field must have :decimal decimal places.',
+    'extensions' => 'The :attribute field must have one of the following extensions: :values.',
+    'hex_color' => 'The :attribute field must be a valid hexadecimal color.',
+    'lowercase' => 'The :attribute field must be lowercase.',
+    'missing' => 'The :attribute field must be missing.',
+    'missing_if' => 'The :attribute field must be missing when :other is :value.',
+    'missing_unless' => 'The :attribute field must be missing unless :other is :value.',
+    'missing_with' => 'The :attribute field must be missing when :values is present.',
+    'missing_with_all' => 'The :attribute field must be missing when :values are present.',
+    'present_if' => 'The :attribute field must be present when :other is :value.',
+    'present_unless' => 'The :attribute field must be present unless :other is :value.',
+    'present_with' => 'The :attribute field must be present when :values is present.',
+    'present_with_all' => 'The :attribute field must be present when :values are present.',
+    'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
+    'uppercase' => 'The :attribute field must be uppercase.',
+    'ulid' => 'The :attribute field must be a valid ULID.',
 ];

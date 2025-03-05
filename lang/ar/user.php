@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'homele' => 'هوملي',
     'user' => 'مستخدم',
     'add_property' => 'إضافة العقارات',
@@ -67,5 +66,4 @@ return [
     'about' => 'حول',
     'write_about' => 'اكتب عن نفسك...',
     'save' => 'حفظ',
-
 ];

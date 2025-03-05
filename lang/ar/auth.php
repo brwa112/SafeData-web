@@ -1,26 +1,10 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
-    |
-    */
-
-    // default
     'failed' => 'بيانات الاعتماد هذه لا تتطابق مع سجلاتنا.',
-    'password' => 'كلمة المرور المقدمة غير صحيحة.',
+    'password' => 'كلمة المرور',
     'throttle' => 'لقد تعديت الحد المسموح لعمليات الدخول المتكررة. يرجى المحاولة مرة أخرى بعد :seconds ثانية.',
     'active' => 'هذا المستخدم غير نشط أو غير موجود في النظام.',
-    
-
-    // custom
     'login' => 'تسجيل الدخول',
     'sign_in' => 'تسجيل الدخول إلى النظام',
     'detail_sign_in' => 'الرجاء إدخال بيانات الاعتماد الخاصة بك لتسجيل الدخول.',
@@ -30,7 +14,6 @@ return [
     'sign_in_google' => 'تسجيل الدخول بواسطة جوجل',
     'or' => 'أو',
     'email' => 'البريد الإلكتروني',
-    'password' => 'كلمة المرور',
     'confirm_password' => 'تأكيد كلمة المرور',
     'forgot_password' => 'هل نسيت كلمة المرور؟',
     'reset_password' => 'إعادة تعيين كلمة المرور',
@@ -45,5 +28,4 @@ return [
     'manager' => 'مدير',
     'phone_number' => 'رقم الهاتف',
     'email_or_phone' => 'البريد الإلكتروني أو رقم الهاتف',
-
 ];
