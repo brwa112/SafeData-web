@@ -41,7 +41,7 @@
                                     leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
                                     leave-to="opacity-0 scale-95">
                                     <DialogPanel
-                                        class="panel border-0 p-0 overflow-hidden rounded-lg w-full max-w-lg text-black dark:text-white-dark">
+                                        class="panel border-0 p-0 overflow-hidden rounded-lg w-full max-w-2xl text-black dark:text-white-dark">
                                         <button type="button"
                                             class="absolute top-4 ltr:right-4 rtl:left-4 text-gray-400 hover:text-gray-800 dark:hover:text-gray-600 outline-none"
                                             @click="toggleModal()">
@@ -83,6 +83,17 @@
                                                             :class="{ 'border border-red-300 rounded-md': form.errors.description }"></textarea>
                                                         <div class="mt-1 text-danger" v-if="form.errors.description"
                                                             v-html="form.errors.description">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-full">
+                                                        <label for="icon">
+                                                            {{ $t('pages.icon') }}
+                                                        </label>
+                                                        <input id="icon" type="text" v-model="form.icon"
+                                                            :placeholder="$t('pages.icon')" class="form-input"
+                                                            :class="{ 'border border-red-300 rounded-md': form.errors.icon }" />
+                                                        <div class="mt-1 text-danger" v-if="form.errors.icon"
+                                                            v-html="form.errors.icon">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -206,6 +217,7 @@ let form = useForm({
     id: '',
     name: '',
     description: '',
+    icon: '',
     user_id: usePage().props.auth.user.id,
 });
 
@@ -236,6 +248,8 @@ const toggleModal = (row) => {
             id: row.id,
             name: row.name,
             description: row.description,
+            icon: row.icon,
+            user_id: row.user.id,
         });
     }
     showModal.value = !showModal.value;
@@ -244,6 +258,8 @@ const toggleModal = (row) => {
         form = useForm({
             name: '',
             description: '',
+            icon: '',
+            user_id: usePage().props.auth.user.id,
         });
     }
 };
@@ -270,6 +286,11 @@ const columns =
         {
             field: 'description',
             title: wTrans('common.description'),
+            sort: false,
+        },
+        {
+            field: 'icon',
+            title: wTrans('pages.icon'),
             sort: false,
         },
         {

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('name');
             $table->text('description');
+            $table->string('icon');
             $table->timestamps();
             $table->softDeletes();
         });

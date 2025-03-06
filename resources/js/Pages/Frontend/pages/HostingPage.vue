@@ -7,7 +7,7 @@
         <div class="main-cards cards relative z-0 w-full">
 
             <div class="w-full grid sm:grid-cols-2 lg:grid-cols-4 gap-3 xl:gap-5 2xl:gap-10">
-                <div v-motion-slide-visible-bottom :duration="300" v-for="plan in plans" :key="plan.id" class="cards-inner relative w-full">
+                <div v-motion-slide-visible-bottom :duration="300" v-for="plan in hosting" :key="plan.id" class="cards-inner relative w-full">
                     <div class="cards-card card w-full relative flex flex-col z-10 p-7 md:p-5 xl:p-8">
                         <h1 v-if="plan.id == 2"
                             class="absolute top-2.5 right-2.5 xl:top-4 xl:right-4 text-white text-xs xl:text-sm 2xl:text-base px-5 xl:px-9 py-1.5 bg-white/5">
@@ -17,30 +17,18 @@
                             class="text-f-secondary text-lg sm:text-xl xl:text-2xl 2xl:text-3xl font-semibold mb-2 sm:my-4 xl:my-6 2xl:my-8">
                             {{ plan.name }}
                         </h2>
-                        <ul class="text-sm 2xl:text-base sm:mb-5 text-nowrap">
-                            <li>{{ plan.websites }} Websites</li>
-                            <li>{{ plan.storage }} GB SSD</li>
-                            <li>{{ plan.ram }} GB RAM</li>
-                            <li class="block">{{ plan.traffic }} TB Traffic / Month</li>
-                            <li class="block">{{ plan.ftp }} FTP Accounts</li>
-                            <li class="block">{{ plan.subdomains }} Sub Domains</li>
-                            <li class="block">{{ plan.subdomains }} Parked Domains</li>
-                            <li class="block">{{ plan.subdomains }} Addon Domains</li>
-                            <li class="block">{{ plan.emails }} Email Accounts</li>
-                            <li class="block">{{ plan.ssl }}</li>
-                            <li class="block">{{ plan.cgi }}</li>
-                            <li class="block">Litespeed Webserver</li>
-                            <li class="block">cPanel Control Panel</li>
-                        </ul>
+                        <p class="text-sm 2xl:text-base sm:mb-5 whitespace-pre-wrap">
+                            {{ plan.description }}
+                        </p>
                         <h1
                             class="hidden absolute bottom-2.5 right-2.5 xl:bottom-4 xl:right-4 text-white text-xs xl:text-sm 2xl:text-base px-5 xl:px-9 py-1.5">
                             ( More... )
                         </h1>
 
-                        <button type="button"
+                        <!-- <button type="button"
                             class="card-cta cta w-full bg-white/10 !hidden lg:!block text-xs sm:text-sm 2xl:text-base p-2.5 xl:p-3 2xl:p-3.5 cursor-none">
                             Get Started
-                        </button>
+                        </button> -->
                     </div>
                     <div class="absolute inset-0 -z-10 size-full backdrop-blur-xl bg-white/[4%]"
                         :class="{ '!bg-f-secondary/20': plan.id == 2 }"></div>
@@ -57,75 +45,8 @@ import { ref, onMounted, watch, inject } from 'vue';
 
 const pageNumber = inject('pageNumber');
 
-const plans = ref([
-    {
-        id: 1,
-        name: 'SAFE #1',
-        websites: 1,
-        storage: 5,
-        ram: 1,
-        traffic: 1,
-        ftp: 1,
-        subdomains: 5,
-        parkdomains: 1,
-        addondomains: 0,
-        emails: 1,
-        ssl: 'Free SSL',
-        cgi: 'Enabled',
-        webserver: 'Litespeed',
-        controlPanel: 'cPanel',
-    },
-    {
-        id: 2,
-        name: 'SAFE #2',
-        websites: 3,
-        storage: 20,
-        ram: 2,
-        traffic: 1,
-        ftp: 5,
-        subdomains: 5,
-        parkdomains: 5,
-        addondomains: 1,
-        emails: 5,
-        ssl: 'Free SSL',
-        cgi: 'Enabled',
-        webserver: 'Litespeed',
-        controlPanel: 'cPanel',
-    },
-    {
-        id: 3,
-        name: 'SAFE #3',
-        websites: 5,
-        storage: 35,
-        ram: 3,
-        traffic: 3,
-        ftp: 20,
-        subdomains: 20,
-        parkdomains: 'Unlimited',
-        addondomains: 5,
-        emails: 20,
-        ssl: 'Free SSL',
-        cgi: 'Enabled',
-        webserver: 'Litespeed',
-        controlPanel: 'cPanel',
-    },
-    {
-        id: 4,
-        name: 'SAFE #4',
-        websites: 10,
-        storage: 50,
-        ram: 4,
-        traffic: 5,
-        ftp: 'Unlimited',
-        subdomains: 'Unlimited',
-        parkdomains: 'Unlimited',
-        addondomains: 10,
-        emails: 'Unlimited',
-        ssl: 'Free SSL',
-        cgi: 'Enabled',
-        webserver: 'Litespeed',
-        controlPanel: 'cPanel',
-    },
+const props = defineProps([
+    'hosting',
 ]);
 
 onMounted(() => {

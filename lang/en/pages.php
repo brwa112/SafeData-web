@@ -13,4 +13,5 @@ return [
     'hostings' => 'Hostings',
     'hosting' => 'Hosting',
     'logo' => 'Logo',
+    'icon' => 'Icon',
 ];

@@ -20,7 +20,7 @@
                                 class="bg-transparent !border-0 px-3">
                                 <p
                                     class="h-8 w-full flex items-center justify-center text-lg sm:text-xl font-medium cursor-none">
-                                    {{ slide.title }}
+                                    {{ slide.name }}
                                 </p>
                             </SplideSlide>
                         </SplideTrack>
@@ -38,6 +38,10 @@
 import { ref, onMounted } from 'vue'
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
 import lottie from 'lottie-web'
+
+const props = defineProps([
+    'services',
+]);
 
 const lottieMouse = ref(null);
 
@@ -59,32 +63,32 @@ const options = {
     slidesToScroll: -1,
 };
 
-const services = ref([
-    {
-        id: 1,
-        title: "Web Application",
-    },
-    {
-        id: 2,
-        title: "Cloud",
-    },
-    {
-        id: 3,
-        title: "Mobile Application",
-    },
-    {
-        id: 4,
-        title: "Network",
-    },
-    {
-        id: 5,
-        title: "UX/UI Design",
-    },
-    {
-        id: 6,
-        title: "Website",
-    },
-]);
+// const services = ref([
+//     {
+//         id: 1,
+//         title: "Web Application",
+//     },
+//     {
+//         id: 2,
+//         title: "Cloud",
+//     },
+//     {
+//         id: 3,
+//         title: "Mobile Application",
+//     },
+//     {
+//         id: 4,
+//         title: "Network",
+//     },
+//     {
+//         id: 5,
+//         title: "UX/UI Design",
+//     },
+//     {
+//         id: 6,
+//         title: "Website",
+//     },
+// ]);
 
 onMounted(() => {
     // const glitchLogo = document.querySelector('.glitch-logo');

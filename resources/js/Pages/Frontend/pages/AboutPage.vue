@@ -2,21 +2,25 @@
     <div class="relative mx-auto overflow-hidden z-20">
         <div class="w-full h-screen flex flex-col items-center justify-end gap-4 text-white px-5 2xl:px-7">
             <div class="w-full relative z-10">
-                <div class="relative z-10 text-white flex flex-col items-center gap-12 xs:gap-20 p-12 md:p-16 xl:p-24 2xl:pt-24 2xl:pb-16 2xl:px-28">
+                <div
+                    class="relative z-10 text-white flex flex-col items-center gap-12 xs:gap-20 p-12 md:p-16 xl:p-24 2xl:pt-24 2xl:pb-16 2xl:px-28">
                     <div class="w-full flex items-start justify-between gap-20">
                         <!-- About Section -->
                         <div class="flex flex-col gap-12 xs:gap-20 xl:gap-28">
                             <div v-motion-slide-visible-bottom :duration="300" class="flex flex-col gap-2 xs:gap-4">
                                 <h2 class="text-xl xs:text-2xl xl:text-3xl font-audi">About</h2>
-                                <p class="text-xs xs:text-sm xl:text-[0.92rem] text-justify font-light leading-5 max-w-sm">
+                                <p
+                                    class="text-xs xs:text-sm xl:text-[0.92rem] text-justify font-light leading-5 max-w-sm">
                                     Our company is specifically about Information Technology with all its components.
                                     Webeganthis company this year in 2021, but our work history is way back this time.
                                     We have experience in this work since 2014 and now we’re providing our services
                                     through this company.
                                 </p>
                             </div>
-                            <div v-motion-slide-visible-bottom :duration="300" class="flex flex-wrap gap-x-3 xl:gap-x-7 gap-y-3 xl:gap-y-5">
-                                <a href="https://www.facebook.com/safedatacompany" target="_blank" class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
+                            <div v-motion-slide-visible-bottom :duration="300"
+                                class="flex flex-wrap gap-x-3 xl:gap-x-7 gap-y-3 xl:gap-y-5">
+                                <a href="https://www.facebook.com/safedatacompany" target="_blank"
+                                    class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 size-6"
                                         viewBox="0 0 24 24">
                                         <path fill="currentColor"
@@ -26,7 +30,9 @@
                                         class="absolute inset-0 z-0 size-full backdrop-blur-xl duration-500 bg-white/[4%] group-hover:bg-f-secondary">
                                     </div>
                                 </a>
-                                <a href="https://www.instagram.com/safedatacompany?igsh=MThvbmM4Zm80MDJ4eg==" target="_blank" class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
+                                <a href="https://www.instagram.com/safedatacompany?igsh=MThvbmM4Zm80MDJ4eg=="
+                                    target="_blank"
+                                    class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 size-6"
                                         viewBox="0 0 1024 1024">
                                         <path fill="currentColor"
@@ -36,7 +42,8 @@
                                         class="absolute inset-0 z-0 size-full backdrop-blur-xl duration-500 bg-white/[4%] group-hover:bg-f-secondary">
                                     </div>
                                 </a>
-                                <a href="mailto:info@safedatacompany.com" target="_blank" class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
+                                <a href="mailto:info@safedatait.com" target="_blank"
+                                    class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 size-6"
                                         viewBox="0 0 256 256">
                                         <path fill="currentColor"
@@ -46,7 +53,8 @@
                                         class="absolute inset-0 z-0 size-full backdrop-blur-xl duration-500 bg-white/[4%] group-hover:bg-f-secondary">
                                     </div>
                                 </a>
-                                <a href="https://t.me/safedatacompany" target="_blank" class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
+                                <a href="https://t.me/safedatacompany" target="_blank"
+                                    class="relative group ps-8 xs:ps-10 sm:ps-16 p-1 px-2.5 text-white/70 cursor-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 size-6"
                                         viewBox="0 0 24 24">
                                         <path fill="currentColor" fill-rule="evenodd"
@@ -57,16 +65,8 @@
                                         class="absolute inset-0 z-0 size-full backdrop-blur-xl duration-500 bg-white/[4%] group-hover:bg-f-secondary">
                                     </div>
                                 </a>
-                                <a href="tel:+9647703558372" target="_blank" class="relative group flex items-center gap-3 py-2 px-3 cursor-none">
-                                    <div class="relative z-10 flex items-center gap-3">
-                                        <div class="bg-white/70 size-2 rounded-full"></div>
-                                        <span class="font-extralight text-sm">770 355 8372</span>
-                                    </div>
-                                    <div
-                                        class="absolute inset-0 z-0 size-full backdrop-blur-xl duration-500 bg-white/[4%] group-hover:bg-f-secondary">
-                                    </div>
-                                </a>
-                                <a href="tel:+9647703558372" target="_blank" class="relative group flex items-center gap-3 py-2 px-3 cursor-none">
+                                <a href="tel:+9647703558372" target="_blank"
+                                    class="relative group flex items-center gap-3 py-2 px-3 cursor-none">
                                     <div class="relative z-10 flex items-center gap-3">
                                         <div class="bg-white/70 size-2 rounded-full"></div>
                                         <span class="font-extralight text-sm">776 951 2191</span>
@@ -78,16 +78,17 @@
                             </div>
                         </div>
                         <!-- Contact Form Section -->
-                        <div v-motion-slide-visible-bottom :duration="300" class="w-full max-w-md xl:max-w-lg hidden lg:flex flex-col gap-4">
+                        <div v-motion-slide-visible-bottom :duration="300"
+                            class="w-full max-w-md xl:max-w-lg hidden lg:flex flex-col gap-4">
                             <h2 class="text-2xl xl:text-3xl font-audi">Contact</h2>
                             <form @submit.prevent="" class="flex flex-col gap-4">
                                 <div class="flex items-center gap-3 xl:gap-8">
-                                    <input type="email" placeholder="Email"
+                                    <input type="email" placeholder="Email" autocomplete="off"
                                         class="w-full py-4 px-3 text-sm bg-white/[4%] outline-0 cursor-none" />
-                                    <input type="text" placeholder="Subject"
+                                    <input type="text" placeholder="Subject" autocomplete="off"
                                         class="w-full py-4 px-3 text-sm bg-white/[4%] outline-0 cursor-none" />
                                 </div>
-                                <textarea placeholder="Message" rows="5"
+                                <textarea placeholder="Message" rows="5" autocomplete="off"
                                     class="w-full py-4 px-3 text-sm bg-white/[4%] outline-0 resize-none cursor-none"></textarea>
                                 <!-- Button -->
                                 <div class="button-about">
@@ -100,7 +101,8 @@
                             </form>
                         </div>
                     </div>
-                    <div v-motion-slide-visible-bottom :duration="300" class="text-center text-5xl sm:text-6xl lg:text-[5.3rem] xl:text-[6.5rem] 2xl:text-[7.8rem] 3xl:text-[10rem] w-96 md:w-auto md:text-nowrap font-audi text-f-secondary leading-none">
+                    <div v-motion-slide-visible-bottom :duration="300"
+                        class="text-center text-5xl sm:text-6xl lg:text-[5.3rem] xl:text-[6.5rem] 2xl:text-[7.8rem] 3xl:text-[10rem] w-96 md:w-auto md:text-nowrap font-audi text-f-secondary leading-none">
                         BE SAFE WITH US
                     </div>
                 </div>

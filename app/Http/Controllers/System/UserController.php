@@ -48,30 +48,20 @@ class UserController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(UserRequest $request)
     {
         $this->authorize('create', User::class);
 
-        // $data = request()->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users,email',
-        //     'phone' => 'required',
-        //     'password' => 'required|min:8',
-        //     'is_active' => 'required',
-        //     'roles' => 'array',
-        //     'permissions' => 'array',
-        // ]);
+        $data = $request->validated();
 
-        // $data = $request->validated();
+        $data['password'] = bcrypt($data['password']);
 
-        // $data['password'] = bcrypt($data['password']);
+        $user = User::create($data);
 
-        // $user = User::create($data);
+        $user->roles()->sync(collect($data['roles'])->pluck('id'));
+        $user->permissions()->sync(collect($data['permissions'])->pluck('id'));
 
-        // $user->roles()->sync(collect($data['roles'])->pluck('id'));
-        // $user->permissions()->sync(collect($data['permissions'])->pluck('id'));
-
-        // return redirect()->route('control.system.users.index');
+        return redirect()->route('control.system.users.index');
     }
 
     public function edit($user)
@@ -117,9 +107,15 @@ class UserController extends Controller
 
         $user = User::findOrFail($user);
 
-        $user->delete();
+        if ($user->id === auth()->id()) {
+            abort(403, 'You cannot delete yourself.');
+        }
 
-        // return redirect()->route('control.system.users.index');
+        if ($user->services()->exists() || $user->clients()->exists() || $user->products()->exists() || $user->hosting()->exists()) {
+            abort(403, 'This user is associated with other sections.');
+        }
+
+        $user->delete();
     }
 
     protected function options()

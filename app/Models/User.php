@@ -4,6 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Pages\Client;
+use App\Models\Pages\Hosting;
+use App\Models\Pages\Product;
+use App\Models\Pages\Service;
 use App\Models\Traits\UserScopes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,5 +46,25 @@ class User extends Authenticatable implements HasMedia
     public function getAvatarAttribute()
     {
         return $this->getFirstMediaUrl('avatar');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function hosting()
+    {
+        return $this->hasMany(Hosting::class);
     }
 }

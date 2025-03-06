@@ -1,17 +1,17 @@
 <template>
-    <div @click="hrefLink(product.link)"
+    <div @click="hrefLink(product.url)"
         class="w-full relative group p-4 lg:p-6 xl:px-7 xl:py-8 xl:pb-10 duration-500 hover:scale-105 overflow-hidden"
         @mouseenter="startAutoSlide" @mouseleave="stopAutoSlide">
         <div
             class="relative z-10 w-full h-full flex flex-col items-start justify-between gap-x-4 gap-y-5 lg:gap-y-10 xl:gap-y-12 2xl:gap-y-16">
             <div class="w-full flex justify-between items-center">
                 <h2 class="text-lg sm:text-xl font-medium">0{{ product.id }}</h2>
-                <Svg v-if="product.link != ''" name="arrow"
+                <Svg v-if="product.url" name="arrow"
                     class="block size-4 sm:size-5 duration-300 group-hover:-rotate-45"></Svg>
             </div>
             <div class="w-full flex flex-col gap-1">
                 <div class="flex items-center justify-between">
-                    <p class="text-sm lg:text-base xl:text-lg font-medium text-nowrap">{{ product.title }}</p>
+                    <p class="text-sm lg:text-base xl:text-lg font-medium text-nowrap">{{ product.name }}</p>
                 </div>
                 <Splide ref="splideRef" aria-labelledby="autoplay-example-heading" :options="options" :has-track="false"
                     class="block">

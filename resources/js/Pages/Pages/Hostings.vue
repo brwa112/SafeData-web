@@ -14,6 +14,8 @@
                     <span>{{ $t('pages.hostings') }}</span>
                 </li>
             </ul>
+
+            {{ form.errors }}
             <!-- add new row -->
             <div class="block">
                 <!-- Trigger -->
@@ -41,7 +43,7 @@
                                     leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
                                     leave-to="opacity-0 scale-95">
                                     <DialogPanel
-                                        class="panel border-0 p-0 overflow-hidden rounded-lg w-full max-w-lg text-black dark:text-white-dark">
+                                        class="panel border-0 p-0 overflow-hidden rounded-lg w-full max-w-2xl text-black dark:text-white-dark">
                                         <button type="button"
                                             class="absolute top-4 ltr:right-4 rtl:left-4 text-gray-400 hover:text-gray-800 dark:hover:text-gray-600 outline-none"
                                             @click="toggleModal()">
@@ -236,6 +238,7 @@ const toggleModal = (row) => {
             id: row.id,
             name: row.name,
             description: row.description,
+            user_id: row.user.id,
         });
     }
     showModal.value = !showModal.value;
@@ -244,6 +247,7 @@ const toggleModal = (row) => {
         form = useForm({
             name: '',
             description: '',
+            user_id: usePage().props.auth.user.id,
         });
     }
 };

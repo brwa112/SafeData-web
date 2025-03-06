@@ -15,7 +15,7 @@
                             <Svg :name="service.icon" class="size-9 2xl:size-12 text-white me-3"></Svg>
                         </div>
                         <div class="flex flex-col justify-center gap-1">
-                            <h2 class="text-base sm:text-lg 2xl:text-xl font-medium">{{ service.title }}</h2>
+                            <h2 class="text-base sm:text-lg 2xl:text-xl font-medium">{{ service.name }}</h2>
                             <p
                                 class="text-white block text-xs 2xl:text-sm font-light text-justify leading-tight">
                                 {{ service.description }}
@@ -42,43 +42,8 @@
 import { ref, onMounted } from 'vue';
 import VanillaTilt from "vanilla-tilt";
 
-const services = ref([
-    {
-        id: 1,
-        title: "Web Application",
-        description: "We offer top-tier web application development services, creating robust, scalable, and user-friendly solutions tailored to your business needs. Whether building a custom web app from scratch or enhancing an existing one, our skilled developers deliver high-quality results efficiently and cost-effectively.",
-        icon: "development",
-    },
-    {
-        id: 2,
-        title: "Cloud",
-        description: "We offer reliable cloud services, including cloud hosting, storage, SaaS solutions, backup and disaster recovery, and cloud security, tailored for businesses. Their solutions ensure scalability, security, and easy access to your data and applications from anywhere.",
-        icon: "cloud",
-    },
-    {
-        id: 3,
-        title: "Mobile Application",
-        description: "We specialize in mobile application development, creating custom apps for businesses. They develop high-quality, user-friendly apps for both iOS and Android platforms, tailored to meet specific business needs and enhance customer engagement.",
-        icon: "apps",
-    },
-    {
-        id: 4,
-        title: "Network",
-        description: "We provide comprehensive network services, including network design, setup, maintenance, and security. They ensure reliable, secure, and high-performance network infrastructure tailored to your business needs.",
-        icon: "network",
-    },
-    {
-        id: 5,
-        title: "UX/UI Design",
-        description: "We offer expert UI/UX design services, creating intuitive and visually appealing interfaces for web and mobile applications. Their design process focuses on user experience, ensuring that the final product is not only beautiful but also easy to use and highly functional.",
-        icon: "figma",
-    },
-    {
-        id: 6,
-        title: "Website",
-        description: "We excel in website development, creating modern, responsive, and user-friendly websites tailored to your business needs. We offer everything from design and development to hosting and maintenance, ensuring a seamless online presence for your brand.",
-        icon: "website",
-    },
+const props = defineProps([
+    'services',
 ]);
 
 onMounted(() => {

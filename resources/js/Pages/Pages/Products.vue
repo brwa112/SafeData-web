@@ -257,6 +257,7 @@ const toggleModal = (row) => {
             name: row.name,
             description: row.description,
             url: row.url,
+            user_id: row.user.id,
         });
     }
     showModal.value = !showModal.value;
@@ -266,6 +267,7 @@ const toggleModal = (row) => {
             name: '',
             description: '',
             url: '',
+            user_id: usePage().props.auth.user.id,
         });
     }
 };
