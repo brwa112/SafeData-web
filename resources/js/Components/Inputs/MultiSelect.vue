@@ -12,17 +12,24 @@
                     class="w-full flex items-center gap-2">
                     <slot name="prefix" :data="option"></slot>
 
-                    <span>{{ checkObject(option[label]) }} {{ option.value && showValue ? ' - ' : '' }}</span>
+                    <span v-if="parentKey">
+                        {{ $t(`${parentKey}.${option[label]}`) }}
+                        {{ option.value && showValue ? ' - ' : '' }}
+                    </span>
+                    <span v-else>
+                        {{ checkObject(option[label]) }} {{ option.value && showValue ? ' - ' : '' }}
+                    </span>
                     <span v-if="showValue">{{ option.value }}</span>
                 </div>
                 <div v-if="option && typeof option === 'string' && option !== null"
                     class="w-full flex items-center gap-2">
-                    <span>{{ option }}</span>
+                    <!-- <span>{{ option }}</span> -->
                 </div>
             </template>
             <template v-slot:singleLabel="{ option }">
                 <div v-if="option && typeof option === 'object' && option !== null" class="w-full flex items-center">
-                    <span>{{ checkObject(option[label]) }} {{ option.value && showValue ? ' - ' : '' }}</span>
+                    <span v-if="parentKey">{{ $t(`${parentKey}.${option[label]}`) }} {{ option.value && showValue ? ' - ' : '' }}</span>
+                    <span v-else>{{ checkObject(option[label]) }} {{ option.value && showValue ? ' - ' : '' }}</span>
                     <span v-if="showValue">{{ option.value }}</span>
                 </div>
             </template>
@@ -67,6 +74,10 @@ const props = defineProps({
     showValue: {
         type: Boolean,
         default: true,
+    },
+    parentKey: {
+        type: String,
+        default: '',
     },
 });
 

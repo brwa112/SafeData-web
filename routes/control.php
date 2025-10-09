@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
 
             // Update user settings
-            Route::post('/user-setting', [UserSettingsController::class, 'update'])->name('setting');
+            Route::post('/user-setting', [ProfileController::class, 'update'])->name('setting');
             
             // Update profile avatar
             Route::post('/update-avatar', [UserController::class, 'updateAvatar'])->name('update-avatar');

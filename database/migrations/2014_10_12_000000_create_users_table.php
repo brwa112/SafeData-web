@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(true);
+            $table->foreignId('user_type_id')->constrained('user_types')->onDelete('cascade');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

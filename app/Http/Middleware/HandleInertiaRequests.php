@@ -28,7 +28,15 @@ class HandleInertiaRequests extends Middleware
             ],
             'auth' => [
                 'user' => fn() => $request->user()
-                    ? User::where('id', $request->user()->id)->with(['roles', 'permissions', 'settings'])->first()
+                    ? User::where('id', $request->user()->id)
+                    ->with([
+                        'font',
+                        'roles',
+                        'permissions',
+                        'settings.language',
+                        'typeuser',
+                    ])
+                    ->first()
                     : null,
             ],
             'ziggy' => fn() => [
@@ -42,7 +50,7 @@ class HandleInertiaRequests extends Middleware
                 ? ($request->user()->settings()->with('language')->first()?->language?->name ?? 'en')
                 : 'en',
 
-            'languages' => Language::query()->select('id', 'name','slug')->get(),
+            'languages' => Language::query()->select('id', 'name', 'slug')->get(),
         ]);
     }
 }

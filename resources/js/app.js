@@ -39,8 +39,8 @@ const { el, App, props, plugin } = createInertiaApp({
       .use(i18nVue, {
         lang: localStorage.getItem('language') || 'en',
         resolve: lang => {
-          const langs = import.meta.glob('../../lang/*.json', { eager: true });
-          return langs[`../../lang/${lang}.json`].default;
+          const langs = import.meta.glob('../lang/*.json', { eager: true });
+          return langs[`../lang/${lang}.json`].default;
         },
       })
       .use(PerfectScrollbarPlugin)

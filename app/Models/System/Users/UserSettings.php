@@ -17,7 +17,6 @@ class UserSettings extends Model
         'font_weight',
         'theme',
         'language_id',
-        'direction'
     ]; 
 
     public function user()

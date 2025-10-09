@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_settings', function (Blueprint $table) {
-            $table->string('direction', 3)->default('ltr')->after('language_id');
+        Schema::create('user_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_settings', function (Blueprint $table) {
-            $table->dropColumn('direction');
-        });
+        Schema::dropIfExists('user_types');
     }
 };

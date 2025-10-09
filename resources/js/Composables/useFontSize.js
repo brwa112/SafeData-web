@@ -8,26 +8,26 @@ export function useFontSettings() {
 
     // Available font scale options
     const fontScales = [
-        { id: 1, name: 'Extra Small', value: 'xs' },
-        { id: 2, name: 'Small', value: 'small' },
-        { id: 3, name: 'Medium', value: 'medium' },
-        { id: 4, name: 'Large', value: 'large' },
-        { id: 5, name: 'Extra Large', value: 'xl' },
-        { id: 6, name: '2X Large', value: '2xl' },
-        { id: 7, name: '3X Large', value: '3xl' },
+        { id: 1, name: 'Extra Small', slug: 'extra-small', value: 'xs' },
+        { id: 2, name: 'Small', slug: 'small', value: 'small' },
+        { id: 3, name: 'Medium', slug: 'medium', value: 'medium' },
+        { id: 4, name: 'Large', slug: 'large', value: 'large' },
+        { id: 5, name: 'Extra Large', slug: 'extra-large', value: 'xl' },
+        { id: 6, name: '2X Large', slug: '2x-large', value: '2xl' },
+        { id: 7, name: '3X Large', slug: '3x-large', value: '3xl' },
     ]
 
     // Available font weight options
     const fontWeights = [
-        { id: 1, name: 'Thin', value: '100' },
-        { id: 2, name: 'Extra Light', value: '200' },
-        { id: 3, name: 'Light', value: '300' },
-        { id: 4, name: 'Normal', value: '400' },
-        { id: 5, name: 'Medium', value: '500' },
-        { id: 6, name: 'Semi Bold', value: '600' },
-        { id: 7, name: 'Bold', value: '700' },
-        { id: 8, name: 'Extra Bold', value: '800' },
-        { id: 9, name: 'Black', value: '900' },
+        { id: 1, name: 'Thin', slug: 'thin', value: '100' },
+        { id: 2, name: 'Extra Light', slug: 'extra-light', value: '200' },
+        { id: 3, name: 'Light', slug: 'light', value: '300' },
+        { id: 4, name: 'Normal', slug: 'normal', value: '400' },
+        { id: 5, name: 'Medium', slug: 'medium', value: '500' },
+        { id: 6, name: 'Semi Bold', slug: 'semi-bold', value: '600' },
+        { id: 7, name: 'Bold', slug: 'bold', value: '700' },
+        { id: 8, name: 'Extra Bold', slug: 'extra-bold', value: '800' },
+        { id: 9, name: 'Black', slug: 'black', value: '900' },
     ]
 
     // Computed properties
@@ -44,24 +44,6 @@ export function useFontSettings() {
     const applyFontSettings = (scale, weight) => {
         document.documentElement.setAttribute('data-font-scale', scale)
         document.documentElement.setAttribute('data-font-weight', weight)
-        
-        // Also update CSS custom properties for backup
-        document.documentElement.style.setProperty('--font-scale', getScaleValue(scale))
-        document.documentElement.style.setProperty('--font-weight', weight)
-    }
-
-    // Helper function to get numeric scale value
-    const getScaleValue = (scaleKey) => {
-        const scaleMap = {
-            'xs': '0.75',
-            'small': '0.875', 
-            'medium': '1',
-            'large': '1.125',
-            'xl': '1.25',
-            '2xl': '1.375',
-            '3xl': '1.5'
-        }
-        return scaleMap[scaleKey] || '1'
     }
 
     // Save font preference to backend
@@ -89,19 +71,17 @@ export function useFontSettings() {
     // Update font weight
     const setFontWeight = async (weightValue) => {
         const weight = typeof weightValue === 'object' ? weightValue.value : weightValue
-        // Convert weight to string for consistent comparison
-        const weightStr = String(weight)
-        if (fontWeights.some(w => w.value === weightStr)) {
-            fontWeight.value = weightStr
-            applyFontSettings(fontScale.value, weightStr)
-            localStorage.setItem('fontWeight', weightStr)
-            await saveFontPreference(fontScale.value, weightStr)
+        if (fontWeights.some(w => w.value === weight)) {
+            fontWeight.value = weight
+            applyFontSettings(fontScale.value, weight)
+            localStorage.setItem('fontWeight', weight)
+            await saveFontPreference(fontScale.value, weight)
         }
     }
 
     // Load font preference
     const loadFontPreference = () => {
-        const userSetting = usePage().props.auth?.user?.user_setting
+        const userSetting = usePage().props.auth?.user?.settings
         const userScale = userSetting?.font_scale
         const userWeight = userSetting?.font_weight
         const localScale = localStorage.getItem('fontScale')
@@ -109,7 +89,7 @@ export function useFontSettings() {
 
         // Priority: localStorage > user settings > defaults
         const scalePref = localScale || userScale || 'medium'
-        const weightPref = String(localWeight || userWeight || '400')
+        const weightPref = localWeight || userWeight || '400'
 
         fontScale.value = scalePref
         fontWeight.value = weightPref

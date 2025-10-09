@@ -64,8 +64,8 @@ const { loadFontPreference } = useFontSettings()
 // Settings and theme management
 const settings = getDefaultSettings()
 
-const theme = ref(page.props.auth?.user?.user_setting?.theme || settings.theme)
-const rtlClass = ref(page.props.auth?.user?.user_setting?.direction || settings.rtl)
+const theme = ref(page.props.auth?.user?.settings?.theme || settings.theme)
+const rtlClass = ref(page.props.auth?.user?.settings?.direction || settings.rtl)
 const sidebar = ref(settings.sidebar)
 const navbar = ref(settings.navbar)
 const isShowMainLoader = ref(settings.isShowMainLoader)
@@ -97,6 +97,7 @@ const checkSettings = () => {
     theme.value = localStorage.getItem('theme') || settings.theme
     rtlClass.value = localStorage.getItem('rtlClass') || settings.rtl
     language.value = localStorage.getItem('language') || settings.locale
+    console.log('Settings checked:', { theme: theme.value, rtlClass: rtlClass.value, language: language.value });
     // Reload font settings when settings are checked
     loadFontPreference()
 }
@@ -105,35 +106,14 @@ onMounted(() => {
     setTimeout(() => {
         isShowMainLoader.value = false
     }, 500)
+    console.log('User language:', page.props.auth?.user?.settings?.language.direction);
 
     // Initialize theme and language settings
-    const userSettings = page.props.auth?.user?.user_setting || page.props.auth?.user?.settings;
-    
-    if (userSettings) {
-        if (userSettings.theme) {
-            settings.toggleTheme(userSettings.theme)
-        }
-        if (userSettings.direction) {
-            settings.toggleDir(userSettings.direction)
-        } else if (userSettings.language?.direction) {
-            settings.toggleDir(userSettings.language.direction)
-        }
-        if (userSettings.language?.name) {
-            settings.changeLanguage(userSettings.language.name)
-        }
-        if (userSettings.font_scale) {
-            settings.toggleFontScale(userSettings.font_scale)
-        }
-        if (userSettings.font_weight) {
-            settings.toggleFontWeight(userSettings.font_weight)
-        }
-    }
-
-    // Also check localStorage as fallback for initial direction
-    const storedDirection = localStorage.getItem('rtlClass');
-    if (storedDirection && !userSettings?.direction) {
-        settings.toggleDir(storedDirection);
-    }
+    settings.toggleTheme(page.props.auth?.user?.settings?.theme)
+    settings.toggleDir(page.props.auth?.user?.settings?.language.direction)
+    settings.changeLanguage(page.props.auth?.user?.settings?.language.name)
+    settings.toggleFontScale(page.props.auth?.user?.settings?.font_scale)
+    settings.toggleFontWeight(page.props.auth?.user?.settings?.font_weight)
 
     // Initialize font settings
     loadFontPreference()

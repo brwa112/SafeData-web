@@ -11,7 +11,7 @@ use App\Models\System\Settings\Settings\Translations;
 
 class TranslationsSeeder extends Seeder
 {
-       /**
+    /**
      * Run the database seeds.
      */
     public function run(): void
@@ -45,11 +45,18 @@ class TranslationsSeeder extends Seeder
             return;
         }
 
+        // Define language directions (RTL vs LTR)
+        $languageDirections = $this->getLanguageDirections();
+
         // Create or get Language models
         $languageModels = [];
         foreach ($languageDirs as $langCode) {
-            $languageModels[$langCode] = Language::firstOrCreate(['name' => $langCode,'slug' => $langCode], ['direction' => 'ltr']);
-            $this->command->info("✅ Language '{$langCode}' ready (ID: {$languageModels[$langCode]->id})");
+            $direction = $languageDirections[$langCode] ?? 'ltr'; // Default to LTR if not specified
+            $languageModels[$langCode] = Language::firstOrCreate(
+                ['name' => $langCode, 'slug' => $langCode],
+                ['direction' => $direction]
+            );
+            $this->command->info("✅ Language '{$langCode}' ready (ID: {$languageModels[$langCode]->id}, Direction: {$direction})");
         }
 
         $this->command->info("🗑️  Clearing existing data...");
@@ -190,6 +197,105 @@ class TranslationsSeeder extends Seeder
         $this->command->info("   - Languages: " . count($languageModels));
         $this->command->info("   - Unique keys: " . Key::count());
         $this->command->info("   - Total translations: " . Translations::count());
+    }
+
+    /**
+     * Get language direction mapping (RTL vs LTR).
+     *
+     * @return array
+     */
+    private function getLanguageDirections(): array
+    {
+        return [
+            // Right-to-Left (RTL) languages
+            'ar' => 'rtl',     // Arabic
+            'he' => 'rtl',     // Hebrew
+            'fa' => 'rtl',     // Persian/Farsi
+            'ur' => 'rtl',     // Urdu
+            'ku' => 'rtl',     // Kurdish
+            'ckb' => 'rtl',    // Central Kurdish (Sorani)
+            'ps' => 'rtl',     // Pashto
+            'sd' => 'rtl',     // Sindhi
+            'yi' => 'rtl',     // Yiddish
+            'arc' => 'rtl',    // Aramaic
+            'syc' => 'rtl',    // Classical Syriac
+            'dv' => 'rtl',     // Divehi/Maldivian
+
+            // Left-to-Right (LTR) languages - most common, but listed for clarity
+            'en' => 'ltr',     // English
+            'es' => 'ltr',     // Spanish
+            'fr' => 'ltr',     // French
+            'de' => 'ltr',     // German
+            'it' => 'ltr',     // Italian
+            'pt' => 'ltr',     // Portuguese
+            'ru' => 'ltr',     // Russian
+            'zh' => 'ltr',     // Chinese
+            'ja' => 'ltr',     // Japanese
+            'ko' => 'ltr',     // Korean
+            'hi' => 'ltr',     // Hindi
+            'tr' => 'ltr',     // Turkish
+            'nl' => 'ltr',     // Dutch
+            'sv' => 'ltr',     // Swedish
+            'no' => 'ltr',     // Norwegian
+            'da' => 'ltr',     // Danish
+            'fi' => 'ltr',     // Finnish
+            'pl' => 'ltr',     // Polish
+            'cs' => 'ltr',     // Czech
+            'hu' => 'ltr',     // Hungarian
+            'ro' => 'ltr',     // Romanian
+            'bg' => 'ltr',     // Bulgarian
+            'hr' => 'ltr',     // Croatian
+            'sk' => 'ltr',     // Slovak
+            'sl' => 'ltr',     // Slovenian
+            'et' => 'ltr',     // Estonian
+            'lv' => 'ltr',     // Latvian
+            'lt' => 'ltr',     // Lithuanian
+            'el' => 'ltr',     // Greek
+            'th' => 'ltr',     // Thai
+            'vi' => 'ltr',     // Vietnamese
+            'id' => 'ltr',     // Indonesian
+            'ms' => 'ltr',     // Malay
+            'tl' => 'ltr',     // Filipino/Tagalog
+            'sw' => 'ltr',     // Swahili
+            'am' => 'ltr',     // Amharic
+            'bn' => 'ltr',     // Bengali
+            'gu' => 'ltr',     // Gujarati
+            'kn' => 'ltr',     // Kannada
+            'ml' => 'ltr',     // Malayalam
+            'mr' => 'ltr',     // Marathi
+            'ne' => 'ltr',     // Nepali
+            'or' => 'ltr',     // Odia
+            'pa' => 'ltr',     // Punjabi
+            'si' => 'ltr',     // Sinhala
+            'ta' => 'ltr',     // Tamil
+            'te' => 'ltr',     // Telugu
+            'my' => 'ltr',     // Myanmar/Burmese
+            'km' => 'ltr',     // Khmer/Cambodian
+            'lo' => 'ltr',     // Lao
+            'ka' => 'ltr',     // Georgian
+            'hy' => 'ltr',     // Armenian
+            'az' => 'ltr',     // Azerbaijani
+            'kk' => 'ltr',     // Kazakh
+            'ky' => 'ltr',     // Kyrgyz
+            'mn' => 'ltr',     // Mongolian
+            'uz' => 'ltr',     // Uzbek
+            'tk' => 'ltr',     // Turkmen
+            'tg' => 'ltr',     // Tajik
+            'af' => 'ltr',     // Afrikaans
+            'sq' => 'ltr',     // Albanian
+            'eu' => 'ltr',     // Basque
+            'be' => 'ltr',     // Belarusian
+            'bs' => 'ltr',     // Bosnian
+            'ca' => 'ltr',     // Catalan
+            'cy' => 'ltr',     // Welsh
+            'ga' => 'ltr',     // Irish
+            'gd' => 'ltr',     // Scottish Gaelic
+            'is' => 'ltr',     // Icelandic
+            'mt' => 'ltr',     // Maltese
+            'mk' => 'ltr',     // Macedonian
+            'sr' => 'ltr',     // Serbian
+            'uk' => 'ltr',     // Ukrainian
+        ];
     }
 
     /**

@@ -11,6 +11,7 @@ use App\Models\System\Settings\Settings\FontSize;
 use App\Models\System\Settings\Settings\Theme;
 use App\Models\System\Settings\System\LayerOneGroupNamePermissions;
 use App\Models\System\Settings\System\LayerOnePermission;
+use App\Models\System\Settings\System\UserType;
 use App\Models\System\Users\UserSettings;
 use App\Models\Traits\UserScopes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -76,7 +77,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(FontSize::class, 'user_id', 'id');
     }
-    
+
     public function font()
     {
         return $this->belongsTo(FontSize::class, 'font_size_id', 'id');
@@ -90,5 +91,10 @@ class User extends Authenticatable implements HasMedia
     public function theme()
     {
         return $this->hasMany(Theme::class);
+    }
+
+    public function typeuser()
+    {
+        return $this->hasOne(UserType::class, 'id', 'user_type_id');
     }
 }

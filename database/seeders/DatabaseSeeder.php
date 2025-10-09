@@ -11,6 +11,7 @@ use App\Models\System\Users\UserSettings;
 use Database\Seeders\RolePermissionSeeder;
 use App\Models\System\Settings\System\LayerOnePermission;
 use App\Models\System\Settings\System\LayerOneGroupNamePermissions;
+use App\Models\System\Settings\System\UserType;
 use App\Models\System\Users\User;
 use App\Traits\GenerateSlugKey;
 
@@ -27,10 +28,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::transaction(function () {
+            $this->createUserTypes();
             $user = $this->createTestUser();
             // $this->createGroupsAndPermissions($user);
             $this->callAdditionalSeeders();
             $this->createUserSettings($user);
+            $this->createDeveloperUser();
             $this->createTheme($user);
             Artisan::call('translations:cache');
         });
@@ -48,15 +51,47 @@ class DatabaseSeeder extends Seeder
         }
     }
 
+    private function createUserTypes(): void
+    {
+        $userTypes = [
+            ['name' => 'user', 'slug' => 'user'],
+            ['name' => 'admin', 'slug' => 'admin'],
+            ['name' => 'developer', 'slug' => 'developer'],
+        ];
+
+        foreach ($userTypes as $userType) {
+            UserType::firstOrCreate($userType);
+        }
+    }
+
     private function createTestUser(): User
     {
-        return User::firstOrCreate(
-            ['email' => self::TEST_USER_DATA['email']],
+        $user = [
             [
-                'name' => self::TEST_USER_DATA['name'],
-                'password' => Hash::make(self::TEST_USER_DATA['password']),
-            ]
-        );
+                'name' => 'Super Admin',
+                'email' => 'super@safedatait.com',
+                'password' => 'password',
+                'user_type_id' => UserType::where('name', 'admin')->first()->id,
+            ],
+            [
+                'name' => 'developer',
+                'email' => 'developer@safedatait.com',
+                'password' => 'password',
+                'user_type_id' => UserType::where('name', 'developer')->first()->id,
+            ],
+        ];
+
+        foreach ($user as $key => $value) {
+            User::firstOrCreate($value);
+        }
+
+        return User::first();
+    }
+
+    private function createDeveloperUser()
+    {
+        $user = User::where('email', 'developer@safedatait.com')->first();
+        $this->createUserSettings($user);
     }
 
     private function createGroupsAndPermissions(User $user): void

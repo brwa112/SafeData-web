@@ -33,4 +33,9 @@ return [
     'save_changes' => 'Save Changes',
     'saving' => 'Saving...',
     'form_reset' => 'Form reset to original values',
+    'en' => 'English',
+    'ar' => 'Arabic',
+    'ckb' => 'Kurdish',
+    'dark' => 'Dark',
+    'light' => 'Light',
 ];

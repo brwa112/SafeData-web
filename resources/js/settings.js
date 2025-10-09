@@ -44,10 +44,10 @@ export const getDefaultSettings = () => {
             localStorage.setItem('language', lang);
             getDefaultSettings.locale = lang;
 
-            // axios.post(route('lang', { locale: lang }))
-            //     .catch(error => {
-            //         console.log(error);
-            //     });
+            axios.post(route('lang', { locale: lang }))
+                .catch(error => {
+                    console.log(error);
+                });
         },
         toggleDir: (dir) => {
             dir = dir || getDefaultSettings.rtlClass; // rtl, ltr
