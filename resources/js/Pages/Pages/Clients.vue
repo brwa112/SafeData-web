@@ -14,7 +14,7 @@
                     <span>{{ $t('pages.clients') }}</span>
                 </li>
             </ul>
-            <!-- add new row -->
+            <!-- Add new row -->
             <div class="block">
                 <!-- Trigger -->
                 <div class="flex items-center justify-center">
@@ -127,6 +127,7 @@
                             class="flex items-center gap-2 text-center">
                             <img :src="data.value.logo ? data.value.logo : `/assets/images/avatar.png`"
                                 class="size-10 rounded-md max-w-none" alt="user-profile" />
+                            {{ data.value.logo }}
                         </button>
                     </template>
 

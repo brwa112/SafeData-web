@@ -100,6 +100,21 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Manage clients and their data',
             ],
             [
+                'name' => 'services',
+                'slug' => 'services',
+                'description' => 'Manage services and their data',
+            ],
+            [
+                'name' => 'products',
+                'slug' => 'products',
+                'description' => 'Manage products and their data',
+            ],
+            [
+                'name' => 'hostings',
+                'slug' => 'hostings',
+                'description' => 'Manage hostings and their data',
+            ],
+            [
                 'name' => 'users',
                 'slug' => 'users',
                 'description' => 'Manage users and their permissions',

@@ -21,6 +21,8 @@ import Particles from "@tsparticles/vue3";
 import { loadFull } from "tsparticles";
 import { MotionPlugin } from '@vueuse/motion'
 import Spinner from '@/Components/Spinner.vue';
+import { vTooltip, vClosePopper, Dropdown, Tooltip, Menu } from 'floating-vue'
+import 'floating-vue/dist/style.css'
 
 
 const app = createApp({});
@@ -52,7 +54,7 @@ const { el, App, props, plugin } = createInertiaApp({
       .component('Popper', Popper)
       .component('Svg', Svg)
       .component('Spinner', Spinner)
-      // .use(permissions)
+      .component('VDropdown', Dropdown)
       .use(Vue3Shortkey)
       .use(ImageUploadVue)
       .use(Particles, {

@@ -3,18 +3,21 @@
 
         <!-- Table Header -->
         <div v-if="isTop" class="w-full pb-1.5">
-            <perfect-scrollbar class="min-w-full">
+            <perfect-scrollbar class="w-full">
                 <div class="flex items-center gap-2">
-                    <div class="dropdown">
-                        <Popper :placement="rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="0"
-                            class="align-middle">
+                    <!-- Customize Columns Dropdown -->
+                    <div class="dropdown !static sm:!relative flex">
+                        <VDropdown :placement="rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="0"
+                            class="align-middle" @apply-hide="handleDropdownHide">
                             <button type="button"
                                 class="flex items-center gap-2 rounded-md p-2.5 leading-3 border cursor-pointer font-semibold bg-white border-[#e0e6ed] dark:border-transparent dark:bg-[#121e32] text-gray-500 dark:text-white-dark">
                                 <Svg name="column" class="size-4"></Svg>
                             </button>
-                            <template #content>
-                                <ul class="whitespace-nowrap">
-                                    <li class="font-semibold text-gray-500 dark:text-white-dark text-xs mx-2 mb-1">
+
+                            <template #popper="{ hide }">
+                                <ul
+                                    class="whitespace-nowrap text-gray-500 dark:text-white-dark  dark:bg-[#121e32] border border-gray-200 dark:border-[#191e3a] rounded shadow-lg p-1">
+                                    <li class=" text-gray-500 dark:text-white-dark text-xs mx-2 mb-1">
                                         {{ $t('common.columns') }}
                                     </li>
                                     <template v-for="(col, i) in columns" :key="i">
@@ -32,8 +35,10 @@
                                     </template>
                                 </ul>
                             </template>
-                        </Popper>
+                        </VDropdown>
                     </div>
+
+                    <!-- Search Input -->
                     <div class="relative block sm:min-w-64">
                         <input ref="searchInput" v-model="search" type="text"
                             class="form-input shadow-none dark:!border-transparent pe-8 min-w-44"
@@ -201,6 +206,8 @@ const props = defineProps({
 
 const datatable = ref(null);
 const selection = ref([]);
+const buttonRef = ref(null);
+
 
 const selectedCount = computed(() => Array.isArray(selection.value) ? selection.value.length : 0);
 
@@ -235,6 +242,7 @@ watch(pagePerSelected, (newVal) => {
         resetDatatable();
     }
 });
+
 
 
 const emits = defineEmits([
@@ -332,6 +340,14 @@ onMounted(() => {
 
 const resetDatatable = () => {
     datatable.value.reset();
+};
+
+// Handle dropdown hide to ensure focus returns properly
+const handleDropdownHide = () => {
+    // Return focus to the button when dropdown closes
+    setTimeout(() => {
+        buttonRef.value?.focus();
+    }, 50);
 };
 
 onMounted(() => {

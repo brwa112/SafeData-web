@@ -32,6 +32,7 @@
         "dayjs": "^1.11.13",
         "easymde": "^2.18.0",
         "file-upload-with-preview": "^4.2.0",
+        "floating-vue": "^5.2.2",
         "gsap": "^3.12.7",
         "image-upload-vue": "^0.2.5",
         "laravel-vue-i18n": "^2.7.6",
