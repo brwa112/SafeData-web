@@ -30,7 +30,7 @@
                         </button>
 
                         <!-- Search -->
-                        <div class="sm:w-full bg-gray-50 bg-opacity-5 rounded-full p-2 sm:p-0 sm:px-2">
+                        <!-- <div class="sm:w-full bg-gray-50 bg-opacity-5 rounded-full p-2 sm:p-0 sm:px-2">
 
                             <form
                                 class="sm:relative absolute inset-x-0 sm:top-0 top-1/2 sm:translate-y-0 -translate-y-1/2 mx-0 z-40 sm:block hidden"
@@ -55,7 +55,7 @@
                                 @click="search = !search">
                                 <Svg name="search" class="size-5"></Svg>
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
