@@ -19,14 +19,38 @@
             </div>
         </div>
 
-
         <!-- Modal -->
-        <FormModal :showModal="showModal" :form="form" :branches="branches" :categories="categories" :hashtags="hashtags"
-            :imagesForm="imagesForm" @submit="save" @close="toggleModal" />
+        <FormModal :showModal="showModal" :form="form" :branches="branches" :categories="categories"
+            :hashtags="hashtags" :imagesForm="imagesForm" @submit="save" @close="toggleModal" />
 
         <!-- Datatable Section -->
         <div class="pt-5">
             <div class="panel pb-0">
+
+                <!-- Filters -->
+                <perfect-scrollbar class="relative max-w-max">
+                    <div class="flex items-center gap-2 w-full mb-2 whitespace-nowrap">
+                        <!-- Date Range Filter -->
+                        <CustomDatePicker v-model="dateRangeModel" filter-key="created_at" parent-key="system"
+                            placeholder="select_created_at_range" @apply-filter="handleApplyFilter"
+                            @clear-filter="handleClearFilter" />
+
+                        <!-- Branch Filter -->
+                        <CustomMultiSelect v-model="selectedBranchFilter" :list="branchFilterList" label="label"
+                            placeholder="branch" placeholder-parent-key="pages"
+                            @update:modelValue="applyBranchFilter" />
+
+                        <!-- Category Filter -->
+                        <CustomMultiSelect v-model="selectedCategoryFilter" :list="categoryFilterList" label="label"
+                            placeholder="category" placeholder-parent-key="pages"
+                            @update:modelValue="applyCategoryFilter" />
+
+                        <!-- Hashtag Filter -->
+                        <CustomMultiSelect v-model="selectedHashtagFilter" :list="hashtagFilterList" :multiple="true"
+                            label="label" placeholder="hashtag" parent-key="pages"
+                            @update:modelValue="applyHashtagFilter" />
+                    </div>
+                </perfect-scrollbar>
 
                 <!-- Datatable -->
                 <Datatable :rows="news" :columns="columns" :totalRows="news.data?.length" @change="apply_filter"
@@ -122,7 +146,7 @@
 </template>
 
 <script setup>
-import { inject, ref, watch } from 'vue';
+import { inject, ref, watch, computed } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { wTrans, trans } from 'laravel-vue-i18n';
 import Swal from 'sweetalert2';
@@ -131,6 +155,8 @@ import Datatable from '@/Components/Datatable.vue';
 import { initializeFilters, updateFilters } from '@/Plugins/FiltersPlugin';
 import VueEasyLightbox from 'vue-easy-lightbox';
 import CustomMultiSelect from '@/Components/Inputs/CustomMultiSelect.vue';
+import CustomDatePicker from '@/Components/Inputs/CustomDatePicker.vue';
+import { useDateFilters } from '@/composables/useDateFilters.js';
 import FormModal from './Partials/FormModal.vue';
 
 const props = defineProps({
@@ -167,20 +193,97 @@ const showImage = (images, startIndex = 0) => {
 
 // Filters
 const filters = initializeFilters({
-    search: '',
+    search: "",
     number_rows: 10,
-    sort_by: 'id',
-    sort_direction: 'desc',
+    sort_by: "id",
+    sort_direction: "desc",
+    start_date: props.filter.start_date || '',
+    end_date: props.filter.end_date || '',
+    branch_id: props.filter.branch_id || '',
+    category_id: props.filter.category_id || '',
+    hashtag_ids: props.filter.hashtag_ids || '',
 });
 
-const apply_filter = () => updateFilters({ ...filters });
+const apply_filter = () => {
+    updateFilters({
+        ...filters,
+        start_date: filters.start_date,
+        end_date: filters.end_date,
+        branch_id: filters.branch_id,
+        category_id: filters.category_id,
+        hashtag_ids: filters.hashtag_ids,
+    });
+};
 
-// Helper to create empty translation object for all languages
-const createEmptyTranslation = () => {
-    return Languages.reduce((acc, lang) => {
-        acc[lang] = '';
-        return acc;
-    }, {});
+const { dateRangeModel, handleApplyFilter, handleClearFilter } = useDateFilters(filters, apply_filter);
+
+// Filter lists with translations
+const branchFilterList = computed(() => {
+    return [
+        ...props.branches.map(branch => ({
+            id: branch.id,
+            label: $helpers.getTranslation(branch.name, selectLanguage.value.slug)
+        }))
+    ];
+});
+
+const categoryFilterList = computed(() => {
+    return [
+        ...props.categories.map(cat => ({
+            id: cat.id,
+            label: $helpers.getTranslation(cat.name, selectLanguage.value.slug)
+        }))
+    ];
+});
+
+const hashtagFilterList = computed(() => {
+    return props.hashtags.map(tag => ({
+        id: tag.id,
+        label: '#' + $helpers.getTranslation(tag.name, selectLanguage.value.slug)
+    }));
+});
+
+// Selected filter values
+const selectedBranchFilter = ref(null);
+const selectedCategoryFilter = ref(null);
+const selectedHashtagFilter = ref([]);
+
+// Initialize filter values from URL params using watchers
+watch(branchFilterList, (newList) => {
+    if (filters.branch_id && !selectedBranchFilter.value) {
+        selectedBranchFilter.value = newList.find(b => b.id == filters.branch_id) || null;
+    }
+}, { immediate: true });
+
+watch(categoryFilterList, (newList) => {
+    if (filters.category_id && !selectedCategoryFilter.value) {
+        selectedCategoryFilter.value = newList.find(c => c.id == filters.category_id) || null;
+    }
+}, { immediate: true });
+
+watch(hashtagFilterList, (newList) => {
+    if (filters.hashtag_ids && selectedHashtagFilter.value.length === 0) {
+        const hashtagIds = filters.hashtag_ids.split(',').map(id => parseInt(id));
+        selectedHashtagFilter.value = newList.filter(h => hashtagIds.includes(h.id));
+    }
+}, { immediate: true });
+
+// Apply filter functions
+const applyBranchFilter = (value) => {
+    filters.branch_id = value?.id || '';
+    apply_filter();
+};
+
+const applyCategoryFilter = (value) => {
+    filters.category_id = value?.id || '';
+    apply_filter();
+};
+
+const applyHashtagFilter = (values) => {
+    filters.hashtag_ids = Array.isArray(values) && values.length > 0
+        ? values.map(v => v.id).join(',')
+        : '';
+    apply_filter();
 };
 
 // Helper to create empty form data
@@ -206,42 +309,26 @@ const imagesForm = ref({});
 
 // Save news (create or update)
 const save = () => {
-    // Debug: Log form data before submission
-    console.log('Submitting form:', {
-        hasImages: form.images && form.images.length > 0,
-        imagesCount: form.images ? form.images.length : 0,
-        removeImages: form.remove_images,
-        formData: form
-    });
-
     // Determine route and action
     const isUpdate = !!form.id;
     const successMessage = trans('common.record') + ' ' + trans(isUpdate ? 'common.updated' : 'common.created');
 
     // For updates with file uploads, we need to use POST with _method field
     if (isUpdate) {
-        console.log('Updating news with ID:', form.id);
-        // Use POST for file uploads (Laravel will handle _method internally)
         form.post(route('control.pages.news.update', { news: form.id }), {
-            forceFormData: true, // Ensure multipart/form-data encoding
+            forceFormData: true,
             onSuccess: () => {
                 toggleModal();
                 $helpers.toast(successMessage);
             },
-            onError: (errors) => {
-                console.error('Update errors:', errors);
-            }
         });
     } else {
         form.post(route('control.pages.news.store'), {
-            forceFormData: true, // Ensure multipart/form-data encoding
+            forceFormData: true,
             onSuccess: () => {
                 toggleModal();
                 $helpers.toast(successMessage);
             },
-            onError: (errors) => {
-                console.error('Store errors:', errors);
-            }
         });
     }
 };
@@ -268,16 +355,14 @@ const toggleModal = (row = null) => {
 
         imagesForm.value = {
             images: row.images || [],
-            remove_images: false,
         };
     } else if (!showModal.value) {
-        // Reset form when closing without data
-        form.reset();
+        // Reset form when closing modal
+        Object.assign(form, createEmptyFormData());
         form.clearErrors();
 
         imagesForm.value = {
             images: [],
-            remove_images: false,
         };
     }
 };

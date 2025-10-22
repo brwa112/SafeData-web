@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Pages;
 use App\Models\Pages\News;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsRequest;
+use App\Traits\HandlesSorting;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    use LogsActivity, HandlesSorting;
+
     public function index(Request $request)
     {
         $this->authorize('viewAny', News::class);
@@ -18,6 +22,21 @@ class NewsController extends Controller
         $news = News::query()
             ->with(['user', 'branch', 'category', 'hashtags'])
             ->search($filters['search'])
+            ->filterByDateRange($filters['start_date'], $filters['end_date'])
+            ->when($filters['branch_id'], function ($query, $branchId) {
+                $query->where('branch_id', $branchId);
+            })
+            ->when($filters['category_id'], function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
+            ->when($filters['hashtag_ids'], function ($query, $hashtagIds) {
+                $ids = array_filter(explode(',', $hashtagIds));
+                if (!empty($ids)) {
+                    $query->whereHas('hashtags', function ($q) use ($ids) {
+                        $q->whereIn('hashtags.id', $ids);
+                    });
+                }
+            })
             ->orderBy($filters['sort_by'], $filters['sort_direction'])
             ->paginate($filters['number_rows']);
 
@@ -65,22 +84,12 @@ class NewsController extends Controller
         ]);
     }
 
-    protected function getFilters(Request $request)
-    {
-        return collect([
-            'search' => $request->query('filter')['search'] ?? '',
-            'number_rows' => $request->query('filter')['number_rows'] ?? 10,
-            'sort_by' => $request->query('filter')['sort_by'] ?? 'id',
-            'sort_direction' => $request->query('filter')['sort_direction'] ?? 'desc',
-        ]);
-    }
-
     public function store(NewsRequest $request)
     {
         $this->authorize('create', News::class);
 
         $data = $request->validated();
-        
+
         // Extract hashtag IDs for many-to-many relationship
         $hashtagIds = $data['hashtag_ids'] ?? [];
         unset($data['hashtag_ids']);
@@ -115,7 +124,7 @@ class NewsController extends Controller
         $this->authorize('update', $news);
 
         $data = $request->validated();
-        
+
         // Extract hashtag IDs for many-to-many relationship
         $hashtagIds = $data['hashtag_ids'] ?? [];
         unset($data['hashtag_ids']);
@@ -161,7 +170,7 @@ class NewsController extends Controller
                 // Clear all existing images if remove_images flag is set
                 $news->clearMediaCollection('images');
             }
-            
+
             // Add new images
             foreach ($request->file('images') as $image) {
                 $news->addMedia($image)
@@ -191,5 +200,22 @@ class NewsController extends Controller
         $news->delete();
 
         return redirect()->back();
+    }
+
+    protected function getFilters(Request $request): \Illuminate\Support\Collection
+    {
+        $filter = $request->query('filter', []);
+        
+        return collect([
+            'search' => $filter['search'] ?? '',
+            'number_rows' => $filter['number_rows'] ?? 10,
+            'sort_by' => $filter['sort_by'] ?? 'id',
+            'sort_direction' => $filter['sort_direction'] ?? 'desc',
+            'start_date' => $filter['start_date'] ?? null,
+            'end_date' => $filter['end_date'] ?? null,
+            'branch_id' => $filter['branch_id'] ?? '',
+            'category_id' => $filter['category_id'] ?? '',
+            'hashtag_ids' => $filter['hashtag_ids'] ?? '',
+        ]);
     }
 }

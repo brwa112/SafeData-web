@@ -3,21 +3,26 @@
         <template v-if="!disabled">
             <VDropdown :placement="placement" @apply-hide="handleDropdownHide">
                 <button ref="buttonRef" type="button"
-                    class="w-full flex items-center gap-1.5 rounded-md leading-3 border cursor-pointer font-semibold bg-white border-[#e0e6ed] dark:border-transparent dark:bg-[#121e32] text-gray-500 dark:text-white-dark">
+                    class="w-full truncate flex items-center gap-1.5 rounded-md leading-3 border cursor-pointer font-semibold bg-white border-[#e0e6ed] dark:border-transparent dark:bg-[#121e32] text-gray-500 dark:text-white-dark">
                     <div class="flex items-center gap-2 px-2.5 py-2 rounded-md font-bold"
                         :class="{ 'text-primary': count.length > 0, style }">
                         <button v-if="multiple == true" type="button" @click="countFocus"
                             class="whitespace-nowrap flex justify-between items-center min-w-24 gap-1 text-sm">
-                            <span v-if="count.length > 0" :class="buttonStyle">
-                                ({{ count.length }}) {{count.map(item => item[label] || item.name).join(', ')}}
+                            <span v-if="count.length > 0" :class="buttonStyle" class="max-w-56 truncate">
+                                <template v-if="count.length <= 2">
+                                    {{ count.map(item => item[label] || item.name).join(', ') }}
+                                </template>
+                                <template v-else>
+                                    {{ count.slice(0, 2).map(item => item[label] || item.name).join(', ') }} +{{ count.length - 2 }}
+                                </template>
                             </span>
                             <span v-else class="text-sm">
                                 {{ placeholder ? $t(`${parentKey}.${placeholder}`) : $t('common.please_select') }}
                             </span>
                         </button>
                         <button v-if="multiple == false" type="button" @click="countFocus"
-                            class="whitespace-nowrap flex justify-between items-center min-w-24 gap-4 text-sm">
-                            <span v-if="Object.keys(count)?.length > 0" :class="buttonStyle">
+                            class="flex justify-between items-center min-w-24 gap-4 text-sm">
+                            <span v-if="Object.keys(count)?.length > 0" :class="buttonStyle" class="max-w-56 truncate">
                                 <span v-if="props.parentKey">
                                     {{ $t(`${parentKey}.${checkObject(count[props.label])}`) ||
                                         checkObject(count[props.label] || count.name) }}
