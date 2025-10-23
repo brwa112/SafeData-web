@@ -17,6 +17,7 @@ import helpers from './helpers';
 import permissions from './permissions';
 import Vue3Shortkey from 'vue3-shortkey';
 import PermissionPlugin from './Plugins/PermissionPlugin';
+import BranchRoutePlugin from './Plugins/BranchRoutePlugin';
 import ImageUploadVue from 'image-upload-vue'
 import Particles from "@tsparticles/vue3";
 import { loadFull } from "tsparticles";
@@ -68,12 +69,11 @@ const { el, App, props, plugin } = createInertiaApp({
       })
       .use(MotionPlugin)
       .use(PermissionPlugin)
-      .mount(el);
+      .use(BranchRoutePlugin);
 
-    // app.config.globalProperties.helpers = helpers;
-
-    // app.mount(el);
+    // Make helpers available globally
+    app.config.globalProperties.$helpers = helpers;
+    
+    app.mount(el);
   },
 });
-
-app.mount(el);

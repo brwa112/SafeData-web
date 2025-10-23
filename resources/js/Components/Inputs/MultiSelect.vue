@@ -94,7 +94,6 @@ const language = ref(localStorage.getItem('language') || 'en');
 const emits = defineEmits(['update:modelValue']);
 
 const valueInput = ref(props.modelValue);
-console.log('Initial valueInput:', valueInput.value, props.modelValue);
 
 onMounted(() => {
     valueInput.value = props.modelValue;

@@ -34,6 +34,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('control')
                 ->as('control.')
                 ->group(base_path('routes/control.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/frontend.php'));
         });
     }
 }

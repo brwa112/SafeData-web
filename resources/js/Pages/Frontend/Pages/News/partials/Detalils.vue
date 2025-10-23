@@ -17,7 +17,7 @@
             {{ news.title }}
           </h2>
           <div class="!mt-9">
-            <Link :href="route('news.show', news.id)"
+            <Link :href="branchRoute(`/news/${news.slug || news.id}`)"
               class="max-w-max text-white bg-f-primary rounded-full duration-300 py-3 lg:py-4.5 px-10 lg:px-[72px] text-sm sm:text-base font-normal !leading-6">
             {{ $t('frontend.common.read_more') }}
             </Link>

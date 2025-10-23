@@ -245,6 +245,36 @@ export default {
         
         // Return translation with fallback chain
         return obj[targetLocale] || obj['en'] || obj[Object.keys(obj)[0]] || '';
+    },
+
+    /**
+     * Generate branch-aware URL for frontend routes
+     * Automatically prepends the selected branch slug to paths when available
+     * 
+     * @param {String} path - The path to navigate to (e.g., '/about', '/news')
+     * @param {String|null} branchSlug - Optional branch slug override (defaults to current branch from page props)
+     * @returns {String} Full path with branch prefix if applicable
+     * 
+     * @example
+     * branchRoute('/about') // Returns: '/kurd-genius/about' (if kurd-genius is selected)
+     * branchRoute('/') // Returns: '/kurd-genius' (if kurd-genius is selected)
+     * branchRoute('/news', 'smart-education') // Returns: '/smart-education/news'
+     */
+    branchRoute(path, branchSlug = null) {
+        // Try to get branch prefix from page props (Inertia)
+        const branchPrefix = branchSlug || 
+            (typeof window !== 'undefined' && window.$page?.props?.branchPrefix) || '';
+        
+        if (!branchPrefix) return path;
+        
+        // Handle root path
+        if (path === '/' || path === '') {
+            return `/${branchPrefix}`;
+        }
+        
+                // Ensure path starts with /
+        const cleanPath = path.startsWith('/') ? path : `/${path}`;
+        return `/${branchPrefix}${cleanPath}`;
     }
 
 }

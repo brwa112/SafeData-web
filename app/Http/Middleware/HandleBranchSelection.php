@@ -22,33 +22,29 @@ class HandleBranchSelection
             return redirect(rtrim($request->getRequestUri(), '/'), 301);
         }
         
-        // Get all active branches
-        $branches = Branch::active()->ordered()->get();
+        // Reserved paths that should not be treated as branch slugs
+        $reservedPaths = ['control', 'lang', 'login', 'register', 'password', 'forgot-password'];
         
         // Get the first segment of the URL path
         $firstSegment = $request->segment(1);
         
+        // Skip branch handling for reserved paths
+        if (in_array($firstSegment, $reservedPaths)) {
+            return $next($request);
+        }
+        
+        // Get all active branches
+        $branches = Branch::active()->ordered()->get();
+        
         // Check if the first segment matches a branch slug
         $selectedBranch = $branches->firstWhere('slug', $firstSegment);
         
-        // If no branch found in URL, check session or use default
+        // If no branch found in URL, use session or default branch
         if (!$selectedBranch) {
             $selectedBranchId = session('selected_branch_id');
             $selectedBranch = $selectedBranchId 
                 ? $branches->firstWhere('id', $selectedBranchId) 
                 : $branches->first();
-            
-            // If on root path or non-branch path, redirect to branch-based URL
-            if ($selectedBranch && $firstSegment === null) {
-                // Root path: redirect to branch home
-                return redirect('/' . $selectedBranch->slug);
-            } elseif ($selectedBranch && !in_array($firstSegment, ['control', 'lang', 'login', 'register'])) {
-                // Non-branch path with a page: redirect to branch-based path
-                $currentPath = $request->path();
-                if ($currentPath !== '/') {
-                    return redirect('/' . $selectedBranch->slug . '/' . $currentPath);
-                }
-            }
         }
         
         // Store selected branch in session for consistency

@@ -236,7 +236,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
@@ -260,21 +260,8 @@ const currentLanguage = ref(
 // Branches management - get from backend
 const branches = ref(page.props.branches || []);
 const selectedBranch = ref(page.props.selectedBranch || branches.value[0]);
-const branchPrefix = computed(() => page.props.branchPrefix || '');
 
-// Helper to build branch-aware URLs
-const branchRoute = (path) => {
-  if (!branchPrefix.value) return path;
-  
-  // Handle root path
-  if (path === '/' || path === '') {
-    return `/${branchPrefix.value}`;
-  }
-  
-  // Ensure path starts with /
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  return `/${branchPrefix.value}${cleanPath}`;
-};
+// branchRoute is now available globally - no need to import or define
 
 function selectBranch(b) {
   selectedBranch.value = b;

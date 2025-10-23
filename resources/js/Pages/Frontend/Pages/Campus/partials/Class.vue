@@ -38,7 +38,7 @@
               </div>
               <div v-if="slideIndex === 2"
                 class="absolute end-3 2xl:end-5 top-14 2xl:top-[72px] z-[5] -translate-y-1/2 h-full flex items-center">
-                <Link :href="route('campus.show_class', clas.id)"
+                <Link :href="branchRoute(`/campus/class/${clas.slug || clas.id}`)"
                   class="relative z-10 flex size-10 xl:size-14 2xl:size-16 rounded-full bg-white items-center justify-center duration-[750ms]">
                   <Svg name="arrow_top" class="relative z-10 h-8 xl:h-12 rtl:-rotate-90"></Svg>
                 </Link>

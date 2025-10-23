@@ -15,7 +15,7 @@
           <p class="!leading-6 text-base lg:text-lg xl:text-xl font-normal text-justify">
             {{ $t('frontend.campus_contact.description') }}
           </p>
-          <Link :href="route('about.index')"
+          <Link :href="branchRoute('/about')"
             class="bg-f-primary hover:bg-white text-white hover:text-f-primary hover:font-semibold py-3 px-2 block text-center !w-40 !mt-7 rounded-full border-4 border-f-primary transition-all duration-500 text-base font-light transform">
           {{ $t('frontend.campus_contact.contact') }}
           </Link>
