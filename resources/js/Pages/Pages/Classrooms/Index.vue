@@ -13,7 +13,7 @@
             <div class="block">
                 <!-- Trigger -->
                 <div class="flex items-center justify-center">
-                    <button v-if="$can('create_classrooms')" type="button"
+                    <button v-if="$can('create_classroom')" type="button"
                         class="btn btn-sm btn-primary shadow-none flex items-center gap-1" @click="toggleModal()">
                         <Svg name="new" class="size-4"></Svg>
                         <span>{{ $t('common.new') }} {{ $t('pages.classroom') }}</span>
@@ -302,15 +302,15 @@
                         <tippy>{{ $helpers.formatCustomDate(data.value.created_at, true) }}</tippy>
                     </template>
 
-                    <template v-if="$can('edit_classrooms') || $can('delete_classrooms')" #actions="data">
+                    <template v-if="$can('edit_classroom') || $can('delete_classroom')" #actions="data">
                         <div class="flex gap-2">
-                            <div v-if="$can('edit_classrooms')" class="text-center">
+                            <div v-if="$can('edit_classroom')" class="text-center">
                                 <button type="button" v-tippy @click="toggleModal(data.value)">
                                     <Svg name="pencil" class="size-5"></Svg>
                                 </button>
                                 <tippy>{{ $t('common.edit') }}</tippy>
                             </div>
-                            <div v-if="$can('delete_classrooms')" class="text-center">
+                            <div v-if="$can('delete_classroom')" class="text-center">
                                 <button type="button" v-tippy @click="callDelete(data.value.id)">
                                     <Svg name="trash" class="size-5"></Svg>
                                 </button>

@@ -15,19 +15,11 @@ return new class extends Migration
         Schema::create('campuses', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->json('name');
-            $table->string('slug')->unique();
-            $table->json('description')->nullable();
-            $table->json('full_description')->nullable();
-            $table->json('location')->nullable();
-            $table->json('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->string('map_url')->nullable()->comment('Google Maps embed URL');
-            $table->json('facilities')->nullable()->comment('List of available facilities');
-            $table->json('metadata')->nullable();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
+            $table->json('title');
+            $table->json('content')->comment('Full campus content/description');
+            $table->integer('views')->default(0);
             $table->integer('order')->default(0);
-            $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

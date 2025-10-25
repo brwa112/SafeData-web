@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -20,40 +21,64 @@ class Classroom extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, HasTranslations, ClassroomScopes, LogsActivity, LogsMediaActivity;
 
-    public $translatable = ['name', 'description', 'full_description', 'location'];
+    protected $table = 'classrooms';
+
+    public $translatable = ['title', 'content'];
 
     protected $fillable = [
         'user_id',
         'branch_id',
-        'name',
-        'slug',
-        'description',
-        'full_description',
-        'classroom_type',
-        'location',
-        'building',
-        'floor',
-        'room_number',
-        'capacity',
-        'equipment',
-        'features',
-        'schedule',
-        'metadata',
+        'title',
+        'content',
+        'views',
         'order',
-        'is_featured',
         'is_active',
     ];
 
     protected $casts = [
-        'equipment' => 'array',
-        'features' => 'array',
-        'schedule' => 'array',
-        'metadata' => 'array',
-        'is_featured' => 'boolean',
         'is_active' => 'boolean',
     ];
 
-    protected $appends = ['featured_image_url', 'gallery_images', 'floor_plan_url'];
+    protected $appends = [
+        'images',
+        'branch_name',
+    ];
+
+    public function getImagesAttribute()
+    {
+        return $this->getMedia('images')->map(function ($media) {
+            return [
+                'id' => $media->id,
+                'url' => $media->getUrl(),
+                'thumb' => $media->getUrl('thumb'),
+                'medium' => $media->getUrl('medium'),
+            ];
+        });
+    }
+
+    public function getBranchNameAttribute()
+    {
+        if (!$this->branch) {
+            return null;
+        }
+        return [
+            'id' => $this->branch->id,
+            'name' => $this->branch->getTranslations('name'), // Get all translations as JSON
+            'slug' => $this->branch->slug,
+        ];
+    }
+
+    /**
+     * Get the options for activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'content', 'branch_id', 'is_active', 'order', 'views'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Classroom {$eventName}");
+    }
 
     /**
      * Boot the model.
@@ -61,20 +86,6 @@ class Classroom extends Model implements HasMedia
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($classroom) {
-            if (empty($classroom->slug)) {
-                $name = is_array($classroom->name) ? ($classroom->name['en'] ?? reset($classroom->name)) : $classroom->name;
-                $classroom->slug = Str::slug($name);
-            }
-        });
-
-        static::updating(function ($classroom) {
-            if ($classroom->isDirty('name') && empty($classroom->slug)) {
-                $name = is_array($classroom->name) ? ($classroom->name['en'] ?? reset($classroom->name)) : $classroom->name;
-                $classroom->slug = Str::slug($name);
-            }
-        });
     }
 
     /**
@@ -82,19 +93,17 @@ class Classroom extends Model implements HasMedia
      */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('featured_image')
-            ->singleFile()
+        $this->addMediaCollection('images')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp']);
 
-        $this->addMediaCollection('gallery')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp']);
-
-        $this->addMediaCollection('floor_plan')
-            ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']);
-
-        $this->addMediaCollection('documents')
-            ->acceptsMimeTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
+        $this->addMediaCollection('attachments')
+            ->acceptsMimeTypes([
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            ]);
     }
 
     /**
@@ -119,6 +128,12 @@ class Classroom extends Model implements HasMedia
             ->height(900)
             ->sharpen(10)
             ->nonQueued();
+
+        $this->addMediaConversion('og_image')
+            ->width(1200)
+            ->height(630)
+            ->sharpen(10)
+            ->nonQueued();
     }
 
     /**
@@ -138,27 +153,11 @@ class Classroom extends Model implements HasMedia
     }
 
     /**
-     * Scope a query to only include active classrooms.
+     * Scope a query to only include active classroom.
      */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
-    }
-
-    /**
-     * Scope a query to only include featured classrooms.
-     */
-    public function scopeFeatured($query)
-    {
-        return $query->where('is_featured', true);
-    }
-
-    /**
-     * Scope a query to filter by classroom type.
-     */
-    public function scopeOfType($query, $type)
-    {
-        return $query->where('classroom_type', $type);
     }
 
     /**
@@ -173,48 +172,34 @@ class Classroom extends Model implements HasMedia
     }
 
     /**
-     * Scope a query to order by the order column.
+     * Scope a query to get published classroom.
      */
-    public function scopeOrdered($query)
+    public function scopePublished($query)
     {
-        return $query->orderBy('order');
+        return $query->where('created_at', '<=', Carbon::now());
     }
 
     /**
-     * Get the featured image URL.
+     * Scope a query to get latest classroom.
      */
-    public function getFeaturedImageUrlAttribute()
+    public function scopeLatest($query)
     {
-        return $this->getFirstMediaUrl('featured_image');
+        return $query->orderBy('created_at', 'desc');
     }
 
     /**
-     * Get all gallery images.
+     * Increment the views count.
      */
-    public function getGalleryImagesAttribute()
+    public function incrementViews()
     {
-        return $this->getMedia('gallery')->map(function ($media) {
-            return [
-                'id' => $media->id,
-                'url' => $media->getUrl(),
-                'thumb' => $media->getUrl('thumb'),
-            ];
-        });
+        $this->increment('views');
     }
 
     /**
-     * Get the floor plan URL.
+     * Get formatted published date.
      */
-    public function getFloorPlanUrlAttribute()
+    public function getFormattedDateAttribute()
     {
-        return $this->getFirstMediaUrl('floor_plan');
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['name', 'description', 'full_description', 'location', 'building', 'floor', 'room_number', 'capacity', 'classroom_type', 'is_featured', 'is_active', 'user_id', 'branch_id'])
-            ->logOnlyDirty()
-            ->dontSubmitEmptyLogs();
+        return $this->created_at->format('M d, Y');
     }
 }

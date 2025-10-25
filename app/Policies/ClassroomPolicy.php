@@ -12,7 +12,7 @@ class ClassroomPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_classrooms');
+        return $user->can('view_classroom');
     }
 
     /**
@@ -20,7 +20,7 @@ class ClassroomPolicy
      */
     public function view(User $user, Classroom $classroom): bool
     {
-        return $user->can('view_classrooms');
+        return $user->can('view_classroom');
     }
 
     /**
@@ -28,7 +28,7 @@ class ClassroomPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_classrooms');
+        return $user->can('create_classroom');
     }
 
     /**
@@ -36,7 +36,7 @@ class ClassroomPolicy
      */
     public function update(User $user, Classroom $classroom): bool
     {
-        return $user->can('edit_classrooms');
+        return $user->can('edit_classroom');
     }
 
     /**
@@ -44,7 +44,7 @@ class ClassroomPolicy
      */
     public function delete(User $user, Classroom $classroom): bool
     {
-        return $user->can('delete_classrooms');
+        return $user->can('delete_classroom');
     }
 
     /**
@@ -52,7 +52,7 @@ class ClassroomPolicy
      */
     public function restore(User $user, Classroom $classroom): bool
     {
-        return $user->can('restore_classrooms');
+        return $user->can('restore_classroom');
     }
 
     /**
@@ -60,6 +60,6 @@ class ClassroomPolicy
      */
     public function forceDelete(User $user, Classroom $classroom): bool
     {
-        return $user->can('force_delete_classrooms');
+        return $user->can('force_delete_classroom');
     }
 }

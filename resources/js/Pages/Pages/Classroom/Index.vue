@@ -6,15 +6,15 @@
                     <span>{{ $t('pages.pages') }}</span>
                 </li>
                 <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <span>{{ $t('nav.campus') }}</span>
+                    <span>{{ $t('nav.classroom') }}</span>
                 </li>
             </ul>
             <div class="flex items-center gap-3">
                 <!-- Add New Button -->
-                <button v-if="$can('create_campus')" type="button"
+                <button v-if="$can('create_classroom')" type="button"
                     class="btn btn-sm btn-primary shadow-none flex items-center gap-1" @click="toggleModal()">
                     <Svg name="new" class="size-4"></Svg>
-                    <span>{{ $t('common.new') }} {{ $t('nav.campus') }}</span>
+                    <span>{{ $t('common.new') }} {{ $t('nav.classroom') }}</span>
                 </button>
             </div>
         </div>
@@ -42,7 +42,7 @@
                 </perfect-scrollbar>
 
                 <!-- Datatable -->
-                <Datatable :rows="campuses" :columns="columns" :totalRows="campuses.data?.length" @change="apply_filter"
+                <Datatable :rows="classrooms" :columns="columns" :totalRows="classrooms.data?.length" @change="apply_filter"
                     v-model:search="filters.search" v-model:numberRows="filters.number_rows" :filter="props.filter"
                     v-model:sortBy="filters.sort_by" v-model:sortDirection="filters.sort_direction">
 
@@ -73,7 +73,7 @@
                         <button type="button" @click="showImage(data.value.images, 0)"
                             v-if="data.value.images?.length > 0" class="flex items-center gap-2 text-center">
                             <img :src="data.value.images[0]?.thumb || data.value.images[0]?.url"
-                                class="size-10 rounded-md max-w-none" alt="campuses-image" />
+                                class="size-10 rounded-md max-w-none" alt="classrooms-image" />
                             <span v-if="data.value.images.length > 1"
                                 class="badge bg-secondary text-xs rounded-md size-10 flex items-center justify-center">
                                 +{{ data.value.images.length - 1 }}
@@ -96,18 +96,18 @@
                         <tippy>{{ $helpers.formatCustomDate(data.value.created_at, true) }}</tippy>
                     </template>
 
-                    <template v-if="$can('edit_campus') || $can('delete_campus') || $can('restore_campus')" #actions="data">
+                    <template v-if="$can('edit_classroom') || $can('delete_classroom') || $can('restore_classroom')" #actions="data">
 
                         <!-- Active Record Actions -->
                         <div v-if="data.value.deleted_at == null" class="flex items-center justify-end gap-2">
-                            <div v-if="$can('edit_campus')" class="text-center">
+                            <div v-if="$can('edit_classroom')" class="text-center">
                                 <button type="button" v-tippy @click="toggleModal(data.value)">
                                     <Svg name="pencil" class="size-5"></Svg>
                                 </button>
                                 <tippy>{{ $t("common.edit") }}</tippy>
                             </div>
 
-                            <div v-if="$can('delete_campus')" class="text-center">
+                            <div v-if="$can('delete_classroom')" class="text-center">
                                 <button type="button" v-tippy @click="callDelete(data.value.id)">
                                     <Svg name="trash" class="size-5"></Svg>
                                 </button>
@@ -117,13 +117,13 @@
 
                         <!-- Deleted Record Actions -->
                         <div v-else class="flex gap-2">
-                            <div v-if="$can('delete_campus')" class="text-center">
+                            <div v-if="$can('delete_classroom')" class="text-center">
                                 <button type="button" v-tippy @click="callForceDelete(data.value)">
                                     <Svg name="trash" class="size-5"></Svg>
                                 </button>
                                 <tippy>{{ $t('common.delete') }}</tippy>
                             </div>
-                            <div v-if="$can('restore_campus')" class="text-center">
+                            <div v-if="$can('restore_classroom')" class="text-center">
                                 <button type="button" v-tippy @click="callRestore(data.value)">
                                     <Svg name="restore" class="size-5 opacity-65"></Svg>
                                 </button>
@@ -159,7 +159,7 @@ import { useDateFilters } from '@/composables/useDateFilters.js';
 import FormModal from './Partials/FormModal.vue';
 
 const props = defineProps({
-    campuses: Object,
+    classrooms: Object,
     branches: Array,
     filter: Object,
 });
@@ -255,7 +255,7 @@ const createEmptyFormData = () => ({
 let form = useForm(createEmptyFormData());
 const imagesForm = ref({});
 
-// Save campus (create or update)
+// Save classroom (create or update)
 const save = () => {
     // Determine route and action
     const isUpdate = !!form.id;
@@ -263,7 +263,7 @@ const save = () => {
 
     // For updates with file uploads, we need to use POST with _method field
     if (isUpdate) {
-        form.post(route('control.pages.campus.update', { campus: form.id }), {
+        form.post(route('control.pages.classrooms.update', { classroom: form.id }), {
             forceFormData: true,
             onSuccess: () => {
                 toggleModal();
@@ -271,7 +271,7 @@ const save = () => {
             },
         });
     } else {
-        form.post(route('control.pages.campus.store'), {
+        form.post(route('control.pages.classrooms.store'), {
             forceFormData: true,
             onSuccess: () => {
                 toggleModal();
@@ -324,7 +324,7 @@ const columns = ref([
     { field: 'actions', title: wTrans('common.actions'), width: '50px', sort: false },
 ]);
 
-// Delete campus with confirmation
+// Delete classroom with confirmation
 const callDelete = (id) => {
     Swal.fire({
         icon: 'warning',
@@ -337,14 +337,14 @@ const callDelete = (id) => {
         customClass: 'sweet-alerts',
     }).then((result) => {
         if (result.value) {
-            form.delete(route('control.pages.campus.destroy', id), {
+            form.delete(route('control.pages.classrooms.destroy', id), {
                 onSuccess: () => $helpers.toast(trans('common.record') + ' ' + trans('common.deleted')),
             });
         }
     });
 };
 
-// Force delete campus with confirmation
+// Force delete classroom with confirmation
 const callForceDelete = (row) => {
     Swal.fire({
         icon: 'warning',
@@ -357,14 +357,14 @@ const callForceDelete = (row) => {
         customClass: 'sweet-alerts',
     }).then((result) => {
         if (result.value) {
-            form.delete(route('control.pages.campus.force_delete', row.id), {
+            form.delete(route('control.pages.classrooms.force_delete', row.id), {
                 onSuccess: () => $helpers.toast(trans('common.record') + ' ' + trans('common.deleted')),
             });
         }
     });
 };
 
-// Restore campus with confirmation
+// Restore classroom with confirmation
 const callRestore = (row) => {
     Swal.fire({
         icon: 'warning',
@@ -377,7 +377,7 @@ const callRestore = (row) => {
         customClass: 'sweet-alerts',
     }).then((result) => {
         if (result.value) {
-            form.post(route('control.pages.campus.restore', row.id), {
+            form.post(route('control.pages.classrooms.restore', row.id), {
                 onSuccess: () => $helpers.toast(trans('common.record') + ' ' + trans('common.restored')),
             });
         }

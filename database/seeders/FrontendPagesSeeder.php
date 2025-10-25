@@ -579,54 +579,27 @@ class FrontendPagesSeeder extends Seeder
 
         $campuses = [
             [
-                'name' => [
+                'title' => [
                     'en' => 'Kurd Genius Educational Communities',
                     'ckb' => 'کۆمەڵگای پەروەردەیی کورد جینیۆس',
                     'ar' => 'المجتمعات التعليمية لكرد جينيوس',
                 ],
-                'slug' => 'kurd-genius-main',
-                'description' => [
-                    'en' => 'Our main campus featuring state-of-the-art facilities and comprehensive educational programs.',
-                    'ckb' => 'کەمپی سەرەکیمان کە تایبەتمەندە بە ئامێرەکانی پێشکەوتوو و بەرنامە پەروەردەییە گشتگیرەکان.',
-                    'ar' => 'حرمنا الرئيسي يضم مرافق حديثة وبرامج تعليمية شاملة.',
-                ],
-                'full_description' => [
+                'content' => [
                     'en' => 'The main Kurd Genius campus is located in a vibrant educational district, offering students access to modern classrooms, advanced science laboratories, sports facilities, and cultural centers.',
                     'ckb' => 'کەمپی سەرەکی کورد جینیۆس لە ناوچەیەکی پەروەردەیی گەشاوە جێگیرە، دەرفەتی بەکارهێنانی پۆلی مۆدێرن، تاقیگەی زانستی پێشکەوتوو، ئامێری وەرزشی و ناوەندە کولتووریەکان بۆ قوتابیان دابین دەکات.',
                     'ar' => 'يقع الحرم الرئيسي لكرد جينيوس في منطقة تعليمية نابضة بالحياة، ويوفر للطلاب الوصول إلى الفصول الدراسية الحديثة والمختبرات العلمية المتقدمة والمرافق الرياضية والمراكز الثقافية.',
                 ],
-                'location' => [
-                    'en' => 'Erbil, Kurdistan Region',
-                    'ckb' => 'هەولێر، هەرێمی کوردستان',
-                    'ar' => 'أربيل، إقليم كردستان',
-                ],
-                'address' => [
-                    'en' => 'Main Street, Educational District, Erbil',
-                    'ckb' => 'شەقامی سەرەکی، ناوچەی پەروەردەیی، هەولێر',
-                    'ar' => 'الشارع الرئيسي، المنطقة التعليمية، أربيل',
-                ],
-                'phone' => '+964 770 342 0606',
-                'email' => 'kurdgeniusschool@gmail.com',
-                'facilities' => [
-                    'Modern Classrooms',
-                    'Science Laboratories',
-                    'Sports Complex',
-                    'Library',
-                    'Cafeteria',
-                ],
-                'is_featured' => true,
+                'views' => 0,
                 'order' => 1,
+                'is_active' => true,
             ],
         ];
 
         foreach ($campuses as $campus) {
-            Campus::updateOrCreate(
-                ['slug' => $campus['slug']],
-                array_merge($campus, [
-                    'user_id' => $user->id,
-                    'branch_id' => $defaultBranch->id
-                ])
-            );
+            Campus::create(array_merge($campus, [
+                'user_id' => $user->id,
+                'branch_id' => $defaultBranch->id
+            ]));
         }
 
         $this->command->info('Campuses seeded.');
@@ -644,116 +617,51 @@ class FrontendPagesSeeder extends Seeder
 
         $classrooms = [
             [
-                'name' => [
+                'title' => [
                     'en' => 'Science Laboratory',
                     'ckb' => 'تاقیگەی زانست',
-                    'ar' => 'مختبر العلوم',
                 ],
-                'slug' => 'science-laboratory',
-                'description' => [
-                    'en' => 'Advanced science laboratory equipped with modern technology.',
-                    'ckb' => 'تاقیگەی زانستی پێشکەوتوو کە بە تەکنەلۆژیای مۆدێرن چەکدار کراوە.',
-                    'ar' => 'مختبر علوم متقدم مجهز بأحدث التقنيات.',
+                'content' => [
+                    'en' => '<p>Our state-of-the-art science laboratory is equipped with modern technology and equipment, providing students with hands-on experience in conducting experiments and research.</p><p>The laboratory includes microscopes, lab benches, safety equipment, and digital displays to support various scientific disciplines including physics, chemistry, and biology.</p>',
+                    'ckb' => '<p>تاقیگە زانستیەکانمان بە تەکنەلۆژیای مۆدێرن و ئامێرەکانی پێشکەوتوو چەکدار کراوە، کە ئەزموونی مەشقی بۆ قوتابیان دابین دەکات لە ئەنجامدانی تاقیکردنەوە و توێژینەوەدا.</p><p>تاقیگەکە میکرۆسکۆپ، میزی تاقیگە، ئامێری پاراستن و پیشاندەری دیجیتاڵی تێدایە بۆ پشتگیریکردنی بوارە زانستییە جیاوازەکان وەک فیزیک، کیمیا و بایەلۆژی.</p>',
                 ],
-                'full_description' => [
-                    'en' => 'Our science laboratories provide students with hands-on experience using industry-standard equipment.',
-                    'ckb' => 'تاقیگە زانستیەکانمان ئەزموونی مەشقی بۆ قوتابیان دابین دەکەن بە بەکارهێنانی ئامێری ستانداردی پیشەسازی.',
-                    'ar' => 'توفر مختبراتنا العلمية للطلاب تجربة عملية باستخدام معدات قياسية صناعية.',
-                ],
-                'classroom_type' => 'lab',
-                'location' => [
-                    'en' => 'Building A, Floor 2',
-                    'ckb' => 'بینای A، نهۆمی 2',
-                    'ar' => 'المبنى A، الطابق 2',
-                ],
-                'capacity' => 30,
-                'equipment' => [
-                    'Microscopes',
-                    'Lab Benches',
-                    'Safety Equipment',
-                    'Digital Displays',
-                ],
-                'is_featured' => true,
+                'views' => 0,
                 'order' => 1,
+                'is_active' => true,
             ],
             [
-                'name' => [
-                    'en' => 'Library',
-                    'ckb' => 'کتێبخانە',
-                    'ar' => 'المكتبة',
+                'title' => [
+                    'en' => 'Library & Resource Center',
+                    'ckb' => 'کتێبخانە و سەنتەری سەرچاوەکان',
                 ],
-                'slug' => 'library',
-                'description' => [
-                    'en' => 'A comprehensive library with extensive resources.',
-                    'ckb' => 'کتێبخانەیەکی گشتگیر کە سەرچاوەی فراوانی هەیە.',
-                    'ar' => 'مكتبة شاملة مع موارد واسعة.',
+                'content' => [
+                    'en' => '<p>Our comprehensive library offers over 10,000 books, digital resources, and dedicated study spaces for students. The library is designed to foster a love of reading and provide resources for academic research.</p><p>Features include quiet study rooms, computer access, and a wide selection of reference materials across all subjects.</p>',
+                    'ckb' => '<p>کتێبخانە گشتگیرەکەمان زیاتر لە ١٠،٠٠٠ کتێب، سەرچاوەی دیجیتاڵ و شوێنی تایبەتی خوێندن بۆ قوتابیان دابین دەکات. کتێبخانەکە دیزاین کراوە بۆ پەروەردەکردنی خۆشەویستی خوێندنەوە و دابینکردنی سەرچاوەکان بۆ توێژینەوەی ئەکادیمی.</p><p>تایبەتمەندییەکان ژووری بێدەنگی خوێندن، دەستڕاگەیشتن بە کۆمپیوتەر و هەڵبژاردنێکی فراوانی مادەی سەرچاوە لە هەموو بابەتەکاندا دەگرێتەوە.</p>',
                 ],
-                'full_description' => [
-                    'en' => 'Our library offers over 10,000 books, digital resources, and dedicated study spaces for students.',
-                    'ckb' => 'کتێبخانەکەمان زیاتر لە ١٠،٠٠٠ کتێب، سەرچاوەی دیجیتاڵ و شوێنی تایبەتی خوێندن بۆ قوتابیان دابین دەکات.',
-                    'ar' => 'توفر مكتبتنا أكثر من 10,000 كتاب وموارد رقمية ومساحات دراسة مخصصة للطلاب.',
-                ],
-                'classroom_type' => 'library',
-                'location' => [
-                    'en' => 'Building B, Floor 1',
-                    'ckb' => 'بینای B، نهۆمی 1',
-                    'ar' => 'المبنى B، الطابق 1',
-                ],
-                'capacity' => 50,
-                'features' => [
-                    '10,000+ Books',
-                    'Digital Resources',
-                    'Study Rooms',
-                ],
-                'is_featured' => true,
+                'views' => 0,
                 'order' => 2,
+                'is_active' => true,
             ],
             [
-                'name' => [
-                    'en' => 'Computer Lab',
+                'title' => [
+                    'en' => 'Computer Laboratory',
                     'ckb' => 'تاقیگەی کۆمپیوتەر',
-                    'ar' => 'مختبر الحاسوب',
                 ],
-                'slug' => 'computer-lab',
-                'description' => [
-                    'en' => 'Modern computer laboratory with latest hardware and software.',
-                    'ckb' => 'تاقیگەی کۆمپیوتەری مۆدێرن کە دوایین ڕەق و نەرمەڕەقی تێدایە.',
-                    'ar' => 'مختبر حاسوب حديث مع أحدث الأجهزة والبرامج.',
+                'content' => [
+                    'en' => '<p>Our modern computer laboratory is equipped with 40 high-performance computers, projectors, and coding software for programming classes.</p><p>Students have access to industry-standard development tools and software, preparing them for careers in technology and computer science.</p>',
+                    'ckb' => '<p>تاقیگەی کۆمپیوتەری مۆدێرنەکەمان چەکدار کراوە بە ٤٠ کۆمپیوتەری بەرزکارایی، پرۆژێکتەر و نەرمەڕەقی کۆدنووسی بۆ وانەکانی بەرنامەسازی.</p><p>قوتابیان دەستڕاگەیشتنیان هەیە بە ئامرازەکانی پەرەپێدان و نەرمەڕەقی ستانداردی پیشەسازی، کە ئامادەیان دەکات بۆ کارەکان لە تەکنەلۆژیا و زانستی کۆمپیوتەردا.</p>',
                 ],
-                'full_description' => [
-                    'en' => 'Equipped with 40 high-performance computers, projectors, and coding software for programming classes.',
-                    'ckb' => 'چەکدار کراوە بە ٤٠ کۆمپیوتەری بەرزکارایی، پرۆژێکتەر و نەرمەڕەقی کۆدنووسی بۆ وانەکانی بەرنامەسازی.',
-                    'ar' => 'مجهز بـ 40 جهاز كمبيوتر عالي الأداء وأجهزة عرض وبرامج برمجة لدروس البرمجة.',
-                ],
-                'classroom_type' => 'lab',
-                'location' => [
-                    'en' => 'Building C, Floor 3',
-                    'ckb' => 'بینای C، نهۆمی 3',
-                    'ar' => 'المبنى C، الطابق 3',
-                ],
-                'building' => 'C',
-                'floor' => '3',
-                'room_number' => 'C301',
-                'capacity' => 40,
-                'equipment' => [
-                    'Desktop Computers',
-                    'Projectors',
-                    'Whiteboard',
-                    'Network Infrastructure',
-                ],
-                'is_featured' => false,
+                'views' => 0,
                 'order' => 3,
+                'is_active' => true,
             ],
         ];
 
-        foreach ($classrooms as $classroom) {
-            Classroom::updateOrCreate(
-                ['slug' => $classroom['slug']],
-                array_merge($classroom, [
-                    'user_id' => $user->id,
-                    'branch_id' => $defaultBranch->id
-                ])
-            );
+        foreach ($classrooms as $classroomData) {
+            Classroom::create(array_merge($classroomData, [
+                'user_id' => $user->id,
+                'branch_id' => $defaultBranch->id
+            ]));
         }
 
         $this->command->info('Classrooms seeded.');

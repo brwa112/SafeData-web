@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [CampusController::class, 'store'])->name('store');
             Route::post('/{campus}', [CampusController::class, 'update'])->name('update');
             Route::delete('/{campus}', [CampusController::class, 'destroy'])->name('destroy');
+            Route::delete('/{campus}/force', [CampusController::class, 'forceDelete'])->name('force_delete');
+            Route::post('/{campus}/restore', [CampusController::class, 'restore'])->name('restore');
         });
 
         Route::prefix('classrooms')->as('classrooms.')->group(function () {
@@ -55,6 +57,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [ClassroomController::class, 'store'])->name('store');
             Route::post('/{classroom}', [ClassroomController::class, 'update'])->name('update');
             Route::delete('/{classroom}', [ClassroomController::class, 'destroy'])->name('destroy');
+            Route::delete('/{classroom}/force', [ClassroomController::class, 'forceDelete'])->name('force_delete');
+            Route::post('/{classroom}/restore', [ClassroomController::class, 'restore'])->name('restore');
         });
     });
 

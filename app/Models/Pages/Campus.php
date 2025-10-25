@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -20,35 +21,64 @@ class Campus extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, HasTranslations, CampusScopes, LogsActivity, LogsMediaActivity;
 
-    public $translatable = ['name', 'description', 'full_description', 'location', 'address'];
+    protected $table = 'campuses';
+
+    public $translatable = ['title', 'content'];
 
     protected $fillable = [
         'user_id',
         'branch_id',
-        'name',
-        'slug',
-        'description',
-        'full_description',
-        'location',
-        'address',
-        'phone',
-        'email',
-        'map_url',
-        'facilities',
-        'metadata',
+        'title',
+        'content',
+        'views',
         'order',
-        'is_featured',
         'is_active',
     ];
 
     protected $casts = [
-        'facilities' => 'array',
-        'metadata' => 'array',
-        'is_featured' => 'boolean',
         'is_active' => 'boolean',
     ];
 
-    protected $appends = ['featured_image_url', 'gallery_images'];
+    protected $appends = [
+        'images',
+        'branch_name',
+    ];
+
+    public function getImagesAttribute()
+    {
+        return $this->getMedia('images')->map(function ($media) {
+            return [
+                'id' => $media->id,
+                'url' => $media->getUrl(),
+                'thumb' => $media->getUrl('thumb'),
+                'medium' => $media->getUrl('medium'),
+            ];
+        });
+    }
+
+    public function getBranchNameAttribute()
+    {
+        if (!$this->branch) {
+            return null;
+        }
+        return [
+            'id' => $this->branch->id,
+            'name' => $this->branch->getTranslations('name'), // Get all translations as JSON
+            'slug' => $this->branch->slug,
+        ];
+    }
+
+    /**
+     * Get the options for activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'content', 'branch_id', 'is_active', 'order', 'views'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Campus {$eventName}");
+    }
 
     /**
      * Boot the model.
@@ -56,25 +86,6 @@ class Campus extends Model implements HasMedia
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($campus) {
-            if (empty($campus->slug)) {
-                // Get English name for slug, fallback to first available language
-                $name = is_array($campus->name) 
-                    ? ($campus->name['en'] ?? reset($campus->name)) 
-                    : $campus->name;
-                $campus->slug = Str::slug($name);
-            }
-        });
-
-        static::updating(function ($campus) {
-            if ($campus->isDirty('name') && empty($campus->slug)) {
-                $name = is_array($campus->name) 
-                    ? ($campus->name['en'] ?? reset($campus->name)) 
-                    : $campus->name;
-                $campus->slug = Str::slug($name);
-            }
-        });
     }
 
     /**
@@ -82,15 +93,17 @@ class Campus extends Model implements HasMedia
      */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('featured_image')
-            ->singleFile()
+        $this->addMediaCollection('images')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp']);
 
-        $this->addMediaCollection('gallery')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp']);
-
-        $this->addMediaCollection('documents')
-            ->acceptsMimeTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
+        $this->addMediaCollection('attachments')
+            ->acceptsMimeTypes([
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            ]);
     }
 
     /**
@@ -115,6 +128,12 @@ class Campus extends Model implements HasMedia
             ->height(900)
             ->sharpen(10)
             ->nonQueued();
+
+        $this->addMediaConversion('og_image')
+            ->width(1200)
+            ->height(630)
+            ->sharpen(10)
+            ->nonQueued();
     }
 
     /**
@@ -134,19 +153,11 @@ class Campus extends Model implements HasMedia
     }
 
     /**
-     * Scope a query to only include active campuses.
+     * Scope a query to only include active campus.
      */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
-    }
-
-    /**
-     * Scope a query to only include featured campuses.
-     */
-    public function scopeFeatured($query)
-    {
-        return $query->where('is_featured', true);
     }
 
     /**
@@ -161,40 +172,34 @@ class Campus extends Model implements HasMedia
     }
 
     /**
-     * Scope a query to order by the order column.
+     * Scope a query to get published campus.
      */
-    public function scopeOrdered($query)
+    public function scopePublished($query)
     {
-        return $query->orderBy('order');
+        return $query->where('created_at', '<=', Carbon::now());
     }
 
     /**
-     * Get the featured image URL.
+     * Scope a query to get latest campus.
      */
-    public function getFeaturedImageUrlAttribute()
+    public function scopeLatest($query)
     {
-        return $this->getFirstMediaUrl('featured_image');
+        return $query->orderBy('created_at', 'desc');
     }
 
     /**
-     * Get all gallery images.
+     * Increment the views count.
      */
-    public function getGalleryImagesAttribute()
+    public function incrementViews()
     {
-        return $this->getMedia('gallery')->map(function ($media) {
-            return [
-                'id' => $media->id,
-                'url' => $media->getUrl(),
-                'thumb' => $media->getUrl('thumb'),
-            ];
-        });
+        $this->increment('views');
     }
 
-    public function getActivitylogOptions(): LogOptions
+    /**
+     * Get formatted published date.
+     */
+    public function getFormattedDateAttribute()
     {
-        return LogOptions::defaults()
-            ->logOnly(['name', 'description', 'full_description', 'location', 'address', 'latitude', 'longitude', 'area', 'capacity', 'facilities', 'is_featured', 'is_active', 'user_id', 'branch_id'])
-            ->logOnlyDirty()
-            ->dontSubmitEmptyLogs();
+        return $this->created_at->format('M d, Y');
     }
 }

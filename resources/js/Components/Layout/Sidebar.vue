@@ -22,7 +22,7 @@
                             </Link>
                         </li>
 
-                        <h2 v-if="$can('view_news|view_campus|view_classrooms')"
+                        <h2 v-if="$can('view_news|view_campus|view_classroom')"
                             class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                             <Svg name="line" class="w-4 h-5 flex-none hidden"></Svg>
                             <span>{{ $t('nav.pages') }}</span>
@@ -56,9 +56,9 @@
                                     </div>
                                     </Link>
                                 </li>
-                                <li v-if="$can('view_classrooms')" class="nav-item">
+                                <li v-if="$can('view_classroom')" class="nav-item">
                                     <Link :href="route('control.pages.classrooms.index')" class="nav-link group w-full"
-                                        :class="{ active: $page.component === 'Pages/Classrooms/Index' }">
+                                        :class="{ active: $page.component === 'Pages/Classroom/Index' }">
                                     <div class="flex items-center">
                                         <Svg name="persons" class="size-5"></Svg>
 

@@ -24,6 +24,6 @@ return [
     'others' => 'Others',
     'settings' => 'Settings',
     'news' => 'News',
-    'classrooms' => 'Classrooms',
+    'classroom' => 'Classroom',
     'campus' => 'Campus',
 ];

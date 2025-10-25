@@ -106,9 +106,9 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Manage campus and their data',
             ],
             [
-                'name' => 'classrooms',
-                'slug' => 'classrooms',
-                'description' => 'Manage classrooms and their data',
+                'name' => 'classroom',
+                'slug' => 'classroom',
+                'description' => 'Manage classroom and their data',
             ],
             [
                 'name' => 'users',

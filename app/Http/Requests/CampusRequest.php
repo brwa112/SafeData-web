@@ -3,64 +3,74 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Pages\Campus;
+use Illuminate\Support\Arr;
 
 class CampusRequest extends FormRequest
 {
     public function rules(): array
     {
         $campusId = $this->route('campus') ? $this->route('campus')->id : null;
+        $isUpdate = $campusId !== null;
+
+        // For updates, check if the campus has existing images
+        $hasExistingImages = false;
+        if ($isUpdate) {
+            $campus = Campus::find($campusId);
+            $hasExistingImages = $campus && $campus->getMedia('images')->count() > 0;
+        }
+
+        // Images are required for:
+        // 1. New records (create)
+        // 2. Existing records that don't have images yet
+        $imagesRule = (!$isUpdate || !$hasExistingImages) ? 'required|array|min:1' : 'nullable|array';
 
         return [
-            'name' => 'required|array',
-            'name.en' => 'required|string|max:255',
-            'name.ckb' => 'nullable|string|max:255',
-            'name.ar' => 'nullable|string|max:255',
-            
-            'description' => 'nullable|array',
-            'description.en' => 'nullable|string',
-            'description.ckb' => 'nullable|string',
-            'description.ar' => 'nullable|string',
-            
-            'full_description' => 'nullable|array',
-            'full_description.en' => 'nullable|string',
-            'full_description.ckb' => 'nullable|string',
-            'full_description.ar' => 'nullable|string',
-            
-            'location' => 'nullable|array',
-            'location.en' => 'nullable|string|max:255',
-            'location.ckb' => 'nullable|string|max:255',
-            'location.ar' => 'nullable|string|max:255',
-            
-            'address' => 'nullable|array',
-            'address.en' => 'nullable|string',
-            'address.ckb' => 'nullable|string',
-            'address.ar' => 'nullable|string',
-            
-            'slug' => 'nullable|string|max:255|unique:campuses,slug,' . $campusId,
-            'phone' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255',
-            'map_url' => 'nullable|url|max:500',
-            'facilities' => 'nullable|array',
-            'metadata' => 'nullable|array',
+            'title' => 'required|array',
+            'title.en' => 'required_without_all:title.ckb|nullable|string|max:255',
+            'title.ckb' => 'required_without_all:title.en|nullable|string|max:255',
+
+            'content' => 'required|array',
+            'content.en' => 'required_without_all:content.ckb|nullable|string',
+            'content.ckb' => 'required_without_all:content.en|nullable|string',
+
+            'branch_id' => 'required|exists:branches,id',
             'order' => 'nullable|integer|min:0',
-            'is_featured' => 'nullable|boolean',
             'is_active' => 'nullable|boolean',
-            
-            'featured_image' => $campusId ? 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120' : 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-            'remove_featured_image' => 'nullable|boolean',
-            
-            'gallery' => 'nullable|array',
-            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-            'remove_gallery' => 'nullable|boolean',
+
+            'images' => $imagesRule,
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'remove_images' => 'nullable|boolean',
+            'deleted_image_ids' => 'nullable|array',
+            'deleted_image_ids.*' => 'integer',
 
             'user_id' => 'required|exists:users,id',
+        ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'branch_id' => Arr::get($this->branch_id, 'id', $this->branch_id),
+        ]);
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'title.en' => __('pages.title.en'),
+            'content.en' => __('pages.content.en'),
+            'title.ckb' => __('pages.title.ckb'),
+            'content.ckb' => __('pages.content.ckb'),
+            'images' => __('pages.images'),
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.en.required' => 'The English name is required.',
+            'images.required' => __('pages.images') . ' ' . __('validation.required'),
+            'images.min' => __('pages.images') . ' must have at least one image.',
         ];
     }
 }

@@ -22,21 +22,12 @@ class CampusController extends Controller
         $campuses = Campus::query()
             ->active()
             ->ofBranch($selectedBranchId)
-            ->with('branch')
-            ->ordered()
-            ->get();
-
-        // Get classrooms filtered by branch
-        $classrooms = Classroom::query()
-            ->active()
-            ->ofBranch($selectedBranchId)
-            ->with('branch')
-            ->ordered()
-            ->get();
+            ->with(['category', 'branch'])
+            ->latest()
+            ->paginate(12);
 
         return inertia('Frontend/Pages/Campus/Index', [
             'campuses' => $campuses,
-            'classrooms' => $classrooms,
         ]);
     }
 
