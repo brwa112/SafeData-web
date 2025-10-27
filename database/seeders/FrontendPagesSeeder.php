@@ -72,25 +72,17 @@ class FrontendPagesSeeder extends Seeder
             'title' => [
                 'en' => 'Kurd Genius Schools',
                 'ckb' => 'قوتابخانەی کوردجینیس',
-                'ar' => 'مدارس كورد جينيوس',
             ],
             'subtitle' => [
                 'en' => 'Quality Education, Bright Future',
                 'ckb' => 'پەروەردەی باش، داهاتووی گەشاوە',
-                'ar' => 'تعليم جيد، مستقبل مشرق',
             ],
-            'description' => [
-                'en' => 'Empowering students to reach their full potential through excellence in education.',
-                'ckb' => 'هاندانی خوێندکاران بۆ گەیشتن بە تەواوی توانای خۆیان لە ڕێگەی پەروەردەی باشەوە.',
-                'ar' => 'تمكين الطلاب من الوصول إلى إمكاناتهم الكاملة من خلال التميز في التعليم.',
+            'metadata' => [
+                'expert_tutors' => '100',
+                'students' => '2000',
+                'years_experience' => '12',
+                'campuses' => '3',
             ],
-            'cta_text' => [
-                'en' => 'Learn More',
-                'ckb' => 'زیاتر بزانە',
-                'ar' => 'اعرف المزيد',
-            ],
-            'cta_link' => '/about',
-            'order' => 1,
             'is_active' => true,
         ]);
 
@@ -101,27 +93,10 @@ class FrontendPagesSeeder extends Seeder
     {
         HomeHistory::create([
             'user_id' => $user->id,
-            'title' => [
-                'en' => 'Our History',
-                'ckb' => 'مێژوومان',
-                'ar' => 'تاريخنا',
-            ],
-            'subtitle' => [
-                'en' => 'A Legacy of Excellence Since 2013',
-                'ckb' => 'میراتێکی باشی لە ساڵی ٢٠١٣ەوە',
-                'ar' => 'إرث من التميز منذ عام 2013',
-            ],
             'description' => [
-                'en' => 'Founded in 2013 by Maya Company, Kurd Genius School has grown to become one of the leading educational institutions in the Kurdistan Region.',
-                'ckb' => 'قوتابخانەی کوردجینیس لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە و بووەتە یەکێک لە پێشەنگترین دامەزراوە پەروەردەییەکانی هەرێمی کوردستان.',
-                'ar' => 'تأسست مدرسة كورد جينيوس في عام 2013 من قبل شركة مايا، وأصبحت واحدة من المؤسسات التعليمية الرائدة في إقليم كوردستان.',
+                'en' => 'Founded in 2013 by Maya Company, Kurd Genius School has grown to become one of the leading educational institutions in the Kurdistan Region. Over the years, we have maintained our commitment to excellence, producing graduates who excel in universities and contribute meaningfully to society.',
+                'ckb' => 'قوتابخانەی کوردجینیس لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە و بووەتە یەکێک لە پێشەنگترین دامەزراوە پەروەردەییەکانی هەرێمی کوردستان. لە ماوەی ساڵانی ڕابردوودا، پابەندبووینمان بە باشی پاراستووە و دەرچووانێکمان بەرهەمهێناوە کە لە زانکۆکاندا سەرکەوتوون و بەشێوەیەکی بەنرخ بەشداری کۆمەڵگا دەکەن.',
             ],
-            'statistics' => [
-                ['label' => ['en' => 'Years of Excellence', 'ckb' => 'ساڵی باشی', 'ar' => 'سنوات من التميز'], 'value' => '12+'],
-                ['label' => ['en' => 'Graduates', 'ckb' => 'دەرچووان', 'ar' => 'خريجون'], 'value' => '1000+'],
-                ['label' => ['en' => 'Teachers', 'ckb' => 'مامۆستایان', 'ar' => 'معلمون'], 'value' => '100+'],
-            ],
-            'order' => 1,
             'is_active' => true,
         ]);
 
@@ -132,32 +107,10 @@ class FrontendPagesSeeder extends Seeder
     {
         HomeMessage::create([
             'user_id' => $user->id,
-            'title' => [
-                'en' => 'Principal\'s Message',
-                'ckb' => 'پەیامی بەڕێوەبەر',
-                'ar' => 'رسالة المدير',
-            ],
-            'subtitle' => [
-                'en' => 'Welcome to Kurd Genius',
-                'ckb' => 'بەخێربێن بۆ کوردجینیس',
-                'ar' => 'مرحباً بكم في كورد جينيوس',
-            ],
             'description' => [
-                'en' => 'We are committed to providing high-quality education that nurtures intellectual curiosity, critical thinking, and personal growth.',
-                'ckb' => 'ئێمە پابەندین بە دابینکردنی پەروەردەیەکی باش کە کنجکاوی زیرەکانە، بیرکردنەوەی ڕەخنەگرانە و گەشەی کەسی پەروەردە دەکات.',
-                'ar' => 'نحن ملتزمون بتوفير تعليم عالي الجودة يغذي الفضول الفكري والتفكير النقدي والنمو الشخصي.',
+                'en' => 'We are committed to providing high-quality education that nurtures intellectual curiosity, critical thinking, and personal growth. Our dedicated team of educators works tirelessly to ensure that every student receives the support and guidance they need to succeed.',
+                'ckb' => 'ئێمە پابەندین بە دابینکردنی پەروەردەیەکی باش کە کنجکاوی زیرەکانە، بیرکردنەوەی ڕەخنەگرانە و گەشەی کەسی پەروەردە دەکات. تیمی بەخشراوی پەروەردەکارانمان بێ ماندووبوون کار دەکات بۆ دڵنیابوون لەوەی کە هەر خوێندکارێک پشتیوانی و ڕێنمایی پێویستی وەردەگرێت بۆ سەرکەوتن.',
             ],
-            'author' => [
-                'en' => 'Mrs. Sozan Abubakr Mawlud',
-                'ckb' => 'خاتوو سۆزان ئەبووبەکر مەولوود',
-                'ar' => 'السيدة سوزان أبوبكر مولود',
-            ],
-            'author_position' => [
-                'en' => 'Principal',
-                'ckb' => 'بەڕێوەبەر',
-                'ar' => 'مديرة',
-            ],
-            'order' => 1,
             'is_active' => true,
         ]);
 
@@ -168,28 +121,10 @@ class FrontendPagesSeeder extends Seeder
     {
         HomeMission::create([
             'user_id' => $user->id,
-            'title' => [
-                'en' => 'Our Mission',
-                'ckb' => 'ئامانجمان',
-                'ar' => 'مهمتنا',
-            ],
-            'subtitle' => [
-                'en' => 'Excellence in Education',
-                'ckb' => 'باشی لە پەروەردەدا',
-                'ar' => 'التميز في التعليم',
-            ],
             'description' => [
-                'en' => 'To deliver excellence in education through innovative teaching methods, a supportive learning environment, and a curriculum that balances academic achievement with character development.',
-                'ckb' => 'گەیاندنی باشی لە پەروەردەدا لە ڕێگەی شێوازە نوێیەکانی وانەوتنەوە، ژینگەیەکی پشتیوانی فێربوون و مەنهەجێک کە هاوسەنگی لە نێوان دەستکەوتی ئەکادیمی و گەشەپێدانی کەسایەتیدا دروست دەکات.',
-                'ar' => 'تقديم التميز في التعليم من خلال أساليب تدريس مبتكرة وبيئة تعليمية داعمة ومنهج دراسي يوازن بين الإنجاز الأكاديمي وتنمية الشخصية.',
+                'en' => 'To deliver excellence in education through innovative teaching methods, a supportive learning environment, and a curriculum that balances academic achievement with character development. We strive to prepare students not just for exams, but for life.',
+                'ckb' => 'گەیاندنی باشی لە پەروەردەدا لە ڕێگەی شێوازە نوێیەکانی وانەوتنەوە، ژینگەیەکی پشتیوانی فێربوون و مەنهەجێک کە هاوسەنگی لە نێوان دەستکەوتی ئەکادیمی و گەشەپێدانی کەسایەتیدا دروست دەکات. ئێمە هەوڵ دەدەین خوێندکاران نەک تەنها بۆ تاقیکردنەوەکان، بەڵکو بۆ ژیان ئامادە بکەین.',
             ],
-            'values' => [
-                ['en' => 'Academic Excellence', 'ckb' => 'باشی ئەکادیمی', 'ar' => 'التميز الأكاديمي'],
-                ['en' => 'Character Building', 'ckb' => 'دروستکردنی کەسایەتی', 'ar' => 'بناء الشخصية'],
-                ['en' => 'Innovation', 'ckb' => 'داهێنان', 'ar' => 'الابتكار'],
-                ['en' => 'Community', 'ckb' => 'کۆمەڵگا', 'ar' => 'المجتمع'],
-            ],
-            'order' => 1,
             'is_active' => true,
         ]);
 
@@ -200,32 +135,16 @@ class FrontendPagesSeeder extends Seeder
     {
         HomeKnow::create([
             'user_id' => $user->id,
-            'title' => [
-                'en' => 'Get to Know Us',
-                'ckb' => 'بمانناسە',
-                'ar' => 'تعرف علينا',
+            'metadata' => [
+                'youtube' => 'https://www.youtube.com/@kurdgenius',
+                'facebook' => 'https://www.facebook.com/kurdgenius',
+                'instagram' => 'https://www.instagram.com/kurdgenius',
+                'twitter' => 'https://twitter.com/kurdgenius',
             ],
-            'subtitle' => [
-                'en' => 'Why Choose Kurd Genius',
-                'ckb' => 'بۆچی کوردجینیس هەڵبژێریت',
-                'ar' => 'لماذا تختار كورد جينيوس',
-            ],
-            'description' => [
-                'en' => 'We believe every student is unique. That\'s why our low student-to-teacher ratio allows for personalized attention and tailored learning paths.',
-                'ckb' => 'ئێمە باوەڕمان وایە هەر خوێندکارێک تایبەتە. بۆیە ڕێژەی کەمی خوێندکار بۆ مامۆستا ڕێگە بە سەرنج و ڕێگای فێربوونی تایبەتمەند دەدات.',
-                'ar' => 'نحن نؤمن بأن كل طالب فريد من نوعه. لهذا السبب تسمح نسبة الطلاب إلى المعلمين المنخفضة لدينا بالاهتمام الشخصي ومسارات التعلم المخصصة.',
-            ],
-            'features' => [
-                ['en' => 'Experienced Teachers', 'ckb' => 'مامۆستایانی شارەزا', 'ar' => 'معلمون ذوو خبرة'],
-                ['en' => 'Modern Facilities', 'ckb' => 'کەرەستەی سەردەم', 'ar' => 'مرافق حديثة'],
-                ['en' => 'Small Class Sizes', 'ckb' => 'قەبارەی پۆلی بچووک', 'ar' => 'أحجام صفوف صغيرة'],
-                ['en' => 'University Preparation', 'ckb' => 'ئامادەکاری بۆ زانکۆ', 'ar' => 'التحضير للجامعة'],
-            ],
-            'order' => 1,
             'is_active' => true,
         ]);
 
-        $this->command->info('Home know seeded.');
+        $this->command->info('Home social links seeded.');
     }
 
     // ABOUT PAGE SEEDERS

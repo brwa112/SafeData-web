@@ -2,6 +2,7 @@
 
 namespace App\Models\Pages\Home;
 
+use App\Models\Pages\Branch;
 use App\Models\System\Users\User;
 use App\Traits\LogsMediaActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,16 +19,12 @@ class HomeKnow extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, HasTranslations, LogsActivity, LogsMediaActivity;
 
-    public $translatable = ['title', 'subtitle', 'description'];
+    public $translatable = [];
 
     protected $fillable = [
         'user_id',
-        'title',
-        'subtitle',
-        'description',
-        'features',
+        'branch_id',
         'metadata',
-        'order',
         'is_active',
     ];
 
@@ -62,16 +59,16 @@ class HomeKnow extends Model implements HasMedia
         return $query->where('is_active', true);
     }
 
-    public function scopeOrdered($query)
-    {
-        return $query->orderBy('order');
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'subtitle', 'description', 'features', 'is_active', 'user_id'])
+            ->logOnly(['metadata', 'is_active', 'user_id', 'branch_id'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }

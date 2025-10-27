@@ -1,8 +1,8 @@
 <template>
     <!-- Image -->
-    <div class="custom-file-container" data-upload-id="logo">
+    <div class="custom-file-container" :data-upload-id="fieldName">
         <!-- Avatar -->
-        <div class="custom-file-container w-auto" data-upload-id="logo">
+        <div class="custom-file-container w-auto" :data-upload-id="fieldName">
             <div class="dropdown">
                 <Popper :placement="rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="0"
                     class="relative align-middle">
@@ -91,7 +91,7 @@ watch(() => logo.value, (newValue) => {
 });
 
 const inetilizeAvatar = () => {
-    new FileUploadWithPreview('logo', {
+    new FileUploadWithPreview(props.fieldName, {
         images: {
             baseImage: logo.value || '/assets/images/avatar.png',
         },

@@ -5,6 +5,7 @@ use App\Http\Controllers\Pages\NewsController;
 use App\Http\Controllers\Pages\CampusController;
 use App\Http\Controllers\Pages\ClassroomController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\System\Settings\Pages\HomeController;
 use App\Http\Controllers\System\Users\PermissionController;
 use App\Http\Controllers\System\Users\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -112,6 +113,18 @@ Route::middleware('auth')->group(function () {
                 Route::get('/export', [ImportExportController::class, 'exportTranslations'])->name('export.translations');
                 Route::get('/translations/export', [ImportExportController::class, 'export'])->name('translations.export');
                 Route::get('sync-translations', [SyncTranslationController::class, 'syncTranslations'])->name('translations.sync');
+            });
+
+            // Pages controllers
+            Route::as('pages.')->group(function () {
+                Route::prefix('home')->as('home.')->group(function () {
+                    Route::get('/', [HomeController::class, 'index'])->name('index');
+                    Route::post('/hero', [HomeController::class, 'updateHero'])->name('hero.update');
+                    Route::post('/history', [HomeController::class, 'updateHistory'])->name('history.update');
+                    Route::post('/message', [HomeController::class, 'updateMessage'])->name('message.update');
+                    Route::post('/mission', [HomeController::class, 'updateMission'])->name('mission.update');
+                    Route::post('/social', [HomeController::class, 'updateSocial'])->name('social.update');
+                });
             });
         });
     });

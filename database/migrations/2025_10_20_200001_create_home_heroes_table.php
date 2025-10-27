@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\System\Users\User;
+use App\Models\Pages\Branch;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,13 +16,10 @@ return new class extends Migration
         Schema::create('home_heroes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Branch::class)->nullable()->constrained()->cascadeOnDelete();
             $table->json('title');
-            $table->json('subtitle')->nullable();
-            $table->json('description')->nullable();
-            $table->json('cta_text')->nullable()->comment('Call to action button text');
-            $table->string('cta_link')->nullable()->comment('Call to action button link');
-            $table->json('metadata')->nullable();
-            $table->integer('order')->default(0);
+            $table->json('subtitle');
+            $table->json('metadata')->nullable()->comment('Contains: media_type, expert_tutors, students, experience, campuses');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

@@ -19,12 +19,23 @@
                         <!-- Settings -->
                         <Tab as="template" v-slot="{ selected }"
                             v-if="$can('view_system_settings|view_usertypes|view_group_permissions|view_logs|view_font_size|view_theme|view_languages|view_keys|view_translations')">
-                            <a href="javascript:;"
+                            <button type="button"
                                 class="p-5 py-3 -mb-[1px] flex items-center gap-2 hover:border-b border-transparent hover:!border-secondary hover:text-secondary !outline-none transition duration-300"
                                 :class="{ 'border-b !border-secondary text-secondary': selected }">
-                                <Svg name="setup" class="size-5"></Svg>
+                                <Svg name="setup" class="size-5 opacity-90"></Svg>
                                 {{ $t('system.settings') }}
-                            </a>
+                            </button>
+                        </Tab>
+
+                        <!-- Pages -->
+                        <Tab as="template" v-slot="{ selected }"
+                            v-if="$can('view_home')">
+                            <button type="button"
+                                class="p-5 py-3 -mb-[1px] flex items-center gap-2 hover:border-b border-transparent hover:!border-secondary hover:text-secondary !outline-none transition duration-300"
+                                :class="{ 'border-b !border-secondary text-secondary': selected }">
+                                <Svg name="pages" class="size-5 opacity-70"></Svg>
+                                {{ $t('system.pages') }}
+                            </button>
                         </Tab>
 
                     </div>
@@ -65,6 +76,20 @@
 
                                 <SettingMenu link="control.system.settings.theme.index" label="themes" icon="sun"
                                     can="view_themes" />
+
+                            </div>
+                        </div>
+                    </div>
+                </TabPanel>
+                <!-- Pages -->
+                <TabPanel
+                    v-if="$can('view_system_settings|view_usertypes|view_group_permissions|view_logs|view_font_size|view_theme|view_languages|view_keys|view_translations')">
+                    <div class="panel p-2">
+                        <div class="border-2 rounded dark:border-[#191e3a] overflow-hidden">
+                            <div class="flex flex-col divide-y-2 dark:divide-[#191e3a]">
+
+                                <SettingMenu link="control.system.pages.home.index" label="home" icon="home_angle"
+                                    can="view_home" />
 
                             </div>
                         </div>

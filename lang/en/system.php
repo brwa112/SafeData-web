@@ -218,4 +218,43 @@ return [
 
     'event_type' => 'Event Type',
     'model' => 'Model',
+
+    // Home Page Management
+    'home' => 'Home Page',
+    'home_hero' => 'Hero Section',
+    'home_history' => 'History Section',
+    'home_message' => 'Principal Message Section',
+    'home_mission' => 'Mission Section',
+    'home_social' => 'Social Links Section',
+    'hero_title' => 'Hero Title',
+    'hero_subtitle' => 'Hero Subtitle',
+    'expert_tutors' => 'Expert Tutors',
+    'students' => 'Students',
+    'years_experience' => 'Years of Experience',
+    'campuses' => 'Campuses',
+    'background_media' => 'Background Image/Video',
+    'history_description' => 'History Description',
+    'message_description' => 'Principal Message',
+    'mission_description' => 'Mission Description',
+    'youtube_link' => 'YouTube Link',
+    'facebook_link' => 'Facebook Link',
+    'instagram_link' => 'Instagram Link',
+    'twitter_link' => 'Twitter/X Link',
+    'image' => 'Image',
+    'video' => 'Video',
+    'principal_image' => 'Principal Image',
+    'background_image' => 'Background Image',
+    'upload_background_video' => 'Upload a background video for the hero section',
+    'remove_video' => 'Remove Video',
+    'fix_errors_in_section' => 'Please fix the errors in :section',
+    'home_section_updated' => 'Home page content updated successfully',
+    'hero_section_updated' => 'Hero section updated successfully',
+    'history_section_updated' => 'History section updated successfully',
+    'message_section_updated' => 'Message section updated successfully',
+    'mission_section_updated' => 'Mission section updated successfully',
+    'social_section_updated' => 'Social links updated successfully',
+
+    'select_language' => 'Select Language',
+
+    
 ];

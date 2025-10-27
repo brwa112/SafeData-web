@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-16 mb-16 lg:mt-32 lg:mb-16 bg-white px-4">
+  <section v-if="messageDescription || fallbackContent" class="mt-16 mb-16 lg:mt-32 lg:mb-16 bg-white px-4">
     <div
       class="relative w-full sm:container 3xl:max-w-[90%] mx-auto border-[5px] border-b-0 border-f-primary rounded-t-[32px]">
       <div
@@ -11,10 +11,9 @@
           </h2>
           <div class="relative w-full">
             <p class="!leading-6 text-base lg:text-lg xl:text-xl font-normal text-pretty">
-              It is with great pride and deep commitment that I welcome you to Kurd Genius School — a place where
-              academic excellence meets personal growth, innovation, and global standards.
+              {{ messageDescription || fallbackContent }}
             </p>
-            <p class="absolute -start-5 sm:-start-7 -top-1 text-[32px] font-semibold">“</p>
+            <p class="absolute -start-5 sm:-start-7 -top-1 text-[32px] font-semibold">"</p>
           </div>
           <div class="!mt-4">
             <a href="#" class="font-normal">
@@ -26,13 +25,13 @@
 
         <!-- Right Content - Images -->
         <div class="flex-1 flex lg:justify-end">
-          <img :src="'/img/home/message/1.jpg'" alt="Graduation"
+          <img :src="authorImage || '/img/home/message/1.jpg'" alt="Principal"
             class="w-full lg:w-5/6 h-[336px] sm:h-[416px] 2xl:h-[536px] object-cover object-[0%_15%] ltr:scale-x-[-1]" />
         </div>
       </div>
 
       <div class="absolute -inset-x-1 bottom-0 -mx-px">
-        <img :src="'/img/home/message/bottom.svg'" alt="Graduation"
+        <img :src="'/img/home/message/bottom.svg'" alt="Decoration"
           class="w-full h-[128px] 2xl:h-[136px] object-cover" />
       </div>
     </div>
@@ -40,4 +39,22 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
+// Define props
+const props = defineProps(['data']);
+
+// Computed properties for message data with fallbacks
+const messageDescription = computed(() => {
+  if (props.data && props.data.description) {
+    return props.data.description[document.documentElement.lang] || props.data.description.en || '';
+  }
+  return '';
+});
+
+const authorImage = computed(() => {
+  return props.data?.author_image || null;
+});
+
+const fallbackContent = "It is with great pride and deep commitment that I welcome you to Kurd Genius School — a place where academic excellence meets personal growth, innovation, and global standards.";
 </script>

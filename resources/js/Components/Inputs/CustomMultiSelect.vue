@@ -10,20 +10,22 @@
                             class="whitespace-nowrap flex justify-between items-center min-w-24 gap-1 text-sm">
                             <span v-if="count.length > 0" :class="buttonStyle" class="max-w-56 truncate">
                                 <template v-if="count.length <= 2">
-                                    {{ count.map(item => item[label] || item.name).join(', ') }}
+                                    {{count.map(item => item[label] || item.name).join(', ')}}
                                 </template>
                                 <template v-else>
-                                    {{ count.slice(0, 2).map(item => item[label] || item.name).join(', ') }} +{{ count.length - 2 }}
+                                    {{count.slice(0, 2).map(item => item[label] || item.name).join(', ')}} +{{
+                                    count.length - 2 }}
                                 </template>
                             </span>
                             <span v-else class="text-sm">
-                                {{ placeholder ? $t(`${parentKey}.${placeholder}`) : $t('common.please_select') }}
+                                {{ placeholder ? (isTrans ? $t(`${parentKey}.${placeholder}`) : placeholder) :
+                                $t('common.please_select') }}
                             </span>
                         </button>
                         <button v-if="multiple == false" type="button" @click="countFocus"
                             class="flex justify-between items-center min-w-24 gap-4 text-sm">
                             <span v-if="Object.keys(count)?.length > 0" :class="buttonStyle" class="max-w-56 truncate">
-                                <span v-if="props.parentKey">
+                                <span v-if="props.parentKey && isTrans">
                                     {{ $t(`${parentKey}.${checkObject(count[props.label])}`) ||
                                         checkObject(count[props.label] || count.name) }}
                                 </span>
@@ -32,13 +34,17 @@
                                 </span>
                             </span>
                             <span v-else class="text-sm">
-                                {{ placeholder ? $t(`${placeholderParentKey}.${placeholder}`) :
+                                {{ placeholder ? (isTrans ? $t(`${placeholderParentKey}.${placeholder}`) : placeholder)
+                                    :
                                     $t('common.please_select') }}
                             </span>
                         </button>
                         <button v-if="checkObject(count[props.label] || count.name) || count.length > 0" type="button"
-                            @click="clearCount" class="whitespace-nowrap flex justify-between items-center gap-1">
-                            <Svg name="close" class="size-4 text-gray-500"></Svg>
+                            @click="clearCount"
+                            :disabled="props.requireSelection && (props.multiple ? count.length === 1 : Object.keys(count).length > 0)"
+                            :class="{ 'opacity-50 cursor-not-allowed': props.requireSelection && (props.multiple ? count.length === 1 : Object.keys(count).length > 0) }"
+                            class="whitespace-nowrap flex justify-between items-center gap-1">
+                            <Svg v-if="!requireSelection" name="close" class="size-4 text-gray-500"></Svg>
                         </button>
                         <Svg name="arrow_right" class="size-4 text-gray-500 rotate-90"></Svg>
                     </div>
@@ -76,8 +82,11 @@
                                         <div class="flex flex-col items-start">
                                             <h1 v-if="!countOption.slug" v-html="renderMarkdown(countOption.label)">
                                             </h1>
-                                            <h1 v-if="countOption.slug">
+                                            <h1 v-if="countOption.slug && isTrans">
                                                 {{ $t(`${parentKey}.${countOption.slug}`) }}
+                                            </h1>
+                                            <h1 v-if="countOption.slug && !isTrans">
+                                                {{ countOption.label }}
                                             </h1>
                                             <p v-if="isInfo" class="text-xs text-gray-500">{{ countOption.description }}
                                             </p>
@@ -178,6 +187,14 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    requireSelection: {
+        type: Boolean,
+        default: false,
+    },
+    isTrans: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const rtlClass = inject('rtlClass');
@@ -244,11 +261,19 @@ const selectOption = (option, hide) => {
     if (props.multiple) {
         const index = count.value.findIndex((item) => item.id === option.id);
         if (index !== -1) {
+            // Prevent deselecting if requireSelection is true and only one item is selected
+            if (props.requireSelection && count.value.length === 1) {
+                return;
+            }
             count.value.splice(index, 1);
         } else {
             count.value.push(option);
         }
     } else {
+        // Prevent deselecting if requireSelection is true and trying to select the same option
+        if (props.requireSelection && count.value.id === option.id) {
+            return;
+        }
         count.value = option;
     }
 
@@ -282,7 +307,12 @@ const clearFilter = () => {
 };
 
 const clearCount = () => {
-    count.value = [];
+    // Prevent clearing if requireSelection is true
+    if (props.requireSelection) {
+        return;
+    }
+
+    count.value = props.multiple ? [] : {};
     emit('update:modelValue', count.value);
     emit('change', count.value);
 };

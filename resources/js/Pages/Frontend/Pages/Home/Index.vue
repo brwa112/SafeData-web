@@ -1,11 +1,11 @@
 <template>
   <div class="block min-h-[100dvh]">
-    <Hero />
-    <History />
-    <Message />
-    <Mission />
+    <Hero :data="hero" />
+    <History :data="history" />
+    <Message :data="message" />
+    <Mission :data="mission" />
     <News />
-    <Know />
+    <Know :data="social" />
   </div>
 </template>
 
@@ -16,6 +16,15 @@ import Know from './partials/Know.vue';
 import Message from './partials/Message.vue';
 import Mission from './partials/Mission.vue';
 import News from './partials/News.vue';
+
+// Define props for home sections data
+const props = defineProps([
+  'hero',
+  'history',
+  'message',
+  'mission',
+  'social'
+]);
 </script>
 
 <script>

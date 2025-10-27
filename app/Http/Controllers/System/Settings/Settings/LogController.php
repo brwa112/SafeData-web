@@ -14,8 +14,7 @@ class LogController extends Controller
     
     public function index(Request $request)
     {
-        // Note: You may need to create a policy for Activity model or update authorization
-        // $this->authorize('viewAny', Activity::class);
+        $this->authorize('viewAny', Activity::class);
 
         $filters = $this->getFilters($request);
         $baseFilters = $this->baseFilter($request);

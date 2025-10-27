@@ -169,6 +169,11 @@ class DatabaseSeeder extends Seeder
                 'slug' => 'roles',
                 'description' => 'Manage roles and their permissions',
             ],
+            [
+                'name' => 'home',
+                'slug' => 'home',
+                'description' => 'Manage home page settings and content',
+            ],
         ];
 
         foreach ($permissionsData as $permissionData) {

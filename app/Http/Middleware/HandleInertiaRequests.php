@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Pages\Branch;
 use App\Models\System\Settings\Settings\Language;
 use App\Models\System\Users\User;
 use Illuminate\Http\Request;
@@ -51,6 +52,7 @@ class HandleInertiaRequests extends Middleware
                 : 'en',
 
             'languages' => Language::query()->select('id', 'name', 'slug')->get(),
+            'branches' => Branch::query()->select('id', 'slug', 'name')->get(),
         ]);
     }
 }

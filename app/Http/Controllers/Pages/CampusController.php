@@ -24,7 +24,8 @@ class CampusController extends Controller
             ->with(['user', 'branch'])
             ->withTrashed()
             ->search($filters['search'])
-            ->filterByDateRange($filters['start_date'], $filters['end_date']);
+            ->filterByDateRange($filters['start_date'], $filters['end_date'])
+            ->filterByBranch($filters['branch_id']);
 
         $this->applySortingToQuery($query, $filters['sort_by'], $filters['sort_direction'], $this->getSortableFields());
 

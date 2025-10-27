@@ -26,7 +26,10 @@ class NewsController extends Controller
             ->with(['user', 'branch', 'category', 'hashtags'])
             ->withTrashed()
             ->search($filters['search'])
-            ->filterByDateRange($filters['start_date'], $filters['end_date']);
+            ->filterByDateRange($filters['start_date'], $filters['end_date'])
+            ->filterByBranch($filters['branch_id'])
+            ->filterByCategory($filters['category_id'])
+            ->filterByHashtags($filters['hashtag_ids']);
 
         $this->applySortingToQuery($query, $filters['sort_by'], $filters['sort_direction'], $this->getSortableFields());
 

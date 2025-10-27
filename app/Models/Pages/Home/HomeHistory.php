@@ -2,6 +2,7 @@
 
 namespace App\Models\Pages\Home;
 
+use App\Models\Pages\Branch;
 use App\Models\System\Users\User;
 use App\Traits\LogsMediaActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,16 +19,12 @@ class HomeHistory extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, HasTranslations, LogsActivity, LogsMediaActivity;
 
-    public $translatable = ['title', 'subtitle', 'description'];
+    public $translatable = ['description'];
 
     protected $fillable = [
         'user_id',
-        'title',
-        'subtitle',
+        'branch_id',
         'description',
-        'statistics',
-        'metadata',
-        'order',
         'is_active',
     ];
 
@@ -57,20 +54,20 @@ class HomeHistory extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    public function scopeOrdered($query)
-    {
-        return $query->orderBy('order');
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'subtitle', 'description', 'statistics', 'is_active', 'user_id'])
+            ->logOnly(['description', 'is_active', 'user_id', 'branch_id'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

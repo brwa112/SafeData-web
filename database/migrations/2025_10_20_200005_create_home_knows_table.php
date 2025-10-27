@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\System\Users\User;
+use App\Models\Pages\Branch;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,12 +16,8 @@ return new class extends Migration
         Schema::create('home_knows', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->json('title');
-            $table->json('subtitle')->nullable();
-            $table->json('description')->nullable();
-            $table->json('features')->nullable()->comment('Why choose us features');
-            $table->json('metadata')->nullable();
-            $table->integer('order')->default(0);
+            $table->foreignIdFor(Branch::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->json('metadata')->nullable()->comment('Contains: youtube, facebook, instagram, twitter URLs');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

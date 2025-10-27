@@ -32,6 +32,9 @@ trait HandlesSorting
             'sort_direction' => $filter['sort_direction'] ?? 'desc',
             'start_date' => $filter['start_date'] ?? null,
             'end_date' => $filter['end_date'] ?? null,
+            'branch_id' => $filter['branch_id'] ?? null,
+            'category_id' => $filter['category_id'] ?? null,
+            'hashtag_ids' => $filter['hashtag_ids'] ?? null,
         ]);
     }
 

@@ -48,7 +48,7 @@
 
                     <template #datatable-actions>
                         <CustomMultiSelect v-model="selectLanguage" :list="Languages" label="name" value="value"
-                            :showValue="false" parent-key="system" placeholder="languages" />
+                            :showValue="false" parent-key="system" placeholder="languages" :require-selection="true" />
                     </template>
 
                     <template #title="data">
