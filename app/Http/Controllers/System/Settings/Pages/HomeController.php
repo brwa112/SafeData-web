@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\System\Settings\Pages;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\System\Settings\Pages\Home\UpdateHeroRequest;
 use App\Http\Requests\System\Settings\Pages\Home\UpdateHistoryRequest;
@@ -15,19 +14,22 @@ use App\Models\Pages\Home\HomeHistory;
 use App\Models\Pages\Home\HomeMessage;
 use App\Models\Pages\Home\HomeMission;
 use App\Models\Pages\Home\HomeKnow;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $hero = HomeHero::first();
-        $history = HomeHistory::first();
-        $message = HomeMessage::first();
-        $mission = HomeMission::first();
-        $social = HomeKnow::first();
+        $branchId = $request->input('branch_id') ?? Branch::active()->ordered()->first()->id;
+
+        $hero = HomeHero::where('branch_id', $branchId)->first();
+        $history = HomeHistory::where('branch_id', $branchId)->first();
+        $message = HomeMessage::where('branch_id', $branchId)->first();
+        $mission = HomeMission::where('branch_id', $branchId)->first();
+        $social = HomeKnow::where('branch_id', $branchId)->first();
 
         return inertia('System/Settings/Pages/Home/Index', [
-            'hero' => [
+            'hero' => $hero ? [
                 'id' => $hero->id,
                 'title' => $hero->getTranslations('title'),
                 'subtitle' => $hero->getTranslations('subtitle'),
@@ -35,8 +37,8 @@ class HomeController extends Controller
                 'is_active' => $hero->is_active,
                 'hero_image' => $hero->getFirstMediaUrl('hero_image'),
                 'background_video' => $hero->getFirstMediaUrl('background_video'),
-            ],
-            'history' => [
+            ] : null,
+            'history' => $history ? [
                 'id' => $history->id,
                 'description' => $history->getTranslations('description'),
                 'is_active' => $history->is_active,
@@ -44,19 +46,19 @@ class HomeController extends Controller
                     $history->getFirstMediaUrl('image_1'),
                     $history->getFirstMediaUrl('image_2'),
                 ],
-            ],
-            'message' => [
+            ] : null,
+            'message' => $message ? [
                 'id' => $message->id,
                 'description' => $message->getTranslations('description'),
                 'is_active' => $message->is_active,
                 'author_image' => $message->getFirstMediaUrl('author_image'),
-            ],
-            'mission' => [
+            ] : null,
+            'mission' => $mission ? [
                 'id' => $mission->id,
                 'description' => $mission->getTranslations('description'),
                 'is_active' => $mission->is_active,
                 'image' => $mission->getFirstMediaUrl('images'),
-            ],
+            ] : null,
             'social' => $social,
         ]);
     }
@@ -65,8 +67,20 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        $hero = HomeHero::firstOrCreate(['branch_id' => $request->input('branch_id')]);
+        // Ensure required fields exist when creating a new record (DB may require non-null title)
+        $hero = HomeHero::firstOrCreate([
+            'branch_id' => $request->input('branch_id'),
+            'user_id' => auth()->id(),
+        ], [
+            'user_id' => auth()->id(),
+            'branch_id' => $request->input('branch_id'),
+            'title' => $validated['title'] ?? ['en' => '', 'ckb' => ''],
+            'subtitle' => $validated['subtitle'] ?? ['en' => '', 'ckb' => ''],
+            'metadata' => $validated['metadata'] ?? [],
+            'is_active' => $validated['is_active'] ?? false,
+        ]);
 
+        // Update with validated values (or keep existing)
         $hero->update([
             'user_id' => auth()->id(),
             'branch_id' => $request->input('branch_id'),
@@ -99,7 +113,16 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        $history = HomeHistory::firstOrCreate(['branch_id' => $request->input('branch_id')]);
+        // Ensure required fields on create for HomeHistory
+        $history = HomeHistory::firstOrCreate([
+            'branch_id' => $request->input('branch_id'),
+            'user_id' => auth()->id(),
+        ], [
+            'user_id' => auth()->id(),
+            'branch_id' => $request->input('branch_id'),
+            'description' => $validated['description'] ?? ['en' => '', 'ckb' => ''],
+            'is_active' => $validated['is_active'] ?? false,
+        ]);
 
         $history->update([
             'user_id' => auth()->id(),
@@ -135,7 +158,16 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        $message = HomeMessage::firstOrCreate(['branch_id' => $request->input('branch_id')]);
+        // Ensure required fields on create for HomeMessage
+        $message = HomeMessage::firstOrCreate([
+            'branch_id' => $request->input('branch_id'),
+            'user_id' => auth()->id(),
+        ], [
+            'user_id' => auth()->id(),
+            'branch_id' => $request->input('branch_id'),
+            'description' => $validated['description'] ?? ['en' => '', 'ckb' => ''],
+            'is_active' => $validated['is_active'] ?? false,
+        ]);
 
         $message->update([
             'user_id' => auth()->id(),
@@ -161,7 +193,16 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        $mission = HomeMission::firstOrCreate(['branch_id' => $request->input('branch_id')]);
+        // Ensure required fields on create for HomeMission
+        $mission = HomeMission::firstOrCreate([
+            'branch_id' => $request->input('branch_id'),
+            'user_id' => auth()->id(),
+        ], [
+            'user_id' => auth()->id(),
+            'branch_id' => $request->input('branch_id'),
+            'description' => $validated['description'] ?? ['en' => '', 'ckb' => ''],
+            'is_active' => $validated['is_active'] ?? false,
+        ]);
 
         $mission->update([
             'user_id' => auth()->id(),
@@ -187,7 +228,16 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        $social = HomeKnow::firstOrCreate(['branch_id' => $request->input('branch_id')]);
+        // Ensure required fields on create for HomeKnow (social)
+        $social = HomeKnow::firstOrCreate([
+            'branch_id' => $request->input('branch_id'),
+            'user_id' => auth()->id(),
+        ], [
+            'user_id' => auth()->id(),
+            'branch_id' => $request->input('branch_id'),
+            'metadata' => $validated['metadata'] ?? [],
+            'is_active' => $validated['is_active'] ?? false,
+        ]);
 
         $social->update([
             'user_id' => auth()->id(),

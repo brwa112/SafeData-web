@@ -67,8 +67,11 @@ class FrontendPagesSeeder extends Seeder
     // HOME PAGE SEEDERS
     private function seedHomeHero($user)
     {
+        $defaultBranch = \App\Models\Pages\Branch::first();
+
         HomeHero::create([
             'user_id' => $user->id,
+            'branch_id' => $defaultBranch?->id,
             'title' => [
                 'en' => 'Kurd Genius Schools',
                 'ckb' => 'قوتابخانەی کوردجینیس',
@@ -91,8 +94,11 @@ class FrontendPagesSeeder extends Seeder
 
     private function seedHomeHistory($user)
     {
+        $defaultBranch = \App\Models\Pages\Branch::first();
+
         HomeHistory::create([
             'user_id' => $user->id,
+            'branch_id' => $defaultBranch?->id,
             'description' => [
                 'en' => 'Founded in 2013 by Maya Company, Kurd Genius School has grown to become one of the leading educational institutions in the Kurdistan Region. Over the years, we have maintained our commitment to excellence, producing graduates who excel in universities and contribute meaningfully to society.',
                 'ckb' => 'قوتابخانەی کوردجینیس لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە و بووەتە یەکێک لە پێشەنگترین دامەزراوە پەروەردەییەکانی هەرێمی کوردستان. لە ماوەی ساڵانی ڕابردوودا، پابەندبووینمان بە باشی پاراستووە و دەرچووانێکمان بەرهەمهێناوە کە لە زانکۆکاندا سەرکەوتوون و بەشێوەیەکی بەنرخ بەشداری کۆمەڵگا دەکەن.',
@@ -105,8 +111,11 @@ class FrontendPagesSeeder extends Seeder
 
     private function seedHomeMessage($user)
     {
+        $defaultBranch = \App\Models\Pages\Branch::first();
+
         HomeMessage::create([
             'user_id' => $user->id,
+            'branch_id' => $defaultBranch?->id,
             'description' => [
                 'en' => 'We are committed to providing high-quality education that nurtures intellectual curiosity, critical thinking, and personal growth. Our dedicated team of educators works tirelessly to ensure that every student receives the support and guidance they need to succeed.',
                 'ckb' => 'ئێمە پابەندین بە دابینکردنی پەروەردەیەکی باش کە کنجکاوی زیرەکانە، بیرکردنەوەی ڕەخنەگرانە و گەشەی کەسی پەروەردە دەکات. تیمی بەخشراوی پەروەردەکارانمان بێ ماندووبوون کار دەکات بۆ دڵنیابوون لەوەی کە هەر خوێندکارێک پشتیوانی و ڕێنمایی پێویستی وەردەگرێت بۆ سەرکەوتن.',
@@ -119,8 +128,11 @@ class FrontendPagesSeeder extends Seeder
 
     private function seedHomeMission($user)
     {
+        $defaultBranch = \App\Models\Pages\Branch::first();
+
         HomeMission::create([
             'user_id' => $user->id,
+            'branch_id' => $defaultBranch?->id,
             'description' => [
                 'en' => 'To deliver excellence in education through innovative teaching methods, a supportive learning environment, and a curriculum that balances academic achievement with character development. We strive to prepare students not just for exams, but for life.',
                 'ckb' => 'گەیاندنی باشی لە پەروەردەدا لە ڕێگەی شێوازە نوێیەکانی وانەوتنەوە، ژینگەیەکی پشتیوانی فێربوون و مەنهەجێک کە هاوسەنگی لە نێوان دەستکەوتی ئەکادیمی و گەشەپێدانی کەسایەتیدا دروست دەکات. ئێمە هەوڵ دەدەین خوێندکاران نەک تەنها بۆ تاقیکردنەوەکان، بەڵکو بۆ ژیان ئامادە بکەین.',
@@ -133,8 +145,11 @@ class FrontendPagesSeeder extends Seeder
 
     private function seedHomeKnow($user)
     {
+        $defaultBranch = \App\Models\Pages\Branch::first();
+
         HomeKnow::create([
             'user_id' => $user->id,
+            'branch_id' => $defaultBranch?->id,
             'metadata' => [
                 'youtube' => 'https://www.youtube.com/@kurdgenius',
                 'facebook' => 'https://www.facebook.com/kurdgenius',
@@ -150,6 +165,8 @@ class FrontendPagesSeeder extends Seeder
     // ABOUT PAGE SEEDERS
     private function seedAboutAbout($user)
     {
+        $defaultBranch = \App\Models\Pages\Branch::first();
+
         AboutAbout::create([
             'user_id' => $user->id,
             'title' => [
@@ -489,7 +506,7 @@ class FrontendPagesSeeder extends Seeder
     private function seedCampuses($user)
     {
         // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::where('slug', 'kurd-genius')->first();
+        $defaultBranch = \App\Models\Pages\Branch::first();
         
         if (!$defaultBranch) {
             $this->command->warn('No branch found. Skipping campuses seeding.');
@@ -527,7 +544,7 @@ class FrontendPagesSeeder extends Seeder
     private function seedClassrooms($user)
     {
         // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::where('slug', 'kurd-genius')->first();
+        $defaultBranch = \App\Models\Pages\Branch::first();
         
         if (!$defaultBranch) {
             $this->command->warn('No branch found. Skipping classrooms seeding.');
@@ -589,7 +606,7 @@ class FrontendPagesSeeder extends Seeder
     private function seedNews($user)
     {
         // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::where('slug', 'kurd-genius')->first();
+        $defaultBranch = \App\Models\Pages\Branch::first();
         
         if (!$defaultBranch) {
             $this->command->warn('No branch found. Skipping news seeding.');

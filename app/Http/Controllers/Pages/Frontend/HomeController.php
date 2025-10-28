@@ -25,7 +25,7 @@ class HomeController extends Controller
                 return $query->whereNull('branch_id');
             })
             ->first();
-            
+
         $history = HomeHistory::where('is_active', true)
             ->when($branchId, function ($query) use ($branchId) {
                 return $query->where('branch_id', $branchId);

@@ -37,265 +37,19 @@
         <div class="pt-4 space-y-4">
 
             <!-- Hero Section -->
-            <div class="panel">
-                <div class="mb-5 flex items-center justify-between">
-                    <h5 class="text-lg font-semibold dark:text-white-light">{{ $t('system.home_hero') }}</h5>
-                    <label class="relative h-6 w-12">
-                        <input v-model="form.is_active" type="checkbox"
-                            class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" />
-                        <span
-                            class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                    </label>
-                </div>
-                <form class="space-y-5">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                        <div class="space-y-4">
-                            <div>
-                                <label for="hero_title">{{ $t('system.hero_title') }} ({{
-                                    $t(`system.${selectLanguage.slug}`) }})</label>
-                                <input v-model="form.title[selectLanguage.slug]" id="hero_title" type="text"
-                                    class="form-input" />
-                                <div class="mt-1 text-sm text-danger" v-if="form.errors['title.' + selectLanguage.slug]"
-                                    v-html="form.errors['title.' + selectLanguage.slug]">
-                                </div>
-                            </div>
-                            <div>
-                                <label for="hero_subtitle">{{ $t('system.hero_subtitle') }} ({{
-                                    $t(`system.${selectLanguage.slug}`) }})</label>
-                                <input v-model="form.subtitle[selectLanguage.slug]" id="hero_subtitle" type="text"
-                                    class="form-input" />
-                                <div class="mt-1 text-sm text-danger"
-                                    v-if="form.errors['subtitle.' + selectLanguage.slug]"
-                                    v-html="form.errors['subtitle.' + selectLanguage.slug]">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label for="expert_tutors">{{ $t('system.expert_tutors') }}</label>
-                                    <input v-model.number="form.expert_tutors" id="expert_tutors" type="number"
-                                        class="form-input" />
-                                    <div class="mt-1 text-sm text-danger" v-if="form.errors['metadata.expert_tutors']"
-                                        v-html="form.errors['metadata.expert_tutors']">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="students">{{ $t('system.students') }}</label>
-                                    <input v-model.number="form.students" id="students" type="number"
-                                        class="form-input" />
-                                    <div class="mt-1 text-sm text-danger" v-if="form.errors['metadata.students']"
-                                        v-html="form.errors['metadata.students']">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="experience">{{ $t('system.years_experience') }}</label>
-                                    <input v-model.number="form.experience" id="experience" type="number"
-                                        class="form-input" />
-                                    <div class="mt-1 text-sm text-danger" v-if="form.errors['metadata.experience']"
-                                        v-html="form.errors['metadata.experience']">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="campuses">{{ $t('system.campuses') }}</label>
-                                    <input v-model.number="form.campuses" id="campuses" type="number"
-                                        class="form-input" />
-                                    <div class="mt-1 text-sm text-danger" v-if="form.errors['metadata.campuses']"
-                                        v-html="form.errors['metadata.campuses']">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label>{{ $t('system.background_media') }}</label>
-                            <div class="flex gap-2 mb-2">
-                                <button @click="form.media_type = 'image'" type="button"
-                                    :class="form.media_type === 'image' ? 'btn-primary' : 'btn-outline-primary'"
-                                    class="btn">
-                                    {{ $t('system.image') }}
-                                </button>
-                                <button @click="form.media_type = 'video'" type="button"
-                                    :class="form.media_type === 'video' ? 'btn-primary' : 'btn-outline-primary'"
-                                    class="btn">
-                                    {{ $t('system.video') }}
-                                </button>
-                            </div>
-                            <div v-if="form.media_type === 'image'">
-                                <ImageUpload v-model="form.background_image" field-name="hero_background"
-                                    @update:form="(data) => { if (data.remove_hero_background !== undefined) form.remove_hero_background = data.remove_hero_background; }" />
-                            </div>
-                            <div v-else>
-                                <div v-if="videoPreviewUrl" class="mb-3">
-                                    <video :src="videoPreviewUrl" controls
-                                        class="w-full rounded-lg max-h-64 bg-black"></video>
-                                    <button @click="removeVideo" type="button" class="btn btn-sm btn-danger mt-2">
-                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                        {{ $t('system.remove_video') }}
-                                    </button>
-                                </div>
-                                <input @change="handleVideoUpload" type="file" accept="video/*" class="form-input" />
-                                <p class="text-xs text-gray-500 mt-1">{{ $t('system.upload_background_video') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <HeroSection :form="form" :selectLanguage="selectLanguage" />
 
             <!-- History Section -->
-            <div class="panel">
-                <div class="mb-5 flex items-center justify-between">
-                    <h5 class="text-lg font-semibold dark:text-white-light">{{ $t('system.home_history') }}</h5>
-                    <label class="relative h-6 w-12">
-                        <input v-model="historyForm.is_active" type="checkbox"
-                            class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" />
-                        <span
-                            class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                    </label>
-                </div>
-                <form class="space-y-5">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                        <div>
-                            <label for="history_description">{{ $t('system.history_description') }} ({{
-                                $t(`system.${selectLanguage.slug}`)
-                            }})</label>
-                            <textarea v-model="historyForm.description[selectLanguage.slug]" id="history_description"
-                                rows="9" class="form-textarea"></textarea>
-                            <div class="mt-1 text-sm text-danger"
-                                v-if="historyForm.errors['description.' + selectLanguage.slug]"
-                                v-html="historyForm.errors['description.' + selectLanguage.slug]">
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div>
-                                <label>{{ $t('system.image') }} 1</label>
-                                <ImageUpload v-model="historyForm.image_1" field-name="history_image_1"
-                                    @update:form="(data) => { if (data.remove_history_image_1 !== undefined) historyForm.remove_history_image_1 = data.remove_history_image_1; }" />
-                            </div>
-                            <div>
-                                <label>{{ $t('system.image') }} 2</label>
-                                <ImageUpload v-model="historyForm.image_2" field-name="history_image_2"
-                                    @update:form="(data) => { if (data.remove_history_image_2 !== undefined) historyForm.remove_history_image_2 = data.remove_history_image_2; }" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <HistorySection :form="historyForm" :selectLanguage="selectLanguage" />
 
             <!-- Principal Message Section -->
-            <div class="panel">
-                <div class="mb-5 flex items-center justify-between">
-                    <h5 class="text-lg font-semibold dark:text-white-light">{{ $t('system.home_message') }}</h5>
-                    <label class="relative h-6 w-12">
-                        <input v-model="messageForm.is_active" type="checkbox"
-                            class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" />
-                        <span
-                            class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                    </label>
-                </div>
-                <form class="space-y-5">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                        <div>
-                            <label for="message_description">{{ $t('system.message_description') }} ({{
-                                $t(`system.${selectLanguage.slug}`)
-                            }})</label>
-                            <textarea v-model="messageForm.description[selectLanguage.slug]" id="message_description"
-                                rows="9" class="form-textarea"></textarea>
-                            <div class="mt-1 text-sm text-danger"
-                                v-if="messageForm.errors['description.' + selectLanguage.slug]"
-                                v-html="messageForm.errors['description.' + selectLanguage.slug]">
-                            </div>
-                        </div>
-                        <div>
-                            <label>{{ $t('system.principal_image') }}</label>
-                            <ImageUpload v-model="messageForm.image" field-name="message_image"
-                                @update:form="(data) => { if (data.remove_message_image !== undefined) messageForm.remove_message_image = data.remove_message_image; }" />
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <MessageSection :form="messageForm" :selectLanguage="selectLanguage" />
 
             <!-- Mission Section -->
-            <div class="panel">
-                <div class="mb-5 flex items-center justify-between">
-                    <h5 class="text-lg font-semibold dark:text-white-light">{{ $t('system.home_mission') }}</h5>
-                    <label class="relative h-6 w-12">
-                        <input v-model="missionForm.is_active" type="checkbox"
-                            class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" />
-                        <span
-                            class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                    </label>
-                </div>
-                <form class="space-y-5">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                        <div>
-                            <label for="mission_description">{{ $t('system.mission_description') }} ({{
-                                $t(`system.${selectLanguage.slug}`)
-                            }})</label>
-                            <textarea v-model="missionForm.description[selectLanguage.slug]" id="mission_description"
-                                rows="12" class="form-textarea"></textarea>
-                            <div class="mt-1 text-sm text-danger"
-                                v-if="missionForm.errors['description.' + selectLanguage.slug]"
-                                v-html="missionForm.errors['description.' + selectLanguage.slug]">
-                            </div>
-                        </div>
-                        <div>
-                            <label>{{ $t('system.background_image') }}</label>
-                            <ImageUpload v-model="missionForm.image" field-name="mission_image"
-                                @update:form="(data) => { if (data.remove_mission_image !== undefined) missionForm.remove_mission_image = data.remove_mission_image; }" />
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <MissionSection :form="missionForm" :selectLanguage="selectLanguage" />
 
             <!-- Social Links Section -->
-            <div class="panel">
-                <div class="mb-5 flex items-center justify-between">
-                    <h5 class="text-lg font-semibold dark:text-white-light">{{ $t('system.home_social') }}</h5>
-                    <label class="relative h-6 w-12">
-                        <input v-model="socialForm.is_active" type="checkbox"
-                            class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" />
-                        <span
-                            class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                    </label>
-                </div>
-                <form class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label for="youtube_link">{{ $t('system.youtube_link') }}</label>
-                            <input v-model="socialForm.youtube" id="youtube_link" type="url" class="form-input"
-                                placeholder="https://youtube.com/@yourhandle" />
-                            <div class="mt-1 text-sm text-danger" v-if="socialForm.errors['metadata.youtube']"
-                                v-html="socialForm.errors['metadata.youtube']">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="facebook_link">{{ $t('system.facebook_link') }}</label>
-                            <input v-model="socialForm.facebook" id="facebook_link" type="url" class="form-input"
-                                placeholder="https://facebook.com/yourpage" />
-                            <div class="mt-1 text-sm text-danger" v-if="socialForm.errors['metadata.facebook']"
-                                v-html="socialForm.errors['metadata.facebook']">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="instagram_link">{{ $t('system.instagram_link') }}</label>
-                            <input v-model="socialForm.instagram" id="instagram_link" type="url" class="form-input"
-                                placeholder="https://instagram.com/yourprofile" />
-                            <div class="mt-1 text-sm text-danger" v-if="socialForm.errors['metadata.instagram']"
-                                v-html="socialForm.errors['metadata.instagram']">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="twitter_link">{{ $t('system.twitter_link') }}</label>
-                            <input v-model="socialForm.twitter" id="twitter_link" type="url" class="form-input"
-                                placeholder="https://twitter.com/yourhandle" />
-                            <div class="mt-1 text-sm text-danger" v-if="socialForm.errors['metadata.twitter']"
-                                v-html="socialForm.errors['metadata.twitter']">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <SocialSection :form="socialForm" />
 
             <!-- Bottom Actions -->
             <div
@@ -325,10 +79,17 @@
 <script setup>
 import { inject, ref, reactive, watch, computed } from 'vue';
 import { Head, Link, useForm, router, usePage } from '@inertiajs/vue3';
-import ImageUpload from '@/Components/Inputs/ImageUpload.vue';
 import CustomMultiSelect from '@/Components/Inputs/CustomMultiSelect.vue';
 import Spinner from '@/Components/Spinner.vue';
 import { trans } from 'laravel-vue-i18n';
+
+// Import partial components
+import HeroSection from './Partials/HeroSection.vue';
+import HistorySection from './Partials/HistorySection.vue';
+import MessageSection from './Partials/MessageSection.vue';
+import MissionSection from './Partials/MissionSection.vue';
+import SocialSection from './Partials/SocialSection.vue';
+
 
 const props = defineProps([
     'hero',
@@ -336,51 +97,43 @@ const props = defineProps([
     'message',
     'mission',
     'social',
-    'branches',
 ]);
 
 const $helpers = inject('helpers');
-const Languages = usePage().props.languages;
-const selectLanguage = ref(Languages[0]);
+const page = usePage();
+const Languages = page.props.languages;
+const urlParams = new URLSearchParams(window.location.search || '');
+const initialLangParam = urlParams.get('lang') || page.props.ziggy.query.lang || (Languages[0] && Languages[0].slug) || null;
+const selectLanguage = ref(Languages.find(l => l.slug === initialLangParam) ?? Languages[0]);
 const branchList = computed(() => {
-    return usePage().props.branches.map(branch => ({
+    return page.props.branches.map(branch => ({
         id: branch.id,
         slug: branch.slug,
         name: branch.name,
-        label: $helpers.getTranslation(branch.name, selectLanguage.value.slug)
+        label: $helpers.getTranslation(branch.name, usePage().props.locale)
     }));
 });
-const selectBranch = ref(branchList.value[0]);
 
-// Watch for language changes and update selectBranch with the new translation
-watch(selectLanguage, () => {
-    if (selectBranch.value) {
-        // Find the same branch in the updated branchList with new translation
-        const updatedBranch = branchList.value.find(branch => branch.id === selectBranch.value.id);
-        if (updatedBranch) {
-            selectBranch.value = updatedBranch;
-        }
-    }
+// Initial branch: prefer server-selected branch (from middleware) or ?branch_id in URL; coerce to number
+const selectBranch = ref(branchList.value.find(b => Number(b.id) === Number(page.props.ziggy.query.branch_id)) ?? branchList.value[0]);
+
+// Watch for branches prop to refresh data by calling route
+watch(() => selectBranch.value, () => {
+    const branchId = selectBranch.value?.id;
+    const lang = selectLanguage.value?.slug;
+    router.visit(route('control.system.pages.home.index'), {
+        method: 'get',
+        data: { branch_id: branchId, lang },
+        // Don't preserve component state so forms re-initialize with new props
+        preserveState: false,
+        preserveScroll: true,
+    });
 }, { deep: true });
-
-// Helper function to parse translatable fields
-const parseTranslation = (value) => {
-    if (!value) return { en: '', ckb: '', ar: '' };
-    if (typeof value === 'object') return value;
-    if (typeof value === 'string') {
-        try {
-            return JSON.parse(value);
-        } catch (e) {
-            return { en: value, ckb: '', ar: '' };
-        }
-    }
-    return { en: '', ckb: '', ar: '' };
-};
 
 // Hero Section Form
 const form = useForm({
-    title: parseTranslation(props.hero?.title),
-    subtitle: parseTranslation(props.hero?.subtitle),
+    title: $helpers.parseTranslation(props.hero?.title),
+    subtitle: $helpers.parseTranslation(props.hero?.subtitle),
     media_type: props.hero?.metadata?.media_type || 'image',
     background_image: props.hero?.hero_image || null,
     background_video: props.hero?.background_video || null,
@@ -394,7 +147,7 @@ const form = useForm({
 
 // History Section Form
 const historyForm = useForm({
-    description: parseTranslation(props.history?.description),
+    description: $helpers.parseTranslation(props.history?.description),
     image_1: props.history?.images?.[0] || null,
     image_2: props.history?.images?.[1] || null,
     remove_history_image_1: false,
@@ -404,7 +157,7 @@ const historyForm = useForm({
 
 // Principal Message Form
 const messageForm = useForm({
-    description: parseTranslation(props.message?.description),
+    description: $helpers.parseTranslation(props.message?.description),
     image: props.message?.author_image || null,
     remove_message_image: false,
     is_active: props.message?.is_active || false,
@@ -412,7 +165,7 @@ const messageForm = useForm({
 
 // Mission Section Form
 const missionForm = useForm({
-    description: parseTranslation(props.mission?.description),
+    description: $helpers.parseTranslation(props.mission?.description),
     image: props.mission?.image || null,
     remove_mission_image: false,
     is_active: props.mission?.is_active || false,
@@ -427,32 +180,25 @@ const socialForm = useForm({
     is_active: props.social?.is_active || false,
 });
 
-const handleVideoUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        form.background_video = file;
-        form.remove_hero_background = false;
+// Ensure selectBranch follows server-provided selectedBranch (from middleware or ?branch_id=)
+watch(() => page.props.selectedBranch, (newSelected) => {
+    if (!newSelected) return;
+    const found = branchList.value.find(b => b.id === newSelected.id);
+    if (found) {
+        selectBranch.value = found;
+    } else if (branchList.value.length > 0) {
+        // Fallback: select first branch
+        selectBranch.value = branchList.value[0];
     }
-};
-
-const removeVideo = () => {
-    form.background_video = null;
-    form.remove_hero_background = true;
-};
-
-// Compute video preview URL
-const videoPreviewUrl = computed(() => {
-    if (!form.background_video) return null;
-    if (form.background_video instanceof File) {
-        return URL.createObjectURL(form.background_video);
-    }
-    return form.background_video; // Already a URL string
-});
+}, { immediate: true });
 
 const saveAllSections = () => {
     form.transform((data) => {
         const formData = {
             ...data,
+            // ensure translatable nested fields are plain objects (not reactive Proxies)
+            title: $helpers.toPlain(data.title),
+            subtitle: $helpers.toPlain(data.subtitle),
             branch_id: selectBranch.value?.id,
             metadata: {
                 media_type: data.media_type,
@@ -474,14 +220,18 @@ const saveAllSections = () => {
         return formData;
     }).post(route('control.system.pages.home.hero.update'), {
         preserveScroll: true,
+        preserveState: true,
         onError: (errors) => {
             $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.home_hero') }), 'error');
+            console.error('Hero Section Errors:', errors);
         },
         onSuccess: () => {
             // Save History
             historyForm.transform((data) => {
                 const formData = {
                     ...data,
+                    // make sure reactive/Proxy translation objects become plain objects
+                    description: $helpers.toPlain(data.description),
                     branch_id: selectBranch.value?.id
                 };
 
@@ -493,17 +243,23 @@ const saveAllSections = () => {
                     delete formData.image_2;
                 }
 
+                console.log('History Form Data:', formData);
+
                 return formData;
             }).post(route('control.system.pages.home.history.update'), {
                 preserveScroll: true,
+                preserveState: true,
                 onError: (errors) => {
                     $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.home_history') }), 'error');
+                    console.error('History Section Errors:', errors);
                 },
                 onSuccess: () => {
                     // Save Message
                     messageForm.transform((data) => {
                         const formData = {
                             ...data,
+                            // ensure description is a plain object (not a Proxy)
+                            description: $helpers.toPlain(data.description),
                             branch_id: selectBranch.value?.id
                         };
 
@@ -515,6 +271,7 @@ const saveAllSections = () => {
                         return formData;
                     }).post(route('control.system.pages.home.message.update'), {
                         preserveScroll: true,
+                        preserveState: true,
                         onError: (errors) => {
                             $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.home_message') }), 'error');
                         },
@@ -523,6 +280,8 @@ const saveAllSections = () => {
                             missionForm.transform((data) => {
                                 const formData = {
                                     ...data,
+                                    // ensure description is a plain object (not a Proxy)
+                                    description: $helpers.toPlain(data.description),
                                     branch_id: selectBranch.value?.id
                                 };
 
@@ -534,6 +293,7 @@ const saveAllSections = () => {
                                 return formData;
                             }).post(route('control.system.pages.home.mission.update'), {
                                 preserveScroll: true,
+                                preserveState: true,
                                 onError: (errors) => {
                                     $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.home_mission') }), 'error');
                                 },
@@ -549,6 +309,7 @@ const saveAllSections = () => {
                                         }
                                     })).post(route('control.system.pages.home.social.update'), {
                                         preserveScroll: true,
+                                        preserveState: true,
                                         onError: (errors) => {
                                             $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.home_social') }), 'error');
                                         },

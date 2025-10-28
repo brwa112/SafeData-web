@@ -275,6 +275,25 @@ export default {
                 // Ensure path starts with /
         const cleanPath = path.startsWith('/') ? path : `/${path}`;
         return `/${branchPrefix}${cleanPath}`;
-    }
+    },
+
+    // Convert reactive/Proxy translation objects into plain objects
+    toPlain(value) {
+        return Object.assign({}, value || {});
+    },
+
+    // Parse translation fields that may be stored as JSON strings or plain objects
+    parseTranslation(value) {
+        if (!value) return { en: '', ckb: '' };
+        if (typeof value === 'object') return value;
+        if (typeof value === 'string') {
+            try {
+                return JSON.parse(value);
+            } catch (e) {
+                return { en: value, ckb: '' };
+            }
+        }
+        return { en: '', ckb: '' };
+    },
 
 }

@@ -89,16 +89,6 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/', fn() => Inertia::render('System/Settings/Index'))->name('settings');
 
-            // System controllers
-            // Route::prefix('systems')->group(function () {
-            //     Route::resource('/group-permission', GroupPermissionController::class)->only(['index', 'store', 'update', 'destroy'])->names('layer_one_group_name_permissions');
-            //     Route::resource('/user-types', UserTypeController::class)->names('usertype');
-            //     Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
-            // });
-
-
-            // Route::prefix('/reasons')->as('reasons.')->group(function () {});
-
             // Settings controller
             Route::as('settings.')->group(function () {
                 Route::resource('/group-permission', GroupPermissionController::class)->only(['index', 'store', 'update', 'destroy'])->names('group_permissions');
