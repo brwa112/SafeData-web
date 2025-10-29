@@ -218,6 +218,7 @@
     "system.roles": "الأدوار",
     "system.permissions": "الصلاحيات",
     "system.new_user": "مستخدم جديد",
+    "system.touch": "جهة الاتصال",
     "system.edit_user": "تعديل المستخدم",
     "system.user_activity": "نشاط المستخدم",
     "system.name": "الاسم",

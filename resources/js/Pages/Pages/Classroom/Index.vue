@@ -71,7 +71,7 @@
 
                     <template #content="data">
                         <div class="b-text-sm text-gray-600">
-                            {{ excerpt($helpers.getTranslation(data.value.content || {}, selectLanguage.slug)) }}
+                            {{ $helpers.excerpt($helpers.getTranslation(data.value.content || {}, selectLanguage.slug)) }}
                         </div>
                     </template>
 
@@ -356,11 +356,7 @@ const columns = ref([
     { field: 'actions', title: wTrans('common.actions'), width: '50px', sort: false },
 ]);
 
-const excerpt = (html, length = 75) => {
-    if (!html) return '';
-    const stripped = String(html).replace(/<[^>]*>?/gm, '');
-    return stripped.length > length ? stripped.slice(0, length) + '...' : stripped;
-};
+// excerpt helper moved to global helpers
 
 // View classroom on frontend
 const viewClassroom = (row) => {

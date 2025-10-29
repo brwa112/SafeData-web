@@ -10,18 +10,27 @@
 
         <form class="grid grid-cols-1 lg:grid-cols-2 gap-5">
             <div>
-                <label>{{ $t('system.contact_email') }}</label>
+                <label>{{ $t('system.email') }}</label>
                 <input v-model="form.contact_email" type="email" class="form-input" />
+                <div class="mt-1 text-sm text-danger" v-if="form.errors['contact_email']" v-html="form.errors['contact_email']"></div>
             </div>
 
             <div>
-                <label>{{ $t('system.contact_phone') }}</label>
+                <label>{{ $t('system.phone') }}</label>
                 <input v-model="form.contact_phone" type="text" class="form-input" />
+                <div class="mt-1 text-sm text-danger" v-if="form.errors['contact_phone']" v-html="form.errors['contact_phone']"></div>
             </div>
 
             <div>
-                <label>{{ $t('system.contact_address') }} ({{ $t(`system.${selectLanguage.slug}`) }})</label>
+                <label>{{ $t('system.address') }} ({{ $t(`system.${selectLanguage.slug}`) }})</label>
                 <input v-model="form.contact_address[selectLanguage.slug]" type="text" class="form-input" />
+                <div class="mt-1 text-sm text-danger" v-if="form.errors['contact_address.' + selectLanguage.slug]" v-html="form.errors['contact_address.' + selectLanguage.slug]"></div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <label>{{ $t('system.map_iframe') }}</label>
+                <textarea v-model="form.map_iframe" rows="3" class="form-input resize-y" placeholder="Paste iframe HTML or the embed URL (we'll save only the URL)"></textarea>
+                <div class="mt-1 text-sm text-danger" v-if="form.errors['map_iframe']" v-html="form.errors['map_iframe']"></div>
             </div>
         </form>
     </div>

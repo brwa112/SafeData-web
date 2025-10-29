@@ -254,7 +254,18 @@ return [
     'mission_section_updated' => 'Mission section updated successfully',
     'social_section_updated' => 'Social links updated successfully',
 
+    // Generic section updated message
+    'section_updated' => 'Section updated successfully',
+
     'select_language' => 'Select Language',
+
+    'about' => 'About Page',
+    'about_section' => 'About Section',
+    'message' => 'Message Section',
+    'mission' => 'Mission Section',
+    'contact' => 'Contact',
+    'author' => 'Author',
+    'author_image' => 'Author Image',
 
     
 ];

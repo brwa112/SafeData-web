@@ -314,7 +314,7 @@ const saveAllSections = () => {
                                             $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.home_social') }), 'error');
                                         },
                                         onSuccess: () => {
-                                            $helpers.toast(trans('system.home_section_updated'), 'success');
+                                            $helpers.toast(trans('system.section_updated'), 'success');
                                         }
                                     });
                                 }

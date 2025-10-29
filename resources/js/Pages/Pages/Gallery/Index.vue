@@ -6,7 +6,7 @@
                     <span>{{ $t('pages.pages') }}</span>
                 </li>
                 <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <span>{{ $t('pages.gallery') }}</span>
+                    <span>{{ $t('nav.gallery') }}</span>
                 </li>
             </ul>
 
@@ -50,26 +50,33 @@
                     :filter="props.filter" v-model:sortBy="filters.sort_by"
                     v-model:sortDirection="filters.sort_direction">
 
+                    <template #datatable-actions>
+                        <CustomMultiSelect v-model="selectLanguage" :list="Languages" label="name" value="value"
+                            :showValue="false" parent-key="system" placeholder="languages" :require-selection="true" />
+                    </template>
+
                     <template #title="data">
-                        <div class="b-text-sm font-bold">{{ $helpers.getTranslation(data.value.title || {}, language) }}
+                        <div class="b-text-sm font-bold">{{ $helpers.getTranslation(data.value.title || {},
+                            selectLanguage.slug) }}
                         </div>
                     </template>
 
                     <template #branch="data">
                         <span v-if="data.value.branch_name" class="badge bg-success">{{
-                            $helpers.getTranslation(data.value.branch_name.name || {}, language) }}</span>
+                            $helpers.getTranslation(data.value.branch_name.name || {}, selectLanguage.slug) }}</span>
                         <span v-else class="text-gray-400">-</span>
                     </template>
 
                     <template #description="data">
                         <div class="b-text-sm text-gray-600">
-                            {{ excerpt($helpers.getTranslation(data.value.description || {}, language)) }}
+                            {{ $helpers.excerpt($helpers.getTranslation(data.value.description || {},
+                            selectLanguage.slug)) }}
                         </div>
                     </template>
 
                     <template #category="data">
                         <span v-if="data.value.category" class="badge bg-primary">{{
-                            $helpers.getTranslation(data.value.category.name || {}, language) }}</span>
+                            $helpers.getTranslation(data.value.category.name || {}, selectLanguage.slug) }}</span>
                         <span v-else class="text-gray-400">-</span>
                     </template>
 
@@ -86,6 +93,15 @@
                         <span v-else class="text-gray-400">{{ $t('pages.no_images') }}</span>
                     </template>
 
+                    <template #status="data">
+                        <span v-if="data.value.is_active" class="badge bg-success">
+                            {{ $t('common.active') }}
+                        </span>
+                        <span v-else class="badge bg-danger">
+                            {{ $t('common.inactive') }}
+                        </span>
+                    </template>
+
                     <template #created_at="data">
                         <span v-tippy dir="ltr" class="b-text-sm font-bold ltr">
                             {{ data.value.created_at ? $helpers.formatCustomDate(data.value.created_at) : '' }}
@@ -98,13 +114,6 @@
 
                         <!-- Active Record Actions -->
                         <div v-if="data.value.deleted_at == null" class="flex items-center justify-end gap-2">
-                            <div v-if="data.value.branch_name?.slug" class="text-center">
-                                <button type="button" v-tippy @click="viewGallery(data.value)">
-                                    <Svg name="eye" class="size-5"></Svg>
-                                </button>
-                                <tippy>{{ $t("common.view") }}</tippy>
-                            </div>
-
                             <div v-if="$can('edit_gallery')" class="text-center">
                                 <button type="button" v-tippy @click="toggleModal(data.value)">
                                     <Svg name="pencil" class="size-5"></Svg>
@@ -218,22 +227,19 @@ const columns = ref([
     { field: 'branch', title: wTrans('pages.branch'), sort: true },
     { field: 'category', title: wTrans('pages.category'), sort: true },
     { field: 'image', title: wTrans('pages.images'), sort: false },
+    { field: 'status', title: wTrans('common.status'), sort: true },
     { field: 'created_at', title: wTrans('common.created_at'), type: 'date' },
     { field: 'actions', title: wTrans('common.actions'), width: '80px', sort: false },
 ]);
 
-const excerpt = (html, length = 75) => {
-    if (!html) return '';
-    const stripped = String(html).replace(/<[^>]*>?/gm, '');
-    return stripped.length > length ? stripped.slice(0, length) + '...' : stripped;
-};
+// excerpt helper moved to global helpers
 
 // Upload form (includes multilingual title/description, category)
 const page = usePage();
 const Languages = page.props.languages || [];
 
 const showModal = ref(false);
-const language = ref(Languages[0]?.slug || 'en');
+const selectLanguage = ref(Languages[0]);
 
 const createEmptyForm = () => ({
     user_id: authUser.id,
@@ -260,7 +266,14 @@ const save = () => {
     if (isUpdate) {
         form.post(route('control.pages.gallery.update', { gallery: form.id }), { forceFormData: true, onSuccess: () => { toggleModal(); $helpers.toast(trans('common.record') + ' ' + trans('common.updated')); } });
     } else {
-        form.post(route('control.pages.gallery.store'), { forceFormData: true, onSuccess: () => { toggleModal(); $helpers.toast(trans('common.record') + ' ' + trans('common.created')); } });
+        form.post(route('control.pages.gallery.store'), { forceFormData: true, onSuccess: () => {
+            // clear parent form and images before closing modal
+            Object.assign(form, createEmptyForm());
+            imagesForm.value = { images: [] };
+            if (fileInput.value) fileInput.value.value = null;
+            toggleModal();
+            $helpers.toast(trans('common.record') + ' ' + trans('common.created'));
+        } });
     }
 };
 
@@ -309,16 +322,16 @@ const handleFiles = (e) => {
 };
 
 const categoryList = computed(() => {
-    return (props.categories || []).map(c => ({ id: c.id, label: $helpers.getTranslation(c.name, language.value) }));
+    return (props.categories || []).map(c => ({ id: c.id, label: $helpers.getTranslation(c.name, selectLanguage.value.slug) }));
 });
 
 // Filter select lists
 const branchFilterList = computed(() => {
-    return (props.branches || []).map(branch => ({ id: branch.id, label: $helpers.getTranslation(branch.name, language.value) }));
+    return (props.branches || []).map(branch => ({ id: branch.id, label: $helpers.getTranslation(branch.name, selectLanguage.value.slug) }));
 });
 
 const categoryFilterList = computed(() => {
-    return (props.categories || []).map(cat => ({ id: cat.id, label: $helpers.getTranslation(cat.name, language.value) }));
+    return (props.categories || []).map(cat => ({ id: cat.id, label: $helpers.getTranslation(cat.name, selectLanguage.value.slug) }));
 });
 
 const selectedBranchFilter = ref(null);
@@ -404,14 +417,6 @@ const callRestore = (row) => {
             });
         }
     });
-};
-
-// Open gallery frontend page
-const viewGallery = (row) => {
-    if (row.branch_name?.slug) {
-        const url = `/${row.branch_name.slug}/gallery/${row.id}`;
-        window.open(url, '_blank');
-    }
 };
 
 </script>

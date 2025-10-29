@@ -14,6 +14,7 @@
             <div>
                 <label>{{ $t('system.description') }} ({{ $t(`system.${selectLanguage.slug}`) }})</label>
                 <textarea v-model="form.description[selectLanguage.slug]" class="form-input h-28"></textarea>
+                <div class="mt-1 text-sm text-danger" v-if="form.errors['description.' + selectLanguage.slug]" v-html="form.errors['description.' + selectLanguage.slug]"></div>
             </div>
 
             <!-- mission has no image input -->

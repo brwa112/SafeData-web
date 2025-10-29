@@ -14,13 +14,12 @@ class UpdateMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|array',
-            'subtitle' => 'nullable|array',
             'description' => 'nullable|array',
             'author' => 'nullable|array',
-            'author_position' => 'nullable|array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'remove_author_image' => 'nullable|boolean',
+            'order' => 'nullable|integer',
+            'branch_id' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ];
     }

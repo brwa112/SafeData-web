@@ -28,9 +28,6 @@
                 <button @click="saveAllSections" type="button" class="btn btn-primary">
                     <span>{{ $t('system.save_changes') }}</span>
                 </button>
-                <Link :href="route('control.pages.gallery.index')" class="btn btn-outline-secondary">
-                    <span>{{ $t('system.gallery') }}</span>
-                </Link>
             </div>
         </div>
 
@@ -38,9 +35,6 @@
 
             <!-- About Section -->
             <AboutSection :form="aboutForm" :selectLanguage="selectLanguage" />
-
-            <!-- Media Section -->
-            <MediaSection :form="mediaForm" :selectLanguage="selectLanguage" />
 
             <!-- Message Section -->
             <MessageSection :form="messageForm" :selectLanguage="selectLanguage" />
@@ -83,14 +77,12 @@ import { trans } from 'laravel-vue-i18n';
 
 // Import partial components (we'll add these next)
 import AboutSection from './Partials/AboutSection.vue';
-import MediaSection from './Partials/MediaSection.vue';
 import MessageSection from './Partials/MessageSection.vue';
 import MissionSection from './Partials/MissionSection.vue';
 import TouchSection from './Partials/TouchSection.vue';
 
 const props = defineProps([
     'about',
-    'media',
     'message',
     'mission',
     'touch',
@@ -144,15 +136,7 @@ const aboutForm = useForm({
     is_active: props.about?.is_active || false,
 });
 
-const mediaForm = useForm({
-    title: $helpers.parseTranslation(props.media?.title),
-    description: $helpers.parseTranslation(props.media?.description),
-    gallery: props.media?.gallery || null,
-    videos: props.media?.videos || null,
-    remove_gallery: false,
-    remove_videos: false,
-    is_active: props.media?.is_active || false,
-});
+// media removed from About page: mediaForm intentionally omitted
 
 const messageForm = useForm({
     description: $helpers.parseTranslation(props.message?.description),
@@ -172,6 +156,7 @@ const touchForm = useForm({
     contact_email: props.touch?.contact_email || '',
     contact_phone: props.touch?.contact_phone || '',
     contact_address: $helpers.parseTranslation(props.touch?.contact_address),
+    map_iframe: props.touch?.map_iframe || '',
     is_active: props.touch?.is_active || false,
 });
 
@@ -188,57 +173,44 @@ const saveAllSections = () => {
             console.error('About Errors:', errors);
         },
         onSuccess: () => {
-            // then save media
-            mediaForm.transform((data) => ({
+            // proceed to message section
+            messageForm.transform((data) => ({
                 ...data,
-                title: $helpers.toPlain(data.title),
                 description: $helpers.toPlain(data.description),
+                author: $helpers.toPlain(data.author),
+                order: data.order,
                 branch_id: selectBranch.value?.id,
-            })).post(route('control.system.pages.about.media.update'), {
+            })).post(route('control.system.pages.about.message.update'), {
                 preserveScroll: true,
                 preserveState: true,
                 onError: (errors) => {
-                    $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.media') }), 'error');
+                    $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.message') }), 'error');
                 },
                 onSuccess: () => {
-                    messageForm.transform((data) => ({
+                    missionForm.transform((data) => ({
                         ...data,
                         description: $helpers.toPlain(data.description),
-                        author: $helpers.toPlain(data.author),
-                        order: data.order,
                         branch_id: selectBranch.value?.id,
-                    })).post(route('control.system.pages.about.message.update'), {
+                    })).post(route('control.system.pages.about.mission.update'), {
                         preserveScroll: true,
                         preserveState: true,
                         onError: (errors) => {
-                            $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.message') }), 'error');
+                            $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.mission') }), 'error');
                         },
                         onSuccess: () => {
-                            missionForm.transform((data) => ({
+                            touchForm.transform((data) => ({
                                 ...data,
-                                description: $helpers.toPlain(data.description),
+                                contact_address: $helpers.toPlain(data.contact_address),
+                                map_iframe: data.map_iframe,
                                 branch_id: selectBranch.value?.id,
-                            })).post(route('control.system.pages.about.mission.update'), {
+                            })).post(route('control.system.pages.about.touch.update'), {
                                 preserveScroll: true,
                                 preserveState: true,
                                 onError: (errors) => {
-                                    $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.mission') }), 'error');
+                                    $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.touch') }), 'error');
                                 },
                                 onSuccess: () => {
-                                    touchForm.transform((data) => ({
-                                        ...data,
-                                        contact_address: $helpers.toPlain(data.contact_address),
-                                        branch_id: selectBranch.value?.id,
-                                    })).post(route('control.system.pages.about.touch.update'), {
-                                        preserveScroll: true,
-                                        preserveState: true,
-                                        onError: (errors) => {
-                                            $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.touch') }), 'error');
-                                        },
-                                        onSuccess: () => {
-                                            $helpers.toast(trans('system.about_section_updated'), 'success');
-                                        }
-                                    });
+                                    $helpers.toast(trans('system.section_updated'), 'success');
                                 }
                             });
                         }

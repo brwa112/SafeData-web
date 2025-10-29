@@ -184,6 +184,20 @@ export default {
         text = text || '';
         return text.length > length ? text.substring(0, length) + '...' : text;
     },
+    /**
+     * Strip HTML tags and return a truncated excerpt
+     * @param {String|Object} html
+     * @param {Number} length
+     */
+    excerpt(html, length = 75) {
+        if (!html) return '';
+        // If a translation object is passed accidentally, try to get english text
+        if (typeof html === 'object') {
+            html = this.getTranslation(html);
+        }
+        const stripped = String(html).replace(/<[^>]*>?/gm, '');
+        return stripped.length > length ? stripped.slice(0, length) + '...' : stripped;
+    },
     log(...args) {
         console.log(...args);
         return args;

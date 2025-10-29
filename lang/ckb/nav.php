@@ -27,4 +27,5 @@ return [
     'classrooms' => 'Classrooms',
     'campus' => 'Campus',
     'classroom' => 'Classroom',
+    'gallery' => 'Gallery',
 ];

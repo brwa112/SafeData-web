@@ -23,7 +23,6 @@ class AboutController extends Controller
         $branchId = $request->input('branch_id') ?? Branch::active()->ordered()->first()->id;
 
         $about = AboutAbout::where('branch_id', $branchId)->first();
-    $media = Gallery::where('branch_id', $branchId)->first();
         $message = AboutMessage::where('branch_id', $branchId)->first();
         $mission = AboutMission::where('branch_id', $branchId)->first();
         $touch = AboutTouch::where('branch_id', $branchId)->first();
@@ -34,16 +33,6 @@ class AboutController extends Controller
                 'description' => $about->getTranslations('description'),
                 'is_active' => $about->is_active,
                 'images' => $about->getMedia('images')->map->getFullUrl(),
-            ] : null,
-            'media' => $media ? [
-                'id' => $media->id,
-                'title' => $media->getTranslations('title'),
-                'description' => $media->getTranslations('description'),
-                'is_active' => $media->is_active,
-                // Gallery model exposes images via appended attribute
-                'gallery' => $media->images,
-                // Videos are not part of Gallery by design
-                'videos' => [],
             ] : null,
             'message' => $message ? [
                 'id' => $message->id,
@@ -64,6 +53,7 @@ class AboutController extends Controller
                 'contact_email' => $touch->contact_email,
                 'contact_phone' => $touch->contact_phone,
                 'contact_address' => $touch->getTranslations('contact_address'),
+                'map_iframe' => $touch->map_iframe ?? null,
                 'is_active' => $touch->is_active,
                 'images' => $touch->getMedia('images')->map->getFullUrl(),
             ] : null,
@@ -113,45 +103,7 @@ class AboutController extends Controller
             }
         }
 
-        return back()->with('success', __('system.about_section_updated'));
-    }
-
-    public function updateMedia(UpdateMediaRequest $request)
-    {
-        $validated = $request->validated();
-
-        $media = Gallery::firstOrCreate([
-            'branch_id' => $request->input('branch_id'),
-            'user_id' => auth()->id(),
-        ], [
-            'user_id' => auth()->id(),
-            'branch_id' => $request->input('branch_id'),
-            'title' => $validated['title'] ?? ['en' => '', 'ckb' => ''],
-            'description' => $validated['description'] ?? ['en' => '', 'ckb' => ''],
-            'is_active' => $validated['is_active'] ?? false,
-        ]);
-
-        $media->update([
-            'user_id' => auth()->id(),
-            'branch_id' => $request->input('branch_id'),
-            'title' => $validated['title'] ?? $media->title,
-            'description' => $validated['description'] ?? $media->description,
-            'is_active' => $validated['is_active'] ?? false,
-        ]);
-
-        // Images are stored in the Gallery model under 'images' collection
-        if ($request->input('remove_gallery')) {
-            $media->clearMediaCollection('images');
-        }
-
-        if ($request->hasFile('gallery')) {
-            $media->clearMediaCollection('images');
-            foreach ($request->file('gallery') as $file) {
-                $media->addMedia($file)->toMediaCollection('images');
-            }
-        }
-
-        return back()->with('success', __('system.media_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 
     public function updateMessage(UpdateMessageRequest $request)
@@ -188,7 +140,7 @@ class AboutController extends Controller
             $message->addMediaFromRequest('image')->toMediaCollection('author_image');
         }
 
-        return back()->with('success', __('system.message_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 
     public function updateMission(UpdateMissionRequest $request)
@@ -214,12 +166,30 @@ class AboutController extends Controller
 
         // mission section has no images to handle
 
-        return back()->with('success', __('system.mission_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 
     public function updateTouch(UpdateTouchRequest $request)
     {
         $validated = $request->validated();
+
+        // normalize map_iframe input: extract src from iframe or accept plain URL
+        $rawMapInput = $validated['map_iframe'] ?? null;
+        $mapUrl = null;
+        if (!empty($rawMapInput)) {
+            if (stripos($rawMapInput, '<iframe') !== false) {
+                if (preg_match('/src=["\']([^"\']+)["\']/i', $rawMapInput, $m)) {
+                    $mapUrl = $m[1];
+                }
+            } else {
+                $mapUrl = $rawMapInput;
+            }
+        }
+
+        // final check: must be a valid URL
+        if (empty($mapUrl) || !filter_var($mapUrl, FILTER_VALIDATE_URL)) {
+            return back()->withErrors(['map_iframe' => trans('system.invalid_map_iframe')]);
+        }
 
         $touch = AboutTouch::firstOrCreate([
             'branch_id' => $request->input('branch_id'),
@@ -230,6 +200,8 @@ class AboutController extends Controller
             'contact_email' => $validated['contact_email'] ?? null,
             'contact_phone' => $validated['contact_phone'] ?? null,
             'contact_address' => $validated['contact_address'] ?? [],
+            // store only the normalized URL
+            'map_iframe' => $mapUrl,
             'is_active' => $validated['is_active'] ?? false,
         ]);
 
@@ -239,11 +211,13 @@ class AboutController extends Controller
             'contact_email' => $validated['contact_email'] ?? $touch->contact_email,
             'contact_phone' => $validated['contact_phone'] ?? $touch->contact_phone,
             'contact_address' => $validated['contact_address'] ?? $touch->contact_address,
+            // use normalized URL validated above
+            'map_iframe' => $mapUrl,
             'is_active' => $validated['is_active'] ?? false,
         ]);
 
         // touch/contact section has no images to handle
 
-        return back()->with('success', __('system.touch_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 }

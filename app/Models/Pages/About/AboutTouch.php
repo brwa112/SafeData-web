@@ -28,6 +28,7 @@ class AboutTouch extends Model implements HasMedia
         'contact_email',
         'contact_phone',
         'contact_address',
+        'map_iframe',
         'is_active',
     ];
 
@@ -73,7 +74,7 @@ class AboutTouch extends Model implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['contact_email', 'contact_phone', 'contact_address', 'is_active', 'user_id', 'branch_id'])
+            ->logOnly(['contact_email', 'contact_phone', 'contact_address', 'map_iframe', 'is_active', 'user_id', 'branch_id'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

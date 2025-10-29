@@ -5,6 +5,7 @@ use App\Http\Controllers\Pages\NewsController;
 use App\Http\Controllers\Pages\CampusController;
 use App\Http\Controllers\Pages\ClassroomController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\System\Settings\Pages\AboutController;
 use App\Http\Controllers\System\Settings\Pages\HomeController;
 use App\Http\Controllers\System\Users\PermissionController;
 use App\Http\Controllers\System\Users\RoleController;
@@ -128,12 +129,11 @@ Route::middleware('auth')->group(function () {
 
                 // About page settings (mirror Home settings)
                 Route::prefix('about')->as('about.')->group(function () {
-                    Route::get('/', [\App\Http\Controllers\System\Settings\Pages\AboutController::class, 'index'])->name('index');
-                    Route::post('/about', [\App\Http\Controllers\System\Settings\Pages\AboutController::class, 'updateAbout'])->name('about.update');
-                    Route::post('/media', [\App\Http\Controllers\System\Settings\Pages\AboutController::class, 'updateMedia'])->name('media.update');
-                    Route::post('/message', [\App\Http\Controllers\System\Settings\Pages\AboutController::class, 'updateMessage'])->name('message.update');
-                    Route::post('/mission', [\App\Http\Controllers\System\Settings\Pages\AboutController::class, 'updateMission'])->name('mission.update');
-                    Route::post('/touch', [\App\Http\Controllers\System\Settings\Pages\AboutController::class, 'updateTouch'])->name('touch.update');
+                    Route::get('/', [AboutController::class, 'index'])->name('index');
+                    Route::post('/about', [AboutController::class, 'updateAbout'])->name('about.update');
+                    Route::post('/message', [AboutController::class, 'updateMessage'])->name('message.update');
+                    Route::post('/mission', [AboutController::class, 'updateMission'])->name('mission.update');
+                    Route::post('/touch', [AboutController::class, 'updateTouch'])->name('touch.update');
                 });
             });
         });

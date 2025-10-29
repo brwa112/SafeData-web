@@ -14,12 +14,8 @@ class UpdateMissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|array',
-            'subtitle' => 'nullable|array',
             'description' => 'nullable|array',
-            'goals' => 'nullable|array',
-            //'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:10240',
-            //'remove_images' => 'nullable|boolean',
+            'branch_id' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ];
     }

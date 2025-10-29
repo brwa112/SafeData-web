@@ -106,7 +106,7 @@ class HomeController extends Controller
             $hero->addMediaFromRequest('background_video')->toMediaCollection('background_video');
         }
 
-        return back()->with('success', __('system.hero_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 
     public function updateHistory(UpdateHistoryRequest $request)
@@ -151,7 +151,7 @@ class HomeController extends Controller
             $history->addMediaFromRequest('image_2')->toMediaCollection('image_2');
         }
 
-        return back()->with('success', __('system.history_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 
     public function updateMessage(UpdateMessageRequest $request)
@@ -186,7 +186,7 @@ class HomeController extends Controller
             $message->addMediaFromRequest('image')->toMediaCollection('author_image');
         }
 
-        return back()->with('success', __('system.message_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 
     public function updateMission(UpdateMissionRequest $request)
@@ -221,7 +221,7 @@ class HomeController extends Controller
             $mission->addMediaFromRequest('image')->toMediaCollection('images');
         }
 
-        return back()->with('success', __('system.mission_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 
     public function updateSocial(UpdateSocialRequest $request)
@@ -246,6 +246,6 @@ class HomeController extends Controller
             'is_active' => $validated['is_active'] ?? false,
         ]);
 
-        return back()->with('success', __('system.social_section_updated'));
+    return back()->with('success', __('system.section_updated'));
     }
 }

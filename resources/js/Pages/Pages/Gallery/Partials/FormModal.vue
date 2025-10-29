@@ -26,7 +26,7 @@
                                 <span v-else>
                                     {{ $t('common.new') }}
                                 </span>
-                                {{ $t('pages.gallery') }}
+                                {{ $t('nav.gallery') }}
                             </div>
                             <div class="p-5">
                                 <form @submit.prevent="onSubmit" v-shortkey="['ctrl', 's']" @shortkey="onSubmit"
@@ -82,8 +82,8 @@
                                             <label for="category_id">
                                                 {{ $t('pages.category') }}
                                             </label>
-                                            <MultiSelect v-model="selectedCategory" :list="categoryList" :multiple="false"
-                                                label="label" />
+                                            <MultiSelect v-model="selectedCategory" :list="categoryList"
+                                                :multiple="false" label="label" />
                                             <div class="mt-1 text-sm text-danger" v-if="form.errors.category_id"
                                                 v-html="form.errors.category_id">
                                             </div>
@@ -108,6 +108,9 @@
                                             </label>
                                             <p class="text-xs text-gray-500 mb-2">
                                                 Supported formats: JPEG, PNG, JPG, GIF, WEBP (Max: 10MB each)
+                                            </p>
+                                            <p class="text-xs text-gray-500 mb-2 -mt-1">
+                                                
                                             </p>
 
                                             <!-- Existing Images Preview -->
@@ -134,7 +137,7 @@
                                                     class="size-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg flex items-center justify-center">
                                                     <div class="flex flex-col items-center justify-center">
                                                         <Svg name="image_line" class="size-12 text-gray-400 mb-2"></Svg>
-                                                        <input ref="fileInput" type="file" multiple accept="image/*"
+                                                        <input ref="fileInput" type="file" accept="image/*"
                                                             @change="handleFileSelect" class="hidden" />
                                                         <button type="button" @click="$refs.fileInput.click()"
                                                             class="btn btn-sm btn-primary shadow-none">
@@ -175,14 +178,6 @@
                                             </template>
                                         </div>
 
-                                        <!-- Is Active -->
-                                        <div class="flex items-center mt-8">
-                                            <label class="flex items-center cursor-pointer">
-                                                <input type="checkbox" v-model="form.is_active" class="form-checkbox" />
-                                                <span class="ml-1">{{ $t('system.is_active') }}</span>
-                                            </label>
-                                        </div>
-
                                         <!-- Order -->
                                         <div>
                                             <label for="order">
@@ -195,6 +190,15 @@
                                                 v-html="form.errors.order">
                                             </div>
                                         </div>
+
+                                        <!-- Is Active -->
+                                        <div class="flex items-center mt-8">
+                                            <label class="flex items-center cursor-pointer">
+                                                <input type="checkbox" v-model="form.is_active" class="form-checkbox" />
+                                                <span class="ml-1">{{ $t('system.is_active') }}</span>
+                                            </label>
+                                        </div>
+
                                     </div>
 
                                     <div class="flex justify-end items-center mt-5">
@@ -306,23 +310,33 @@ const onSubmit = () => {
     emit('submit');
 };
 
+// Clear new images and reset file input when modal is closed to ensure form is clean after save/close
+watch(() => props.showModal, (val) => {
+    if (!val) {
+        // clear previews and attached files
+        newImages.value = [];
+        props.form.images = [];
+        // reset internal file input element if present
+        if (fileInput.value) fileInput.value.value = null;
+    }
+});
+
 // File handlers
 const handleFileSelect = (e) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            newImages.value.push({ file: file, preview: ev.target.result });
-        };
-        reader.readAsDataURL(file);
-    }
+    // Only allow a single image for Gallery form. Use the first selected file.
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        // replace any previous newImages with the single selected image
+        newImages.value = [{ file: file, preview: ev.target.result }];
+    };
+    reader.readAsDataURL(file);
 
-    // Attach files to parent form
-    props.form.images = props.form.images || [];
-    for (let i = 0; i < files.length; i++) props.form.images.push(files[i]);
+    // Attach single file to parent form (replace any existing selection)
+    props.form.images = [file];
 };
 
 const removeExistingImage = (index) => {
@@ -334,10 +348,9 @@ const removeExistingImage = (index) => {
 };
 
 const removeNewImage = (index) => {
+    // For single-image flow, just clear newImages and the form.images array
     newImages.value.splice(index, 1);
-    // remove from form.images as well (match by name)
-    const fname = props.form.images[index]?.name;
-    props.form.images = props.form.images.filter(f => f.name !== fname);
+    props.form.images = [];
 };
 
 // Sync branch prop when form.branch_id changes (edit case)

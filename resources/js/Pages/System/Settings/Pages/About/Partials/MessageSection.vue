@@ -15,11 +15,13 @@
                 <div>
                     <label>{{ $t('system.description') }} ({{ $t(`system.${selectLanguage.slug}`) }})</label>
                     <textarea v-model="form.description[selectLanguage.slug]" class="form-input h-28"></textarea>
+                    <div class="mt-1 text-sm text-danger" v-if="form.errors['description.' + selectLanguage.slug]" v-html="form.errors['description.' + selectLanguage.slug]"></div>
                 </div>
 
                 <div>
                     <label>{{ $t('system.author') }} ({{ $t(`system.${selectLanguage.slug}`) }})</label>
                     <input v-model="form.author[selectLanguage.slug]" type="text" class="form-input" />
+                        <div class="mt-1 text-sm text-danger" v-if="form.errors['author.' + selectLanguage.slug]" v-html="form.errors['author.' + selectLanguage.slug]"></div>
                 </div>
             </div>
 
@@ -27,6 +29,7 @@
                 <label>{{ $t('system.author_image') }}</label>
                 <ImageUpload v-model="form.image" field-name="author_image"
                     @update:form="(data) => { if (data.remove_author_image !== undefined) form.remove_author_image = data.remove_author_image; }" />
+                    <div class="mt-2 text-sm text-danger" v-if="form.errors['author_image']" v-html="form.errors['author_image']"></div>
             </div>
         </form>
     </div>

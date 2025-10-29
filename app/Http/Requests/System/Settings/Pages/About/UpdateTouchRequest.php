@@ -14,20 +14,25 @@ class UpdateTouchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|array',
-            'subtitle' => 'nullable|array',
-            'description' => 'nullable|array',
             'contact_email' => 'nullable|email',
             'contact_phone' => 'nullable|string',
+            // accept either iframe HTML or a plain URL; controller will extract URL
+            'map_iframe' => 'required|string',
             'contact_address' => 'nullable|array',
-            //'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            //'remove_images' => 'nullable|boolean',
+            'branch_id' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ];
     }
 
     public function attributes(): array
     {
-        return [];
+        return [
+            'contact_email' => __('system.email'),
+            'contact_phone' => __('system.phone'),
+            'contact_address' => __('system.address'),
+            'contact_address.en' => __('system.address') . ' (' . __('system.en') . ')',
+            'contact_address.ckb' => __('system.address') . ' (' . __('system.ckb') . ')',
+            'map_iframe' => __('system.map_iframe'),
+        ];
     }
 }
