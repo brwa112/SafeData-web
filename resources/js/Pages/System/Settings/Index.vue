@@ -94,6 +94,8 @@
                                     can="view_about" />
                                 <SettingMenu link="control.system.pages.calendar.index" label="calendar" icon="calender_date"
                                     can="view_calendar" />
+                                <SettingMenu link="control.system.pages.academic.index" label="academic" icon="academic_cap"
+                                    can="view_academic" />
 
                             </div>
                         </div>

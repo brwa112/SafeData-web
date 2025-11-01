@@ -6,6 +6,7 @@ use App\Http\Controllers\Pages\CampusController;
 use App\Http\Controllers\Pages\ClassroomController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\System\Settings\Pages\AboutController;
+use App\Http\Controllers\System\Settings\Pages\AcademicController;
 use App\Http\Controllers\System\Settings\Pages\CalendarController;
 use App\Http\Controllers\System\Settings\Pages\HomeController;
 use App\Http\Controllers\System\Users\PermissionController;
@@ -143,6 +144,13 @@ Route::middleware('auth')->group(function () {
                     Route::post('/academic', [CalendarController::class, 'updateAcademic'])->name('academic.update');
                     Route::post('/official', [CalendarController::class, 'updateOfficial'])->name('official.update');
                     Route::post('/important', [CalendarController::class, 'updateImportant'])->name('important.update');
+                });
+
+                // Academic page settings
+                Route::prefix('academic')->as('academic.')->group(function () {
+                    Route::get('/', [AcademicController::class, 'index'])->name('index');
+                    Route::post('/choose', [AcademicController::class, 'updateChoose'])->name('choose.update');
+                    Route::post('/approach', [AcademicController::class, 'updateApproach'])->name('approach.update');
                 });
             });
         });

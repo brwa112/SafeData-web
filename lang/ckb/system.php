@@ -256,4 +256,20 @@ return [
     'event_name' => 'ناوی ڕووداو',
     'date' => 'ڕێکەوت',
     'add_important_date' => 'ڕێکەوتی گرنگ زیادبکە',
+
+    // Academic Page Management
+    'academic' => 'پەڕەی ئەکادیمی',
+    'choose_section' => 'بەشی بۆچی ئێمە هەڵبژێریت',
+    'approach_section' => 'بەشی ڕێگای ئێمە',
+    'reasons' => 'هۆکارەکانی هەڵبژاردنی ئێمە',
+    'reason' => 'هۆکار',
+    'add_reason' => 'هۆکار زیادبکە',
+    'features' => 'تایبەتمەندییەکان',
+    'feature' => 'تایبەتمەندی',
+    'add_feature' => 'تایبەتمەندی زیادبکە',
+    'highlight' => 'جەختکردنەوە',
+    'icon' => 'وێنۆچکە',
+    'color' => 'ڕەنگ',
+    'background_color' => 'ڕەنگی پاشبنەما',
+    'border_color' => 'ڕەنگی سنوور',
 ];

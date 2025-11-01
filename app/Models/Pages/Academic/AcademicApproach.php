@@ -2,6 +2,7 @@
 
 namespace App\Models\Pages\Academic;
 
+use App\Models\Pages\Branch;
 use App\Models\System\Users\User;
 use App\Traits\LogsMediaActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,12 +19,11 @@ class AcademicApproach extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, HasTranslations, LogsActivity, LogsMediaActivity;
 
-    public $translatable = ['title', 'subtitle', 'description'];
+    public $translatable = ['description', 'features'];
 
     protected $fillable = [
         'user_id',
-        'title',
-        'subtitle',
+        'branch_id',
         'description',
         'features',
         'metadata',
@@ -57,6 +57,11 @@ class AcademicApproach extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -70,7 +75,7 @@ class AcademicApproach extends Model implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'subtitle', 'description', 'features', 'is_active', 'user_id'])
+            ->logOnly(['description', 'features', 'is_active', 'user_id'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

@@ -189,6 +189,11 @@ class DatabaseSeeder extends Seeder
                 'slug' => 'calendar',
                 'description' => 'Manage calendar page settings and content',
             ],
+            [
+                'name' => 'academic',
+                'slug' => 'academic',
+                'description' => 'Manage academic page settings and content',
+            ],
         ];
 
         foreach ($permissionsData as $permissionData) {

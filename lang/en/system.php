@@ -280,5 +280,20 @@ return [
     'date' => 'Date',
     'add_important_date' => 'Add Important Date',
 
+    // Academic Page Management
+    'academic' => 'Academic Page',
+    'choose_section' => 'Why Choose Us Section',
+    'approach_section' => 'Our Approach Section',
+    'reasons' => 'Reasons to Choose Us',
+    'reason' => 'Reason',
+    'add_reason' => 'Add Reason',
+    'features' => 'Features',
+    'feature' => 'Feature',
+    'add_feature' => 'Add Feature',
+    'highlight' => 'Highlight',
+    'icon' => 'Icon',
+    'color' => 'Color',
+    'background_color' => 'Background Color',
+    'border_color' => 'Border Color',
     
 ];
