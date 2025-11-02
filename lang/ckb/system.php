@@ -121,7 +121,7 @@ return [
     'client_status_history' => 'مێژووی دۆخی کڕیار',
     'client_status' => 'دۆخی کڕیار',
     'reseller_status_history' => 'مێژووی دۆخی فرۆشیاری دووبارە',
-    'reasons' => 'هۆکارەکان',
+    'reasons' => 'هۆکارەکانی هەڵبژاردنی ئێمە',
     'reseller_package' => 'پاکێجی فرۆشیاری دووبارە',
     'reseller' => 'فرۆشیاری دووبارە',
     'languages' => 'زمانەکان',
@@ -231,7 +231,6 @@ return [
     'message_section_updated' => 'بەشی پەیام بە سەرکەوتوویی نوێکرایەوە',
     'mission_section_updated' => 'بەشی ئامانج بە سەرکەوتوویی نوێکرایەوە',
     'social_section_updated' => 'بەستەرەکانی کۆمەڵایەتی بە سەرکەوتوویی نوێکرانەوە',
-    // Generic section updated message
     'section_updated' => 'بەشی نوێکراو بە سەرکەوتوویی',
     'select_language' => 'زمان هەڵبژێرە',
     'about' => 'About Page',
@@ -243,8 +242,6 @@ return [
     'author_image' => 'Author Image',
     'message' => 'Message Section',
     'mission' => 'Mission Section',
-
-    // Calendar Page Management
     'calendar' => 'ڕۆژژمێر',
     'activities' => 'چالاکییەکان',
     'activity' => 'چالاکی',
@@ -256,13 +253,9 @@ return [
     'event_name' => 'ناوی ڕووداو',
     'date' => 'ڕێکەوت',
     'add_important_date' => 'ڕێکەوتی گرنگ زیادبکە',
-
-    // Academic Page Management
     'academic' => 'پەڕەی ئەکادیمی',
     'choose_section' => 'بەشی بۆچی ئێمە هەڵبژێریت',
     'approach_section' => 'بەشی ڕێگای ئێمە',
-    'reasons' => 'هۆکارەکانی هەڵبژاردنی ئێمە',
-    'reason' => 'هۆکار',
     'add_reason' => 'هۆکار زیادبکە',
     'features' => 'تایبەتمەندییەکان',
     'feature' => 'تایبەتمەندی',
@@ -272,8 +265,6 @@ return [
     'color' => 'ڕەنگ',
     'background_color' => 'ڕەنگی پاشبنەما',
     'border_color' => 'ڕەنگی سنوور',
-
-    // Admission Page Management
     'admission' => 'پەڕەی وەرگرتن',
     'policy_section' => 'بەشی سیاسەتی وەرگرتن',
     'documents_section' => 'بەشی بەڵگەنامە پێویستەکان',

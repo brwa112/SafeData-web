@@ -148,4 +148,5 @@ return [
     'trashed' => 'Trashed',
     'event' => 'Event',
     'model' => 'Model',
+    'usage' => 'Usage',
 ];

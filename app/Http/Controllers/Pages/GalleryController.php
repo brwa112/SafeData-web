@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pages\Gallery;
-use App\Models\Pages\Category;
+use App\Models\Pages\GalleryCategory;
 use App\Models\Pages\Branch;
 use App\Http\Requests\GalleryRequest;
 use App\Traits\HandlesSorting;
@@ -47,7 +47,7 @@ class GalleryController extends Controller
             'created_at' => $this->simpleSort('galleries.created_at'),
 
             'branch.name' => $this->relatedSort(Branch::class, 'name', 'id', 'galleries.branch_id'),
-            'category.name' => $this->relatedSort(Category::class, 'name', 'id', 'galleries.category_id'),
+            'category.name' => $this->relatedSort(GalleryCategory::class, 'name', 'id', 'galleries.gallery_category_id'),
         ];
     }
 
@@ -64,8 +64,8 @@ class GalleryController extends Controller
                 ];
             });
 
-        $categories = Category::where('is_active', true)
-            ->orderBy('order')
+        $categories = GalleryCategory::where('is_active', true)
+            ->orderBy('id', 'desc')
             ->get()
             ->map(function ($category) {
                 return [

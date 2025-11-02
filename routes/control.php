@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\System\Users\UserController;
 use App\Http\Controllers\Pages\NewsController;
+use App\Http\Controllers\NewsCategoryController;
+use App\Http\Controllers\GalleryCategoryController;
 use App\Http\Controllers\Pages\CampusController;
 use App\Http\Controllers\Pages\ClassroomController;
 use App\Http\Controllers\Profile\ProfileController;
@@ -48,6 +50,15 @@ Route::middleware('auth')->group(function () {
             Route::post('/{news}/restore', [NewsController::class, 'restore'])->name('restore');
         });
 
+        Route::prefix('news-categories')->as('news-categories.')->group(function () {
+            Route::get('/', [NewsCategoryController::class, 'index'])->name('index');
+            Route::post('/', [NewsCategoryController::class, 'store'])->name('store');
+            Route::post('/{newsCategory}', [NewsCategoryController::class, 'update'])->name('update');
+            Route::delete('/{newsCategory}', [NewsCategoryController::class, 'destroy'])->name('destroy');
+            Route::delete('/{newsCategory}/force', [NewsCategoryController::class, 'forceDelete'])->name('force_delete');
+            Route::post('/{newsCategory}/restore', [NewsCategoryController::class, 'restore'])->name('restore');
+        });
+
         Route::prefix('campus')->as('campus.')->group(function () {
             Route::get('/', [CampusController::class, 'index'])->name('index');
             Route::post('/', [CampusController::class, 'store'])->name('store');
@@ -74,6 +85,15 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{gallery}', [\App\Http\Controllers\Pages\GalleryController::class, 'destroy'])->name('destroy');
             Route::delete('/{gallery}/force', [\App\Http\Controllers\Pages\GalleryController::class, 'forceDelete'])->name('force_delete');
             Route::post('/{gallery}/restore', [\App\Http\Controllers\Pages\GalleryController::class, 'restore'])->name('restore');
+        });
+
+        Route::prefix('gallery-categories')->as('gallery-categories.')->group(function () {
+            Route::get('/', [GalleryCategoryController::class, 'index'])->name('index');
+            Route::post('/', [GalleryCategoryController::class, 'store'])->name('store');
+            Route::post('/{galleryCategory}', [GalleryCategoryController::class, 'update'])->name('update');
+            Route::delete('/{galleryCategory}', [GalleryCategoryController::class, 'destroy'])->name('destroy');
+            Route::delete('/{galleryCategory}/force', [GalleryCategoryController::class, 'forceDelete'])->name('force_delete');
+            Route::post('/{galleryCategory}/restore', [GalleryCategoryController::class, 'restore'])->name('restore');
         });
     });
 

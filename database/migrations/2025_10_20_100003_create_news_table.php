@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            // category_id will be added by later migration (update_news_and_gallery_category_references)
             $table->json('title');
             $table->json('content')->comment('Full article content');
             $table->integer('views')->default(0);

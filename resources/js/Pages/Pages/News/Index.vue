@@ -10,6 +10,13 @@
                 </li>
             </ul>
             <div class="flex items-center gap-3">
+                <!-- Categories Button -->
+                <Link :href="route('control.pages.news-categories.index')"
+                    class="btn btn-sm btn-secondary shadow-none flex items-center gap-1">
+                    <Svg name="box" class="size-4"></Svg>
+                    <span>{{ $t('pages.category') }}</span>
+                </Link>
+
                 <!-- Add New Button -->
                 <button v-if="$can('create_news')" type="button"
                     class="btn btn-sm btn-primary shadow-none flex items-center gap-1" @click="toggleModal()">
@@ -192,7 +199,7 @@
 
 <script setup>
 import { inject, ref, watch, computed } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage, Link } from '@inertiajs/vue3';
 import { wTrans, trans } from 'laravel-vue-i18n';
 import Swal from 'sweetalert2';
 import Svg from '@/Components/Svg.vue';
@@ -360,6 +367,7 @@ const save = () => {
 
     // For updates with file uploads, we need to use POST with _method field
     if (isUpdate) {
+        console.log('Updating news with ID:', form.category_id);
         form.post(route('control.pages.news.update', { news: form.id }), {
             forceFormData: true,
             onSuccess: () => {
@@ -389,8 +397,8 @@ const toggleModal = (row = null) => {
         form.user_id = row.user_id || authUser.id;
         form.title = row.title || {};
         form.content = row.content || {};
-        form.branch_id = row.branch_name?.id || '';
-        form.category_id = row.category_name?.id || '';
+        form.branch_id = row.branch?.id || '';
+        form.category_id = row.category?.id || '';
         form.hashtag_ids = row.hashtag_ids || [];
         form.order = row.order || 0;
         form.is_active = row.is_active !== undefined ? row.is_active : true;

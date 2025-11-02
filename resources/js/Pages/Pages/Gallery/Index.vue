@@ -11,6 +11,14 @@
             </ul>
 
             <div class="flex items-center gap-3">
+                <!-- Categories Button -->
+                <Link :href="route('control.pages.gallery-categories.index')"
+                    class="btn btn-sm btn-secondary shadow-none flex items-center gap-1">
+                    <Svg name="box" class="size-4"></Svg>
+                    <span>{{ $t('pages.category') }}</span>
+                </Link>
+
+                <!-- Add New Button -->
                 <button v-if="$can('create_gallery')" type="button"
                     class="btn btn-sm btn-primary shadow-none flex items-center gap-1" @click="toggleModal()">
                     <Svg name="new" class="size-4"></Svg>
@@ -161,7 +169,7 @@
 
 <script setup>
 import { inject, ref, reactive, computed, watch } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage, Link } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import Svg from '@/Components/Svg.vue';
 import Datatable from '@/Components/Datatable.vue';
@@ -285,7 +293,7 @@ const toggleModal = (row = null) => {
         form.title = row.title || {};
         form.description = row.description || {};
         form.user_id = row.user_id || authUser.id;
-        form.branch_id = row.branch_name?.id || '';
+        form.branch_id = row.branch?.id || '';
         form.category_id = row.category?.id || '';
         form.order = row.order || 0;
         form.images = [];

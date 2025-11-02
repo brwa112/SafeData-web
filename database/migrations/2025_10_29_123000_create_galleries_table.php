@@ -16,7 +16,7 @@ class CreateGalleriesTable extends Migration
             $table->string('slug')->nullable()->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            // category_id will be added by later migration (update_news_and_gallery_category_references)
             $table->json('title')->nullable();
             $table->json('description')->nullable();
             $table->integer('views')->default(0);

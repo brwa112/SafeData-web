@@ -9,21 +9,18 @@ use Spatie\Translatable\HasTranslations;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class Category extends Model
+class GalleryCategory extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations, LogsActivity;
 
     protected $fillable = [
         'name',
         'slug',
-        'description',
-        'order',
         'is_active',
     ];
 
     public $translatable = [
         'name',
-        'description',
     ];
 
     protected $casts = [
@@ -31,19 +28,27 @@ class Category extends Model
     ];
 
     /**
-     * Get all news articles in this category (one-to-many).
+     * Get all gallery items in this category
      */
-    public function news()
+    public function galleries()
     {
-        return $this->hasMany(News::class);
+        return $this->hasMany(Gallery::class, 'gallery_category_id');
+    }
+
+    /**
+     * Increment usage count when category is used
+     */
+    public function incrementUsage()
+    {
+        // Optional: You can add a usage_count field if needed
     }
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'slug', 'description', 'order', 'is_active'])
+            ->logOnly(['name', 'slug', 'is_active'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Category {$eventName}");
+            ->setDescriptionForEvent(fn(string $eventName) => "Gallery Category {$eventName}");
     }
 }

@@ -24,7 +24,7 @@ class Gallery extends Model implements HasMedia
     protected $fillable = [
         'user_id',
         'branch_id',
-        'category_id',
+        'gallery_category_id',
         'title',
         'description',
         'views',
@@ -82,7 +82,7 @@ class Gallery extends Model implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'description', 'branch_id', 'category_id', 'is_active', 'order', 'views'])
+            ->logOnly(['title', 'description', 'branch_id', 'gallery_category_id', 'is_active', 'order', 'views'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
             ->setDescriptionForEvent(fn(string $eventName) => "Gallery item {$eventName}");
@@ -122,7 +122,12 @@ class Gallery extends Model implements HasMedia
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(GalleryCategory::class, 'gallery_category_id');
+    }
+
+    public function galleryCategory()
+    {
+        return $this->belongsTo(GalleryCategory::class, 'gallery_category_id');
     }
 
     public function branch()
@@ -156,7 +161,7 @@ class Gallery extends Model implements HasMedia
 
     public function scopeFilterByCategory($query, $categoryId)
     {
-        if ($categoryId) return $query->where('category_id', $categoryId);
+        if ($categoryId) return $query->where('gallery_category_id', $categoryId);
         return $query;
     }
 }

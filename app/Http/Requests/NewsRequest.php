@@ -35,7 +35,7 @@ class NewsRequest extends FormRequest
             'content.ckb' => 'required_without_all:content.en|nullable|string',
 
             'branch_id' => 'required|exists:branches,id',
-            'category_id' => 'required|exists:categories,id',
+            'news_category_id' => 'required|exists:news_categories,id',
             'hashtag_ids' => 'nullable|array',
             'hashtag_ids.*' => 'exists:hashtags,id',
             'order' => 'nullable|integer|min:0',
@@ -54,9 +54,8 @@ class NewsRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            // 'package_id' => Arr::get($this->package_id, 'id', $this->package_id),
             'branch_id' => Arr::get($this->branch_id, 'id', $this->branch_id),
-            'category_id' => Arr::get($this->category_id, 'id', $this->category_id),
+            'news_category_id' => Arr::get($this->category_id, 'id', $this->category_id),
         ]);
     }
 

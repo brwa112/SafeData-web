@@ -28,7 +28,7 @@ class News extends Model implements HasMedia
     protected $fillable = [
         'user_id',
         'branch_id',
-        'category_id',
+        'news_category_id',
         'title',
         'content',
         'views',
@@ -106,7 +106,7 @@ class News extends Model implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'content', 'branch_id', 'category_id', 'is_active', 'order', 'views'])
+            ->logOnly(['title', 'content', 'branch_id', 'news_category_id', 'is_active', 'order', 'views'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
             ->setDescriptionForEvent(fn(string $eventName) => "News article {$eventName}");
@@ -181,7 +181,7 @@ class News extends Model implements HasMedia
      */
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(NewsCategory::class, 'news_category_id');
     }
 
     /**

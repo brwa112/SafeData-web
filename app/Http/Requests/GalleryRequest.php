@@ -31,7 +31,7 @@ class GalleryRequest extends FormRequest
             'description.ckb' => 'required_without_all:description.en|nullable|string',
 
             'branch_id' => 'required|exists:branches,id',
-            'category_id' => 'required|exists:categories,id',
+            'gallery_category_id' => 'required|exists:gallery_categories,id',
             'order' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
 
@@ -49,7 +49,7 @@ class GalleryRequest extends FormRequest
     {
         $this->merge([
             'branch_id' => Arr::get($this->branch_id, 'id', $this->branch_id),
-            'category_id' => Arr::get($this->category_id, 'id', $this->category_id),
+            'gallery_category_id' => Arr::get($this->category_id, 'id', $this->category_id),
         ]);
     }
 

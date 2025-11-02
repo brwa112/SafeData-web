@@ -6,7 +6,7 @@ use App\Models\Pages\News;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsRequest;
 use App\Models\Pages\Branch;
-use App\Models\Pages\Category;
+use App\Models\Pages\NewsCategory;
 use App\Models\Pages\Hashtag;
 use App\Models\System\Users\User;
 use App\Traits\HandlesSorting;
@@ -67,10 +67,10 @@ class NewsController extends Controller
                 'news.branch_id'
             ),
             'category.name' => $this->relatedSort(
-                Category::class,
+                NewsCategory::class,
                 'name',
                 'id',
-                'news.category_id'
+                'news.news_category_id'
             ),
         ];
     }
@@ -254,8 +254,8 @@ class NewsController extends Controller
                 ];
             });
 
-        $categories = Category::where('is_active', true)
-            ->orderBy('order')
+        $categories = NewsCategory::where('is_active', true)
+            ->orderBy('id', 'desc')
             ->get()
             ->map(function ($category) {
                 return [

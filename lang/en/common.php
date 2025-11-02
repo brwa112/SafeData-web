@@ -164,4 +164,6 @@ return [
 
     'event' => 'Event',
     'model' => 'Model',
+
+    'usage' => 'Usage',
 ];

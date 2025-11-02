@@ -26,6 +26,9 @@ use Carbon\Carbon;
 
 class FrontendPagesSeeder extends Seeder
 {
+    private $categories = [];
+    private $hashtags = [];
+
     /**
      * Run the database seeds.
      */
@@ -38,84 +41,239 @@ class FrontendPagesSeeder extends Seeder
             return;
         }
 
-        $this->seedHomeHero($user);
-        $this->seedHomeHistory($user);
-        $this->seedHomeMessage($user);
-        $this->seedHomeMission($user);
-        $this->seedHomeKnow($user);
-        
-        $this->seedAboutAbout($user);
-        $this->seedAboutMessage($user);
-        $this->seedAboutMission($user);
-        $this->seedAboutTouch($user);
-        
+        // Get ALL branches
+        $branches = \App\Models\Pages\Branch::all();
+
+        if ($branches->isEmpty()) {
+            $this->command->error('No branches found. Please run migrations first.');
+            return;
+        }
+
+        // Seed global sections first (no branch_id)
+        $this->command->info('Seeding global sections...');
         $this->seedAcademicApproach($user);
         $this->seedAcademicChoose($user);
-        
-        $this->seedAdmissionPolicy($user);
-        $this->seedAdmissionDocuments($user);
-        
         $this->seedCalendarEvents($user);
-        $this->seedCampuses($user);
-        $this->seedClassrooms($user);
-        $this->seedNews($user);
-        $this->seedGallery($user);
+        $this->seedCategoriesAndHashtags();
+        
+        // Seed branch-specific sections for EACH branch
+        foreach ($branches as $index => $branch) {
+            $this->command->info('');
+            $this->command->info("Seeding Branch " . ($index + 1) . ": {$branch->getTranslation('name', 'en')}");
+            
+            $this->seedHomeHero($user, $branch);
+            $this->seedHomeHistory($user, $branch);
+            $this->seedHomeMessage($user, $branch);
+            $this->seedHomeMission($user, $branch);
+            $this->seedHomeKnow($user, $branch);
+            
+            $this->seedAboutAbout($user, $branch);
+            $this->seedAboutMessage($user, $branch);
+            $this->seedAboutMission($user, $branch);
+            $this->seedAboutTouch($user, $branch);
+            
+            $this->seedAdmissionPolicy($user, $branch);
+            $this->seedAdmissionDocuments($user, $branch);
+            
+            $this->seedCampuses($user, $branch);
+            $this->seedClassrooms($user, $branch);
+            $this->seedNews($user, $branch);
+            $this->seedGallery($user, $branch);
+        }
 
-        $this->command->info('Frontend pages seeded successfully!');
+        $this->command->info('');
+        $this->command->info('✅ Frontend pages seeded successfully for ALL branches!');
+    }
+
+    /**
+     * Get branch-specific data for customization
+     */
+    private function getBranchSpecificData($branch, $section)
+    {
+        $branchData = [
+            'kurd-genius' => [
+                'hero_metadata' => [
+                    'expert_tutors' => '100',
+                    'students' => '2000',
+                    'years_experience' => '12',
+                    'campuses' => '3',
+                ],
+                'contact_phone' => '+964 770 342 0606',
+                'contact_email' => 'kurdgeniusschool@gmail.com',
+                'social_youtube' => 'https://www.youtube.com/@kurdgenius',
+                'social_facebook' => 'https://www.facebook.com/kurdgenius',
+                'social_instagram' => 'https://www.instagram.com/kurdgenius',
+                'social_twitter' => 'https://twitter.com/kurdgenius',
+            ],
+            'kurd-genius-2' => [
+                'hero_metadata' => [
+                    'expert_tutors' => '85',
+                    'students' => '1600',
+                    'years_experience' => '10',
+                    'campuses' => '2',
+                ],
+                'contact_phone' => '+964 770 342 0607',
+                'contact_email' => 'kurdgenius2@gmail.com',
+                'social_youtube' => 'https://www.youtube.com/@kurdgenius',
+                'social_facebook' => 'https://www.facebook.com/kurdgenius',
+                'social_instagram' => 'https://www.instagram.com/kurdgenius',
+                'social_twitter' => 'https://twitter.com/kurdgenius',
+            ],
+            'kurd-genius-qaiwan' => [
+                'hero_metadata' => [
+                    'expert_tutors' => '90',
+                    'students' => '1800',
+                    'years_experience' => '11',
+                    'campuses' => '2',
+                ],
+                'contact_phone' => '+964 770 342 0608',
+                'contact_email' => 'qaiwan@kurdgenius.com',
+                'social_youtube' => 'https://www.youtube.com/@kurdgenius',
+                'social_facebook' => 'https://www.facebook.com/kurdgenius',
+                'social_instagram' => 'https://www.instagram.com/kurdgenius',
+                'social_twitter' => 'https://twitter.com/kurdgenius',
+            ],
+            'smart-educational' => [
+                'hero_metadata' => [
+                    'expert_tutors' => '75',
+                    'students' => '1400',
+                    'years_experience' => '8',
+                    'campuses' => '1',
+                ],
+                'contact_phone' => '+964 770 342 0609',
+                'contact_email' => 'smart@educational.com',
+                'social_youtube' => 'https://www.youtube.com/@smarteducational',
+                'social_facebook' => 'https://www.facebook.com/smarteducational',
+                'social_instagram' => 'https://www.instagram.com/smarteducational',
+                'social_twitter' => 'https://twitter.com/smarteducational',
+            ],
+        ];
+
+        return $branchData[$branch->slug][$section] ?? $branchData['kurd-genius'][$section];
+    }
+
+    /**
+     * Seed categories and hashtags once (global data)
+     */
+    private function seedCategoriesAndHashtags()
+    {
+        // News Categories
+        $newsCategories = [
+            [
+                'name' => ['en' => 'Achievement', 'ckb' => 'دەستکەوت', 'ar' => 'إنجاز'],
+                'slug' => 'achievement',
+            ],
+            [
+                'name' => ['en' => 'Facilities', 'ckb' => 'ئامێرەکان', 'ar' => 'المرافق'],
+                'slug' => 'facilities',
+            ],
+            [
+                'name' => ['en' => 'Events', 'ckb' => 'بۆنەکان', 'ar' => 'الفعاليات'],
+                'slug' => 'events',
+            ],
+        ];
+
+        foreach ($newsCategories as $category) {
+            $this->categories[$category['slug']] = \App\Models\Pages\NewsCategory::updateOrCreate(
+                ['slug' => $category['slug']],
+                $category
+            );
+        }
+
+        // Gallery Categories
+        $galleryCategoriesData = [
+            [
+                'name' => ['en' => 'Campus Life', 'ckb' => 'ژیانی کامپەس', 'ar' => 'الحياة الجامعية'],
+                'slug' => 'campus-life',
+            ],
+            [
+                'name' => ['en' => 'Laboratories', 'ckb' => 'تاقیگەکان', 'ar' => 'المختبرات'],
+                'slug' => 'laboratories',
+            ],
+            [
+                'name' => ['en' => 'Cultural Events', 'ckb' => 'بۆنە کولتوورییەکان', 'ar' => 'الفعاليات الثقافية'],
+                'slug' => 'cultural-events',
+            ],
+        ];
+
+        // Store gallery categories separately (not in $this->categories)
+        foreach ($galleryCategoriesData as $category) {
+            \App\Models\Pages\GalleryCategory::updateOrCreate(
+                ['slug' => $category['slug']],
+                $category
+            );
+        }
+
+        $hashtags = [
+            ['name' => ['en' => 'Excellence', 'ckb' => 'باشی', 'ar' => 'التميز'], 'slug' => 'excellence'],
+            ['name' => ['en' => 'Science', 'ckb' => 'زانست', 'ar' => 'العلوم'], 'slug' => 'science'],
+            ['name' => ['en' => 'Achievement', 'ckb' => 'دەستکەوت', 'ar' => 'الإنجاز'], 'slug' => 'achievement'],
+            ['name' => ['en' => 'STEM', 'ckb' => 'STEM', 'ar' => 'STEM'], 'slug' => 'stem'],
+            ['name' => ['en' => 'Innovation', 'ckb' => 'داهێنان', 'ar' => 'الابتكار'], 'slug' => 'innovation'],
+            ['name' => ['en' => 'Education', 'ckb' => 'پەروەردە', 'ar' => 'التعليم'], 'slug' => 'education'],
+            ['name' => ['en' => 'Culture', 'ckb' => 'کولتوور', 'ar' => 'الثقافة'], 'slug' => 'culture'],
+            ['name' => ['en' => 'Diversity', 'ckb' => 'جۆراوجۆری', 'ar' => 'التنوع'], 'slug' => 'diversity'],
+            ['name' => ['en' => 'Community', 'ckb' => 'کۆمەڵگا', 'ar' => 'المجتمع'], 'slug' => 'community'],
+        ];
+
+        foreach ($hashtags as $hashtag) {
+            $this->hashtags[$hashtag['slug']] = \App\Models\Pages\Hashtag::updateOrCreate(
+                ['slug' => $hashtag['slug']],
+                $hashtag
+            );
+        }
+
+        $this->command->info('Categories and hashtags seeded.');
     }
 
     // HOME PAGE SEEDERS
-    private function seedHomeHero($user)
+    private function seedHomeHero($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
+        $metadata = $this->getBranchSpecificData($branch, 'hero_metadata');
+        $branchNames = $branch->getTranslations('name');
 
         HomeHero::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'title' => [
-                'en' => 'Kurd Genius Schools',
-                'ckb' => 'قوتابخانەی کوردجینیس',
+                'en' => $branchNames['en'] ?? '',
+                'ckb' => $branchNames['ckb'] ?? '',
+                'ar' => $branchNames['ar'] ?? $branchNames['ckb'] ?? '',
             ],
             'subtitle' => [
                 'en' => 'Quality Education, Bright Future',
                 'ckb' => 'پەروەردەی باش، داهاتووی گەشاوە',
+                'ar' => 'تعليم جيد، مستقبل مشرق',
             ],
-            'metadata' => [
-                'expert_tutors' => '100',
-                'students' => '2000',
-                'years_experience' => '12',
-                'campuses' => '3',
-            ],
+            'metadata' => $metadata,
             'is_active' => true,
         ]);
 
-        $this->command->info('Home hero seeded.');
+        $this->command->info('  ✓ Home hero seeded');
     }
 
-    private function seedHomeHistory($user)
+    private function seedHomeHistory($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
+        $branchNames = $branch->getTranslations('name');
+        
         HomeHistory::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'description' => [
-                'en' => 'Founded in 2013 by Maya Company, Kurd Genius School has grown to become one of the leading educational institutions in the Kurdistan Region. Over the years, we have maintained our commitment to excellence, producing graduates who excel in universities and contribute meaningfully to society.',
-                'ckb' => 'قوتابخانەی کوردجینیس لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە و بووەتە یەکێک لە پێشەنگترین دامەزراوە پەروەردەییەکانی هەرێمی کوردستان. لە ماوەی ساڵانی ڕابردوودا، پابەندبووینمان بە باشی پاراستووە و دەرچووانێکمان بەرهەمهێناوە کە لە زانکۆکاندا سەرکەوتوون و بەشێوەیەکی بەنرخ بەشداری کۆمەڵگا دەکەن.',
+                'en' => "Founded in 2013 by Maya Company, {$branchNames['en']} has grown to become one of the leading educational institutions in the Kurdistan Region. Over the years, we have maintained our commitment to excellence, producing graduates who excel in universities and contribute meaningfully to society.",
+                'ckb' => "{$branchNames['ckb']} لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە و بووەتە یەکێک لە پێشەنگترین دامەزراوە پەروەردەییەکانی هەرێمی کوردستان. لە ماوەی ساڵانی ڕابردوودا، پابەندبووینمان بە باشی پاراستووە و دەرچووانێکمان بەرهەمهێناوە کە لە زانکۆکاندا سەرکەوتوون و بەشێوەیەکی بەنرخ بەشداری کۆمەڵگا دەکەن.",
             ],
             'is_active' => true,
         ]);
 
-        $this->command->info('Home history seeded.');
+        $this->command->info('  ✓ Home history seeded');
     }
 
-    private function seedHomeMessage($user)
+    private function seedHomeMessage($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
         HomeMessage::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'description' => [
                 'en' => 'We are committed to providing high-quality education that nurtures intellectual curiosity, critical thinking, and personal growth. Our dedicated team of educators works tirelessly to ensure that every student receives the support and guidance they need to succeed.',
                 'ckb' => 'ئێمە پابەندین بە دابینکردنی پەروەردەیەکی باش کە کنجکاوی زیرەکانە، بیرکردنەوەی ڕەخنەگرانە و گەشەی کەسی پەروەردە دەکات. تیمی بەخشراوی پەروەردەکارانمان بێ ماندووبوون کار دەکات بۆ دڵنیابوون لەوەی کە هەر خوێندکارێک پشتیوانی و ڕێنمایی پێویستی وەردەگرێت بۆ سەرکەوتن.',
@@ -123,16 +281,14 @@ class FrontendPagesSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $this->command->info('Home message seeded.');
+        $this->command->info('  ✓ Home message seeded');
     }
 
-    private function seedHomeMission($user)
+    private function seedHomeMission($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
         HomeMission::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'description' => [
                 'en' => 'To deliver excellence in education through innovative teaching methods, a supportive learning environment, and a curriculum that balances academic achievement with character development. We strive to prepare students not just for exams, but for life.',
                 'ckb' => 'گەیاندنی باشی لە پەروەردەدا لە ڕێگەی شێوازە نوێیەکانی وانەوتنەوە، ژینگەیەکی پشتیوانی فێربوون و مەنهەجێک کە هاوسەنگی لە نێوان دەستکەوتی ئەکادیمی و گەشەپێدانی کەسایەتیدا دروست دەکات. ئێمە هەوڵ دەدەین خوێندکاران نەک تەنها بۆ تاقیکردنەوەکان، بەڵکو بۆ ژیان ئامادە بکەین.',
@@ -140,56 +296,50 @@ class FrontendPagesSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $this->command->info('Home mission seeded.');
+        $this->command->info('  ✓ Home mission seeded');
     }
 
-    private function seedHomeKnow($user)
+    private function seedHomeKnow($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
         HomeKnow::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'metadata' => [
-                'youtube' => 'https://www.youtube.com/@kurdgenius',
-                'facebook' => 'https://www.facebook.com/kurdgenius',
-                'instagram' => 'https://www.instagram.com/kurdgenius',
-                'twitter' => 'https://twitter.com/kurdgenius',
+                'youtube' => $this->getBranchSpecificData($branch, 'social_youtube'),
+                'facebook' => $this->getBranchSpecificData($branch, 'social_facebook'),
+                'instagram' => $this->getBranchSpecificData($branch, 'social_instagram'),
+                'twitter' => $this->getBranchSpecificData($branch, 'social_twitter'),
             ],
             'is_active' => true,
         ]);
 
-        $this->command->info('Home social links seeded.');
+        $this->command->info('  ✓ Home social links seeded');
     }
 
     // ABOUT PAGE SEEDERS
-    private function seedAboutAbout($user)
+    private function seedAboutAbout($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
-        // about_abouts table currently stores description only (plus user/branch/is_active)
+        $branchNames = $branch->getTranslations('name');
+        
         AboutAbout::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'description' => [
-                'en' => 'Kurd Genius School was established in 2013 by Maya Company, a proud member of the Qaiwan Group of Companies, and is led by Mrs. Sozan Abubakr Mawlud. Since its foundation, the school has consistently ranked among the top performing educational institutions in the Kurdistan Region.',
-                'ckb' => 'قوتابخانەی کوردجینیس لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە، ئەندامێکی شانازی دەرەوەی کۆمپانیاکانی قەیوانە، و لەلایەن خاتوو سۆزان ئەبووبەکر مەولوودەوە بەڕێوە دەبرێت.',
-                'ar' => 'تأسست مدرسة كورد جينيوس في عام 2013 من قبل شركة مايا، وهي عضو فخور في مجموعة قيوان للشركات، وتديرها السيدة سوزان أبوبكر مولود.',
+                'en' => "{$branchNames['en']} was established in 2013 by Maya Company, a proud member of the Qaiwan Group of Companies, and is led by Mrs. Sozan Abubakr Mawlud. Since its foundation, the school has consistently ranked among the top performing educational institutions in the Kurdistan Region.",
+                'ckb' => "{$branchNames['ckb']} لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە، ئەندامێکی شانازی دەرەوەی کۆمپانیاکانی قەیوانە، و لەلایەن خاتوو سۆزان ئەبووبەکر مەولوودەوە بەڕێوە دەبرێت.",
+                'ar' => "تأسست {$branchNames['ar']} في عام 2013 من قبل شركة مايا، وهي عضو فخور في مجموعة قيوان للشركات، وتديرها السيدة سوزان أبوبكر مولود.",
             ],
             'is_active' => true,
         ]);
 
-        $this->command->info('About about seeded.');
+        $this->command->info('  ✓ About about seeded');
     }
 
-    private function seedAboutMessage($user)
+    private function seedAboutMessage($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
-        // about_messages table stores description, author, order, is_active
         AboutMessage::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'description' => [
                 'en' => 'We are committed to providing high-quality education that nurtures intellectual curiosity, critical thinking, and personal growth. Our message is to empower students to become confident, compassionate, and responsible global citizens.',
                 'ckb' => 'ئێمە پابەندین بە دابینکردنی پەروەردەیەکی باش کە کنجکاوی زیرەکانە، بیرکردنەوەی ڕەخنەگرانە و گەشەی کەسی پەروەردە دەکات.',
@@ -203,17 +353,14 @@ class FrontendPagesSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $this->command->info('About message seeded.');
+        $this->command->info('  ✓ About message seeded');
     }
 
-    private function seedAboutMission($user)
+    private function seedAboutMission($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
-        // about_missions table stores description and is_active
         AboutMission::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
+            'branch_id' => $branch->id,
             'description' => [
                 'en' => 'To deliver excellence in education through innovative teaching methods, a supportive learning environment, and a curriculum that balances academic achievement with character development.',
                 'ckb' => 'گەیاندنی باشی لە پەروەردەدا لە ڕێگەی شێوازە نوێیەکانی وانەوتنەوە و ژینگەیەکی پشتیوانی فێربوون.',
@@ -222,27 +369,27 @@ class FrontendPagesSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $this->command->info('About mission seeded.');
+        $this->command->info('  ✓ About mission seeded');
     }
 
-    private function seedAboutTouch($user)
+    private function seedAboutTouch($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
+        $branchNames = $branch->getTranslations('name');
+        
         AboutTouch::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch?->id,
-            'contact_email' => 'kurdgeniusschool@gmail.com',
-            'contact_phone' => '+964 770 342 0606',
+            'branch_id' => $branch->id,
+            'contact_email' => $this->getBranchSpecificData($branch, 'contact_email'),
+            'contact_phone' => $this->getBranchSpecificData($branch, 'contact_phone'),
             'contact_address' => [
-                'en' => 'Main Street, Educational District, Erbil, Kurdistan Region',
-                'ckb' => 'شەقامی سەرەکی، دەڤەری پەروەردە، هەولێر، هەرێمی کوردستان',
-                'ar' => 'الشارع الرئيسي، المنطقة التعليمية، أربيل، إقليم كوردستان',
+                'en' => "{$branchNames['en']}, Educational District, Erbil, Kurdistan Region",
+                'ckb' => "{$branchNames['ckb']}، دەڤەری پەروەردە، هەولێر، هەرێمی کوردستان",
+                'ar' => "{$branchNames['ar']}، المنطقة التعليمية، أربيل، إقليم كوردستان",
             ],
             'is_active' => true,
         ]);
 
-        $this->command->info('About touch seeded.');
+        $this->command->info('  ✓ About touch seeded');
     }
 
     // ACADEMIC PAGE SEEDERS
@@ -303,22 +450,16 @@ class FrontendPagesSeeder extends Seeder
     }
 
     // ADMISSION PAGE SEEDERS
-    private function seedAdmissionPolicy($user)
+    private function seedAdmissionPolicy($user, $branch)
     {
-        // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::first();
+        $branchNames = $branch->getTranslations('name');
         
-        if (!$defaultBranch) {
-            $this->command->warn('No branch found. Skipping admission policy seeding.');
-            return;
-        }
-
         AdmissionPolicy::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch->id,
+            'branch_id' => $branch->id,
             'description' => [
-                'en' => 'Kurd Genius School maintains a fair and transparent admission process. We welcome students from diverse backgrounds who demonstrate a genuine interest in learning and personal growth.',
-                'ckb' => 'قوتابخانەی کوردجینیس پرۆسەیەکی دادپەروەرانە و ڕوونی وەرگرتنی هەیە. ئێمە پێشوازی لە خوێندکاران دەکەین لە پاشخانە جیاوازەکانەوە.',
+                'en' => "{$branchNames['en']} maintains a fair and transparent admission process. We welcome students from diverse backgrounds who demonstrate a genuine interest in learning and personal growth.",
+                'ckb' => "{$branchNames['ckb']} پرۆسەیەکی دادپەروەرانە و ڕوونی وەرگرتنی هەیە. ئێمە پێشوازی لە خوێندکاران دەکەین لە پاشخانە جیاوازەکانەوە.",
             ],
             'requirements' => [
                 'en' => 'Students must meet age requirements, submit required documents, pass entrance assessment, and attend an interview with parents.',
@@ -326,15 +467,13 @@ class FrontendPagesSeeder extends Seeder
             ],
             'steps' => [
                 'en' => [
-                    // First 4 cards - Admission Process Steps
                     ['level' => 'First', 'title' => 'Entrance assessment & interview'],
                     ['level' => 'Second', 'title' => 'Review of academic records and conduct'],
                     ['level' => 'Third', 'title' => 'Preference for early applicants and siblings'],
                     ['level' => 'Fourth', 'title' => 'Final approval by the admissions committee'],
-                    // Last 3 cards - Application Methods
                     ['level' => 'Read', 'title' => 'School reception'],
                     ['level' => 'Download', 'title' => 'Download from our official website'],
-                    ['level' => 'Message', 'title' => 'Email request: kurdgeniusschool@gmail.com'],
+                    ['level' => 'Message', 'title' => 'Email request: ' . $this->getBranchSpecificData($branch, 'contact_email')],
                 ],
                 'ckb' => [
                     // First 4 cards - Admission Process Steps
@@ -351,22 +490,14 @@ class FrontendPagesSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $this->command->info('Admission policy seeded.');
+        $this->command->info('  ✓ Admission policy seeded');
     }
 
-    private function seedAdmissionDocuments($user)
+    private function seedAdmissionDocuments($user, $branch)
     {
-        // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::first();
-        
-        if (!$defaultBranch) {
-            $this->command->warn('No branch found. Skipping admission documents seeding.');
-            return;
-        }
-
         AdmissionDocument::create([
             'user_id' => $user->id,
-            'branch_id' => $defaultBranch->id,
+            'branch_id' => $branch->id,
             'documents' => [
                 'en' => [
                     ['title' => 'Copy of passport or national ID', 'icon' => '/img/admission/passport.svg'],
@@ -384,7 +515,7 @@ class FrontendPagesSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $this->command->info('Admission documents seeded.');
+        $this->command->info('  ✓ Admission documents seeded');
     }
 
     // EXISTING SEEDERS (Calendar, Campus, Classroom, News)
@@ -422,27 +553,21 @@ class FrontendPagesSeeder extends Seeder
         $this->command->info('Calendar events seeded.');
     }
 
-    private function seedCampuses($user)
+    private function seedCampuses($user, $branch)
     {
-        // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::first();
+        $branchNames = $branch->getTranslations('name');
         
-        if (!$defaultBranch) {
-            $this->command->warn('No branch found. Skipping campuses seeding.');
-            return;
-        }
-
         $campuses = [
             [
                 'title' => [
-                    'en' => 'Kurd Genius Educational Communities',
-                    'ckb' => 'کۆمەڵگای پەروەردەیی کورد جینیۆس',
-                    'ar' => 'المجتمعات التعليمية لكرد جينيوس',
+                    'en' => $branchNames['en'] ?? '',
+                    'ckb' => $branchNames['ckb'] ?? '',
+                    'ar' => $branchNames['ar'] ?? $branchNames['ckb'] ?? '',
                 ],
                 'content' => [
-                    'en' => 'The main Kurd Genius campus is located in a vibrant educational district, offering students access to modern classrooms, advanced science laboratories, sports facilities, and cultural centers.',
-                    'ckb' => 'کەمپی سەرەکی کورد جینیۆس لە ناوچەیەکی پەروەردەیی گەشاوە جێگیرە، دەرفەتی بەکارهێنانی پۆلی مۆدێرن، تاقیگەی زانستی پێشکەوتوو، ئامێری وەرزشی و ناوەندە کولتووریەکان بۆ قوتابیان دابین دەکات.',
-                    'ar' => 'يقع الحرم الرئيسي لكرد جينيوس في منطقة تعليمية نابضة بالحياة، ويوفر للطلاب الوصول إلى الفصول الدراسية الحديثة والمختبرات العلمية المتقدمة والمرافق الرياضية والمراكز الثقافية.',
+                    'en' => "The {$branchNames['en']} campus is located in a vibrant educational district, offering students access to modern classrooms, advanced science laboratories, sports facilities, and cultural centers.",
+                    'ckb' => "کەمپی {$branchNames['ckb']} لە ناوچەیەکی پەروەردەیی گەشاوە جێگیرە، دەرفەتی بەکارهێنانی پۆلی مۆدێرن، تاقیگەی زانستی پێشکەوتوو، ئامێری وەرزشی و ناوەندە کولتووریەکان بۆ قوتابیان دابین دەکات.",
+                    'ar' => "يقع حرم {$branchNames['ar']} في منطقة تعليمية نابضة بالحياة، ويوفر للطلاب الوصول إلى الفصول الدراسية الحديثة والمختبرات العلمية المتقدمة والمرافق الرياضية والمراكز الثقافية.",
                 ],
                 'views' => 0,
                 'order' => 1,
@@ -453,23 +578,15 @@ class FrontendPagesSeeder extends Seeder
         foreach ($campuses as $campus) {
             Campus::create(array_merge($campus, [
                 'user_id' => $user->id,
-                'branch_id' => $defaultBranch->id
+                'branch_id' => $branch->id
             ]));
         }
 
-        $this->command->info('Campuses seeded.');
+        $this->command->info('  ✓ Campuses seeded');
     }
 
-    private function seedClassrooms($user)
+    private function seedClassrooms($user, $branch)
     {
-        // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::first();
-        
-        if (!$defaultBranch) {
-            $this->command->warn('No branch found. Skipping classrooms seeding.');
-            return;
-        }
-
         $classrooms = [
             [
                 'title' => [
@@ -515,113 +632,29 @@ class FrontendPagesSeeder extends Seeder
         foreach ($classrooms as $classroomData) {
             Classroom::create(array_merge($classroomData, [
                 'user_id' => $user->id,
-                'branch_id' => $defaultBranch->id
+                'branch_id' => $branch->id
             ]));
         }
 
-        $this->command->info('Classrooms seeded.');
+        $this->command->info('  ✓ Classrooms seeded');
     }
 
-    private function seedNews($user)
+    private function seedNews($user, $branch)
     {
-        // Get the first branch (default branch)
-        $defaultBranch = \App\Models\Pages\Branch::first();
+        $branchNames = $branch->getTranslations('name');
         
-        if (!$defaultBranch) {
-            $this->command->warn('No branch found. Skipping news seeding.');
-            return;
-        }
-
-        // First, seed categories
-        $categories = [
-            [
-                'name' => ['en' => 'Achievement', 'ckb' => 'دەستکەوت', 'ar' => 'إنجاز'],
-                'slug' => 'achievement',
-                'description' => ['en' => 'Student and school achievements', 'ckb' => 'دەستکەوتەکانی قوتابیان و قوتابخانە', 'ar' => 'إنجازات الطلاب والمدرسة'],
-                'order' => 1,
-            ],
-            [
-                'name' => ['en' => 'Facilities', 'ckb' => 'ئامێرەکان', 'ar' => 'المرافق'],
-                'slug' => 'facilities',
-                'description' => ['en' => 'School facilities and infrastructure', 'ckb' => 'ئامێرەکان و ژێرخانی قوتابخانە', 'ar' => 'مرافق وبنية تحتية للمدرسة'],
-                'order' => 2,
-            ],
-            [
-                'name' => ['en' => 'Events', 'ckb' => 'بۆنەکان', 'ar' => 'الفعاليات'],
-                'slug' => 'events',
-                'description' => ['en' => 'School events and activities', 'ckb' => 'بۆنە و چالاکییەکانی قوتابخانە', 'ar' => 'فعاليات وأنشطة المدرسة'],
-                'order' => 3,
-            ],
-        ];
-
-        $categoryModels = [];
-        foreach ($categories as $category) {
-            $categoryModels[$category['slug']] = \App\Models\Pages\Category::updateOrCreate(
-                ['slug' => $category['slug']],
-                $category
-            );
-        }
-
-        // Second, seed hashtags
-        $hashtags = [
-            [
-                'name' => ['en' => 'Excellence', 'ckb' => 'باشی', 'ar' => 'التميز'],
-                'slug' => 'excellence',
-            ],
-            [
-                'name' => ['en' => 'Science', 'ckb' => 'زانست', 'ar' => 'العلوم'],
-                'slug' => 'science',
-            ],
-            [
-                'name' => ['en' => 'Achievement', 'ckb' => 'دەستکەوت', 'ar' => 'الإنجاز'],
-                'slug' => 'achievement',
-            ],
-            [
-                'name' => ['en' => 'STEM', 'ckb' => 'STEM', 'ar' => 'STEM'],
-                'slug' => 'stem',
-            ],
-            [
-                'name' => ['en' => 'Innovation', 'ckb' => 'داهێنان', 'ar' => 'الابتكار'],
-                'slug' => 'innovation',
-            ],
-            [
-                'name' => ['en' => 'Education', 'ckb' => 'پەروەردە', 'ar' => 'التعليم'],
-                'slug' => 'education',
-            ],
-            [
-                'name' => ['en' => 'Culture', 'ckb' => 'کولتوور', 'ar' => 'الثقافة'],
-                'slug' => 'culture',
-            ],
-            [
-                'name' => ['en' => 'Diversity', 'ckb' => 'جۆراوجۆری', 'ar' => 'التنوع'],
-                'slug' => 'diversity',
-            ],
-            [
-                'name' => ['en' => 'Community', 'ckb' => 'کۆمەڵگا', 'ar' => 'المجتمع'],
-                'slug' => 'community',
-            ],
-        ];
-
-        $hashtagModels = [];
-        foreach ($hashtags as $hashtag) {
-            $hashtagModels[$hashtag['slug']] = \App\Models\Pages\Hashtag::updateOrCreate(
-                ['slug' => $hashtag['slug']],
-                $hashtag
-            );
-        }
-
-        // Now seed news with relationships
+        // News articles with relationships
         $news = [
             [
                 'title' => [
-                    'en' => 'Kurd Genius Students Excel in National Competition',
-                    'ckb' => 'قوتابیانی کورد جینیۆس لە ڕکابەرییەکی نیشتمانی دا سەرکەوتوو دەبن',
-                    'ar' => 'طلاب كرد جينيوس يتفوقون في المسابقة الوطنية',
+                    'en' => "{$branchNames['en']} Students Excel in National Competition",
+                    'ckb' => "قوتابیانی {$branchNames['ckb']} لە ڕکابەرییەکی نیشتمانی دا سەرکەوتوو دەبن",
+                    'ar' => "طلاب {$branchNames['ar']} يتفوقون في المسابقة الوطنية",
                 ],
                 'content' => [
-                    'en' => 'We are proud to announce that our students have achieved outstanding results in the National Science and Mathematics Competition. This remarkable achievement demonstrates the dedication of our students and the quality of education at Kurd Genius.',
-                    'ckb' => 'شانازی بەوە دەکەین کە ڕابگەیەنین قوتابیانەکانمان ئەنجامی نایاب لە ڕکابەریی نیشتمانی زانست و بیرکاری دا بەدەست هێناوە. ئەم دەستکەوتە سەرنجڕاکێشە بەڵگەیە لەسەر بەخشندەیی قوتابیانەکانمان و کوالیتی پەروەردە لە کورد جینیۆس.',
-                    'ar' => 'يسعدنا أن نعلن أن طلابنا حققوا نتائج متميزة في مسابقة العلوم والرياضيات الوطنية. يوضح هذا الإنجاز الرائع تفاني طلابنا وجودة التعليم في كرد جينيوس.',
+                    'en' => "We are proud to announce that our students at {$branchNames['en']} have achieved outstanding results in the National Science and Mathematics Competition. This remarkable achievement demonstrates the dedication of our students and the quality of education.",
+                    'ckb' => "شانازی بەوە دەکەین کە ڕابگەیەنین قوتابیانەکانمان لە {$branchNames['ckb']} دا ئەنجامی نایاب لە ڕکابەریی نیشتمانی زانست و بیرکاری دا بەدەست هێناوە. ئەم دەستکەوتە سەرنجڕاکێشە بەڵگەیە لەسەر بەخشندەیی قوتابیانەکانمان و کوالیتی پەروەردە.",
+                    'ar' => "يسعدنا أن نعلن أن طلابنا في {$branchNames['ar']} حققوا نتائج متميزة في مسابقة العلوم والرياضيات الوطنية. يوضح هذا الإنجاز الرائع تفاني طلابنا وجودة التعليم.",
                 ],
                 'category' => 'achievement',
                 'hashtags' => ['excellence', 'science', 'achievement'],
@@ -629,14 +662,14 @@ class FrontendPagesSeeder extends Seeder
             ],
             [
                 'title' => [
-                    'en' => 'New STEM Laboratory Opens at Kurd Genius',
-                    'ckb' => 'تاقیگەی نوێی STEM لە کورد جینیۆس دا دەکرێتەوە',
-                    'ar' => 'افتتاح مختبر STEM الجديد في كرد جينيوس',
+                    'en' => "New STEM Laboratory Opens at {$branchNames['en']}",
+                    'ckb' => "تاقیگەی نوێی STEM لە {$branchNames['ckb']} دا دەکرێتەوە",
+                    'ar' => "افتتاح مختبر STEM الجديد في {$branchNames['ar']}",
                 ],
                 'content' => [
-                    'en' => 'Our new STEM laboratory is equipped with the latest technology and equipment to inspire the next generation of scientists and innovators. The facility includes advanced robotics, 3D printing, and programming stations.',
-                    'ckb' => 'تاقیگە نوێیەکەمان بۆ STEM چەکدار کراوە بە دوایین تەکنەلۆژیا و ئامێر بۆ ئیلهام بەخشین بە نەوەی داهاتووی زانایان و داهێنەران. ئامێرەکە ڕۆبۆتی پێشکەوتوو، چاپکردنی سێ ڕەهەندی و وێستگەکانی بەرنامەسازی لەخۆدەگرێت.',
-                    'ar' => 'مختبرنا الجديد لـ STEM مجهز بأحدث التقنيات والمعدات لإلهام الجيل القادم من العلماء والمبتكرين. يتضمن المرفق الروبوتات المتقدمة والطباعة ثلاثية الأبعاد ومحطات البرمجة.',
+                    'en' => "Our new STEM laboratory at {$branchNames['en']} is equipped with the latest technology and equipment to inspire the next generation of scientists and innovators. The facility includes advanced robotics, 3D printing, and programming stations.",
+                    'ckb' => "تاقیگە نوێیەکەمان بۆ STEM لە {$branchNames['ckb']} دا چەکدار کراوە بە دوایین تەکنەلۆژیا و ئامێر بۆ ئیلهام بەخشین بە نەوەی داهاتووی زانایان و داهێنەران. ئامێرەکە ڕۆبۆتی پێشکەوتوو، چاپکردنی سێ ڕەهەندی و وێستگەکانی بەرنامەسازی لەخۆدەگرێت.",
+                    'ar' => "مختبرنا الجديد لـ STEM في {$branchNames['ar']} مجهز بأحدث التقنيات والمعدات لإلهام الجيل القادم من العلماء والمبتكرين. يتضمن المرفق الروبوتات المتقدمة والطباعة ثلاثية الأبعاد ومحطات البرمجة.",
                 ],
                 'category' => 'facilities',
                 'hashtags' => ['stem', 'innovation', 'education'],
@@ -644,14 +677,14 @@ class FrontendPagesSeeder extends Seeder
             ],
             [
                 'title' => [
-                    'en' => 'Cultural Festival Celebrates Diversity at Kurd Genius',
-                    'ckb' => 'فێستیڤاڵی کولتووری جۆراوجۆری لە کورد جینیۆس دا ئاهەنگ دەگرێت',
-                    'ar' => 'المهرجان الثقافي يحتفل بالتنوع في كرد جينيوس',
+                    'en' => "Cultural Festival Celebrates Diversity at {$branchNames['en']}",
+                    'ckb' => "فێستیڤاڵی کولتووری جۆراوجۆری لە {$branchNames['ckb']} دا ئاهەنگ دەگرێت",
+                    'ar' => "المهرجان الثقافي يحتفل بالتنوع في {$branchNames['ar']}",
                 ],
                 'content' => [
-                    'en' => 'The Kurd Genius Cultural Festival showcased the rich diversity of our student community through performances, art exhibitions, and traditional food. Students, parents, and staff came together to celebrate the various cultures represented at our school.',
-                    'ckb' => 'فێستیڤاڵی کولتووری کورد جینیۆس جۆراوجۆری دەوڵەمەندی کۆمەڵگای قوتابیانمانی نیشان دا لە ڕێگەی نمایش، پێشانگای هونەری و خواردنی نەریتی. قوتابیان، دایک و باوک و ستاف پێکەوە کۆبوونەوە بۆ ئاهەنگ گرتنی کولتوورە جیاوازەکانی نوێنەراوە لە قوتابخانەکەمان.',
-                    'ar' => 'عرض مهرجان كرد جينيوس الثقافي التنوع الغني لمجتمع طلابنا من خلال العروض والمعارض الفنية والطعام التقليدي. اجتمع الطلاب وأولياء الأمور والموظفون للاحتفال بالثقافات المختلفة الممثلة في مدرستنا.',
+                    'en' => "The {$branchNames['en']} Cultural Festival showcased the rich diversity of our student community through performances, art exhibitions, and traditional food. Students, parents, and staff came together to celebrate the various cultures represented at our school.",
+                    'ckb' => "فێستیڤاڵی کولتووری {$branchNames['ckb']} جۆراوجۆری دەوڵەمەندی کۆمەڵگای قوتابیانمانی نیشان دا لە ڕێگەی نمایش، پێشانگای هونەری و خواردنی نەریتی. قوتابیان، دایک و باوک و ستاف پێکەوە کۆبوونەوە بۆ ئاهەنگ گرتنی کولتوورە جیاوازەکانی نوێنەراوە لە قوتابخانەکەمان.",
+                    'ar' => "عرض مهرجان {$branchNames['ar']} الثقافي التنوع الغني لمجتمع طلابنا من خلال العروض والمعارض الفنية والطعام التقليدي. اجتمع الطلاب وأولياء الأمور والموظفون للاحتفال بالثقافات المختلفة الممثلة في مدرستنا.",
                 ],
                 'category' => 'events',
                 'hashtags' => ['culture', 'diversity', 'community'],
@@ -664,62 +697,59 @@ class FrontendPagesSeeder extends Seeder
             $hashtags = $item['hashtags'];
             unset($item['category'], $item['hashtags']);
 
-            // Get category ID
-            $categoryId = isset($categoryModels[$category]) ? $categoryModels[$category]->id : null;
+            // Get category ID from seeded categories
+            $categoryId = isset($this->categories[$category]) ? $this->categories[$category]->id : null;
 
             $newsArticle = News::updateOrCreate(
                 array_merge($item, [
                     'user_id' => $user->id, 
-                    'branch_id' => $defaultBranch->id,
-                    'category_id' => $categoryId
+                    'branch_id' => $branch->id,
+                    'news_category_id' => $categoryId
                 ])
             );
 
             // Attach hashtags (many-to-many)
             $hashtagIds = [];
             foreach ($hashtags as $hashtagSlug) {
-                if (isset($hashtagModels[$hashtagSlug])) {
-                    $hashtagIds[] = $hashtagModels[$hashtagSlug]->id;
-                    $hashtagModels[$hashtagSlug]->incrementUsage();
+                if (isset($this->hashtags[$hashtagSlug])) {
+                    $hashtagIds[] = $this->hashtags[$hashtagSlug]->id;
+                    $this->hashtags[$hashtagSlug]->incrementUsage();
                 }
             }
             $newsArticle->hashtags()->sync($hashtagIds);
         }
 
-        $this->command->info('News articles seeded.');
+        $this->command->info('  ✓ News articles seeded');
     }
 
-    private function seedGallery($user)
+    private function seedGallery($user, $branch)
     {
-        $defaultBranch = \App\Models\Pages\Branch::first();
-
-        if (! $defaultBranch) {
-            $this->command->warn('No branch found. Skipping gallery seeding.');
-            return;
-        }
-
-        // Prefer an existing category if available
-        $category = \App\Models\Pages\Category::first();
+        $branchNames = $branch->getTranslations('name');
+        
+        // Get gallery categories by slug
+        $campusCategory = \App\Models\Pages\GalleryCategory::where('slug', 'campus-life')->first();
+        $labCategory = \App\Models\Pages\GalleryCategory::where('slug', 'laboratories')->first();
+        $eventCategory = \App\Models\Pages\GalleryCategory::where('slug', 'cultural-events')->first();
 
         $galleries = [
             [
-                'title' => ['en' => 'Campus Tour', 'ckb' => 'گەشتی کامپەس', 'ar' => 'جولة في الحرم'],
-                'description' => ['en' => 'Photos from our main campus and facilities.', 'ckb' => 'وێنەkan لە کامپەس و ئامێرەکان.', 'ar' => 'صور من الحرم والمرافق.'],
-                'category_id' => $category?->id,
+                'title' => ['en' => "{$branchNames['en']} Campus Tour", 'ckb' => "گەشتی کامپەسی {$branchNames['ckb']}", 'ar' => "جولة في حرم {$branchNames['ar']}"],
+                'description' => ['en' => "Photos from our {$branchNames['en']} campus and facilities.", 'ckb' => "وێنەkan لە کامپەس و ئامێرەکانی {$branchNames['ckb']}.", 'ar' => "صور من حرم ومرافق {$branchNames['ar']}."],
+                'gallery_category_id' => $campusCategory?->id,
                 'order' => 1,
                 'is_active' => true,
             ],
             [
                 'title' => ['en' => 'STEM Lab Highlights', 'ckb' => 'هەڵسەنگاندنەکانی تاقیگەی STEM', 'ar' => 'معالم مختبر STEM'],
                 'description' => ['en' => 'Snapshots of our STEM activities and student projects.', 'ckb' => 'وێنەکانی چالاکی STEM و پرۆژەی خوێندکاران.', 'ar' => 'لقطات من أنشطة STEM ومشاريع الطلاب.'],
-                'category_id' => $category?->id,
+                'gallery_category_id' => $labCategory?->id,
                 'order' => 2,
                 'is_active' => true,
             ],
             [
                 'title' => ['en' => 'Cultural Events', 'ckb' => 'ڕووداوە کەلتوورییەکان', 'ar' => 'الفعاليات الثقافية'],
                 'description' => ['en' => 'Gallery from our cultural festival and student performances.', 'ckb' => 'گالەریی فێستیڤاڵە کەلتوورییەکان و پێشکەشکردنی خوێندکاران.', 'ar' => 'معرض من مهرجاننا الثقافي وعروض الطلاب.'],
-                'category_id' => $category?->id,
+                'gallery_category_id' => $eventCategory?->id,
                 'order' => 3,
                 'is_active' => true,
             ],
@@ -728,10 +758,10 @@ class FrontendPagesSeeder extends Seeder
         foreach ($galleries as $g) {
             Gallery::create(array_merge($g, [
                 'user_id' => $user->id,
-                'branch_id' => $defaultBranch->id,
+                'branch_id' => $branch->id,
             ]));
         }
 
-        $this->command->info('Gallery items seeded.');
+        $this->command->info('  ✓ Gallery items seeded');
     }
 }
