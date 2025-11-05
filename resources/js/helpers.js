@@ -311,7 +311,7 @@ export default {
         return `/${branchPrefix}${cleanPath}`;
     },
 
-    // Convert reactive/Proxy translation objects into plain objects
+        // Convert reactive/Proxy translation objects into plain objects
     toPlain(value) {
         return Object.assign({}, value || {});
     },
@@ -329,5 +329,24 @@ export default {
         }
         return { en: '', ckb: '' };
     },
+
+    // Get translated text based on current language
+    getTranslatedText(translations, page = null) {
+        if (!translations) return '';
+        if (typeof translations === 'string') return translations;
+        
+        // Try to get current language from multiple sources
+        const currentLang = page?.props?.locale || 
+                          page?.props?.lang || 
+                          (typeof window !== 'undefined' && document.documentElement.lang) || 
+                          'en';
+        
+        return translations[currentLang] || 
+               translations.en || 
+               translations.ckb || 
+               translations.ar || 
+               Object.values(translations)[0] || 
+               '';
+    }
 
 }

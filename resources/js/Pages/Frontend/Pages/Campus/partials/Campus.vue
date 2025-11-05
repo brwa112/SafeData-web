@@ -81,14 +81,6 @@ const props = defineProps({
 
 const page = usePage();
 
-// Helper to get translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return '';
-  if (typeof translations === 'string') return translations;
-  const locale = page.props.locale || 'en';
-  return translations[locale] || translations['en'] || Object.values(translations)[0] || '';
-};
-
 // Transform backend data to frontend format
 const campusItems = computed(() => {
   if (!props.campuses || props.campuses.length === 0) {
@@ -122,8 +114,8 @@ const campusItems = computed(() => {
     id: campus.id,
     slug: campus.slug || campus.id,
     imageUrl: campus.imageUrl || (campus.images && campus.images.length > 0 ? campus.images[0].medium || campus.images[0].url : '/img/campus/1.jpg'),
-    title: getTranslatedText(campus.title),
-    description: helpers.limitWords(getTranslatedText(campus.content), 33),
+    title: helpers.getTranslatedText(campus.title, page),
+    description: helpers.limitWords(helpers.getTranslatedText(campus.content, page), 33),
   }));
 });
 

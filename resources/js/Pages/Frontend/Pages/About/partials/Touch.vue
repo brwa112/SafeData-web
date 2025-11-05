@@ -124,6 +124,7 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
 
 const props = defineProps({
     data: {
@@ -136,13 +137,6 @@ console.log(props.data);
 
 const page = usePage();
 
-// Helper function to get translated text
-const getTranslatedText = (translations) => {
-    if (!translations) return '';
-    const currentLang = page.props.locale || 'en';
-    return translations[currentLang] || translations.en || '';
-};
-
 // Contact information computed properties
 const contactPhone = computed(() => {
     return props.data.contact_phone || '+964 123 456 7890';
@@ -153,7 +147,7 @@ const contactEmail = computed(() => {
 });
 
 const contactAddress = computed(() => {
-    return getTranslatedText(props.data.contact_address) || 'Kurd Genius School - Qaiwan City, Raparin - Sulaymaniyah, Kurdistan Region, Iraq';
+    return helpers.getTranslatedText(props.data.contact_address, page) || 'Kurd Genius School - Qaiwan City, Raparin - Sulaymaniyah, Kurdistan Region, Iraq';
 });
 
 const mapIframe = computed(() => {

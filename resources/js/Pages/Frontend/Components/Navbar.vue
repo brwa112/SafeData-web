@@ -102,8 +102,12 @@
                   class="w-full text-left px-4 py-1.5 hover:bg-gray-100 transition-colors cursor-pointer">
                 <div class="flex items-center justify-between gap-2">
                   <div class="flex items-center gap-1.5 text-start">
-                    <img v-if="branch.logo_url" :src="branch.logo_url" :alt="getBranchName(branch)" class="size-5 object-contain" />
-                    <Svg v-else name="building_fill" class="size-5 text-gray-400"></Svg>
+                    <div v-if="branch.logo_url" class="block size-5">
+                      <img :src="branch.logo_url" :alt="getBranchName(branch)" class="size-5 object-contain" />
+                    </div>
+                    <div v-else class="block size-5">
+                      <Svg name="building_fill" class="size-5 text-gray-400"></Svg>
+                    </div>
                     <span class="text-[10px] md:text-xs"
                       :class="{ 'font-semibold text-f-primary': selectedBranch?.id === branch.id }">
                       {{ getBranchName(branch) }}
@@ -266,6 +270,7 @@ import { Link, usePage, router } from '@inertiajs/vue3';
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { getDefaultSettings } from '@/settings.js';
+import helpers from '@/helpers';
 
 const isMobileMenuOpen = ref(false);
 
@@ -286,15 +291,6 @@ const currentLanguage = ref(
 const branches = ref(page.props.branches || []);
 const selectedBranch = ref(page.props.selectedBranch || branches.value[0]);
 
-// Helper to get translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return '';
-  if (typeof translations === 'string') return translations;
-
-  const currentLang = document.documentElement.lang || 'en';
-  return translations[currentLang] || translations.en || translations.ckb || Object.values(translations)[0] || '';
-};
-
 // Contact info from AboutTouch model
 const contactInfo = computed(() => {
   const info = page.props.info;
@@ -303,7 +299,7 @@ const contactInfo = computed(() => {
   return {
     phone: info.contact_phone || null,
     email: info.contact_email || null,
-    address: info.contact_address ? getTranslatedText(info.contact_address) : null,
+    address: info.contact_address ? helpers.getTranslatedText(info.contact_address, page) : null,
   };
 });
 
@@ -332,7 +328,7 @@ const socialLinks = computed(() => {
 // Helper function to get translated branch name
 const getBranchName = (branch) => {
   if (!branch || !branch.name) return '';
-  return getTranslatedText(branch.name);
+  return helpers.getTranslatedText(branch.name, page);
 };
 
 function selectBranch(b) {

@@ -16,6 +16,9 @@ use App\Models\Pages\Academic\AcademicChoose;
 use App\Models\Pages\Admission\AdmissionPolicy;
 use App\Models\Pages\Admission\AdmissionDocument;
 use App\Models\Pages\CalendarEvent;
+use App\Models\Pages\Calendar\CalendarAcademic;
+use App\Models\Pages\Calendar\CalendarOfficial;
+use App\Models\Pages\Calendar\CalendarImportant;
 use App\Models\Pages\Campus;
 use App\Models\Pages\Classroom;
 use App\Models\Pages\News;
@@ -74,6 +77,10 @@ class FrontendPagesSeeder extends Seeder
             
             $this->seedAdmissionPolicy($user, $branch);
             $this->seedAdmissionDocuments($user, $branch);
+            
+            $this->seedCalendarAcademic($user, $branch);
+            $this->seedCalendarOfficial($user, $branch);
+            $this->seedCalendarImportant($user, $branch);
             
             $this->seedCampuses($user, $branch);
             $this->seedClassrooms($user, $branch);
@@ -1084,5 +1091,120 @@ class FrontendPagesSeeder extends Seeder
         }
 
         $this->command->info('  ✓ Gallery items seeded');
+    }
+
+    private function seedCalendarAcademic($user, $branch)
+    {
+        CalendarAcademic::create([
+            'user_id' => $user->id,
+            'branch_id' => $branch->id,
+            'description' => [
+                'en' => 'The academic calendar outlines the core instructional activities, enrichment programs, and educational milestones throughout the school year. It encompasses regular classroom instruction, specialized learning sessions, and student-centered projects designed to foster holistic development.',
+                'ckb' => 'ڕۆژژمێری ئەکادیمی چالاکییە فێرکارییە سەرەکییەکان، پڕۆگرامە دەوڵەمەندکەرەوەکان و خاڵە پەروەردەییەکان بەدرێژایی ساڵی خوێندن دەردەخات. ئەمە فێرکاری ئاسایی پۆل، دانیشتنە فێربوونە تایبەتەکان و پڕۆژە قوتابی-ناوەندەکان لەخۆدەگرێت کە بۆ پەرەپێدانی گشتگیر دیزاین کراون.',
+                'ar' => 'يحدد التقويم الأكاديمي الأنشطة التعليمية الأساسية وبرامج الإثراء والإنجازات التعليمية على مدار العام الدراسي. ويشمل التدريس المنتظم في الفصول الدراسية وجلسات التعلم المتخصصة والمشاريع التي تركز على الطالب والمصممة لتعزيز التنمية الشاملة.',
+            ],
+            'activities' => [
+                'en' => [
+                    'Core subject instruction',
+                    'Weekly enrichment programs (STEM, arts, languages)',
+                    'Monthly themes (Science Day, Reading Month, etc.)',
+                    'Project-based learning and exhibitions'
+                ],
+                'ckb' => [
+                    'فێرکاری بابەتە سەرەکییەکان',
+                    'پڕۆگرامە دەوڵەمەندکەرەوە هەفتانەیەکان (STEM، هونەر، زمان)',
+                    'ڕووکارە مانگانەکان (ڕۆژی زانست، مانگی خوێندنەوە، هتد)',
+                    'فێربوونی لەسەر بنەمای پڕۆژە و پێشانگاکان'
+                ],
+                'ar' => [
+                    'تدريس المواد الأساسية',
+                    'برامج إثراء أسبوعية (STEM، الفنون، اللغات)',
+                    'موضوعات شهرية (يوم العلوم، شهر القراءة، إلخ)',
+                    'التعلم القائم على المشاريع والمعارض'
+                ],
+            ],
+            'is_active' => true,
+        ]);
+
+        $this->command->info('  ✓ Calendar Academic seeded');
+    }
+
+    private function seedCalendarOfficial($user, $branch)
+    {
+        CalendarOfficial::create([
+            'user_id' => $user->id,
+            'branch_id' => $branch->id,
+            'description' => [
+                'en' => 'Official holidays include national celebrations, religious observances, and culturally significant days recognized across the Kurdistan Region and Iraq. The school remains closed during these periods to honor our diverse cultural heritage.',
+                'ckb' => 'پشووە فەرمییەکان ئاهەنگە نیشتیمانییەکان، ڕێزگرتنە ئایینییەکان و ڕۆژە کولتووری گرنگەکان لەخۆدەگرن کە لە هەرێمی کوردستان و عێراق ناسراون. قوتابخانە لەم ماوەیانەدا داخراوە بۆ ڕێزگرتن لە میراتە کولتووری جۆراوجۆرەکەمان.',
+                'ar' => 'تشمل العطلات الرسمية الاحتفالات الوطنية والاحتفالات الدينية والأيام ذات الأهمية الثقافية المعترف بها في إقليم كردستان والعراق. تظل المدرسة مغلقة خلال هذه الفترات لتكريم تراثنا الثقافي المتنوع.',
+            ],
+            'holidays' => [
+                'en' => [
+                    "New Year's Day",
+                    'Nowruz (Kurdish New Year)',
+                    'Eid al-Fitr and Eid al-Adha',
+                    'Independence & National Days',
+                    "Teacher's Day"
+                ],
+                'ckb' => [
+                    'ڕۆژی ساڵی نوێ',
+                    'نەورۆز (ساڵی نوێی کوردی)',
+                    'جەژنی ڕەمەزان و قوربان',
+                    'ڕۆژە سەربەخۆیی و نیشتیمانییەکان',
+                    'ڕۆژی مامۆستا'
+                ],
+                'ar' => [
+                    'رأس السنة الجديدة',
+                    'نوروز (السنة الكردية الجديدة)',
+                    'عيد الفطر وعيد الأضحى',
+                    'أيام الاستقلال والأعياد الوطنية',
+                    'يوم المعلم'
+                ],
+            ],
+            'is_active' => true,
+        ]);
+
+        $this->command->info('  ✓ Calendar Official seeded');
+    }
+
+    private function seedCalendarImportant($user, $branch)
+    {
+        CalendarImportant::create([
+            'user_id' => $user->id,
+            'branch_id' => $branch->id,
+            'events' => [
+                'en' => [
+                    ['name' => 'Start School', 'date' => 'Early September'],
+                    ['name' => 'Midterm Exams', 'date' => 'November & March'],
+                    ['name' => 'Final Exams', 'date' => 'January & June'],
+                    ['name' => 'Parent-Teacher Meetings', 'date' => 'Each Semester'],
+                    ['name' => 'Science Fair', 'date' => 'April'],
+                    ['name' => 'Graduation & Cultural Day', 'date' => 'May - June'],
+                    ['name' => 'Summer Program', 'date' => 'July'],
+                ],
+                'ckb' => [
+                    ['name' => 'دەستپێکی قوتابخانە', 'date' => 'سەرەتای ئەیلوول'],
+                    ['name' => 'تاقیکردنەوەی ناوەڕاست', 'date' => 'تشرینی دووەم و ئازار'],
+                    ['name' => 'تاقیکردنەوەی کۆتایی', 'date' => 'کانوونی دووەم و حوزەیران'],
+                    ['name' => 'کۆبوونەوەی دایک-باوک و مامۆستایان', 'date' => 'هەر وەرزێک'],
+                    ['name' => 'پانەی زانست', 'date' => 'نیسان'],
+                    ['name' => 'ڕۆژی دەرچوون و کولتوور', 'date' => 'ئایار - حوزەیران'],
+                    ['name' => 'پڕۆگرامی هاوین', 'date' => 'تەمموز'],
+                ],
+                'ar' => [
+                    ['name' => 'بداية المدرسة', 'date' => 'أوائل سبتمبر'],
+                    ['name' => 'امتحانات منتصف الفصل', 'date' => 'نوفمبر ومارس'],
+                    ['name' => 'الامتحانات النهائية', 'date' => 'يناير ويونيو'],
+                    ['name' => 'اجتماعات أولياء الأمور والمعلمين', 'date' => 'كل فصل دراسي'],
+                    ['name' => 'معرض العلوم', 'date' => 'أبريل'],
+                    ['name' => 'التخرج واليوم الثقافي', 'date' => 'مايو - يونيو'],
+                    ['name' => 'البرنامج الصيفي', 'date' => 'يوليو'],
+                ],
+            ],
+            'is_active' => true,
+        ]);
+
+        $this->command->info('  ✓ Calendar Important seeded');
     }
 }

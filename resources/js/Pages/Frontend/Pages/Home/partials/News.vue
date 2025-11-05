@@ -29,11 +29,11 @@
         <div class="absolute inset-0 flex flex-col justify-end p-4">
           <h3 v-if="item.title"
             class="relative z-10 text-white text-base sm:text-xs lg:text-sm xl:text-base 2xl:text-lg lg:!leading-6 font-semibold mb-2">
-            {{ getTranslatedText(item.title) }}
+            {{ helpers.getTranslatedText(item.title, page) }}
           </h3>
           <p
             class="relative z-10 text-white text-base sm:text-xs lg:text-sm xl:text-base 2xl:text-lg lg:!leading-6 font-light line-clamp-3">
-            {{ getTranslatedText(item.content) || item.description }}
+            {{ helpers.getTranslatedText(item.content, page) || item.description }}
           </p>
         </div>
         <div class="absolute inset-x-0 bottom-0 h-[200px] bg-gradient-to-t from-gray-950/70 to-transparent"></div>
@@ -45,7 +45,8 @@
 
 <script setup>
 import { computed } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
 
 // Define props
 const props = defineProps({
@@ -54,6 +55,8 @@ const props = defineProps({
     default: () => []
   }
 });
+
+const page = usePage();
 
 // Fallback news data
 const fallbackNews = [
@@ -73,15 +76,6 @@ const fallbackNews = [
     description: 'We believe every student is unique. That\'s why our low student-to-teacher ratio allows for personalized attention and tailored learning paths — ensuring academic success and emotional growth.',
   },
 ];
-
-// Helper function to get translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return '';
-  if (typeof translations === 'string') return translations;
-
-  const currentLang = document.documentElement.lang || 'en';
-  return translations[currentLang] || translations.en || translations.ckb || Object.values(translations)[0] || '';
-};
 
 // Computed property for displaying news
 const displayNews = computed(() => {

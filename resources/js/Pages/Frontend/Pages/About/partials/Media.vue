@@ -57,6 +57,8 @@
 import { computed, ref, reactive } from 'vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import Pagination from '@/Pages/Frontend/Components/Pagination.vue'
+import { usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
 
 // Define props
 const props = defineProps({
@@ -65,6 +67,8 @@ const props = defineProps({
     default: () => ({})
   }
 })
+
+const page = usePage();
 
 // Items per page
 const perPage = 8
@@ -75,17 +79,10 @@ const currentPages = reactive({})
 // Current tab index
 const currentTab = ref(0)
 
-// Helper function to extract translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return ''
-  const locale = document.documentElement.lang || 'en'
-  return translations[locale] || translations['en'] || Object.values(translations)[0] || ''
-}
-
 // Get category name from first item in category
 const getCategoryName = (item) => {
   if (!item || !item.category) return 'General'
-  return getTranslatedText(item.category.name)
+  return helpers.getTranslatedText(item.category.name, page)
 }
 
 // Process gallery data grouped by category
@@ -99,8 +96,8 @@ const galleryByCategory = computed(() => {
     
     processed[categorySlug] = items.map(item => ({
       id: item.id,
-      title: getTranslatedText(item.title),
-      description: getTranslatedText(item.description),
+      title: helpers.getTranslatedText(item.title, page),
+      description: helpers.getTranslatedText(item.description, page),
       category: item.category,
       image: item.images && item.images.length > 0 
         ? (typeof item.images[0] === 'object' ? item.images[0].medium || item.images[0].url : item.images[0])

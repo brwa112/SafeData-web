@@ -13,73 +13,20 @@
       <!-- Table -->
       <div class="w-full overflow-hidden mt-3">
         <div class="overflow-x-auto">
-          <table class="w-full border-collapse border border-gray-300">
+          <table v-if="events && events.length > 0" class="w-full border-collapse border border-gray-300">
             <tbody>
-              <tr class="border-b !border-gray-300">
+              <tr v-for="(event, index) in events" :key="index" class="border-b !border-gray-300">
                 <td class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium lg:w-2/3">
-                  Start School
+                  {{ event.name }}
                 </td>
                 <td
                   class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium border-s border-gray-300">
-                  Early September
-                </td>
-              </tr>
-              <tr class="border-b !border-gray-300">
-                <td class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium lg:w-2/3">
-                  Midterm Exams
-                </td>
-                <td
-                  class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium border-s border-gray-300">
-                  November & March
-                </td>
-              </tr>
-              <tr class="border-b !border-gray-300">
-                <td class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium lg:w-2/3">
-                  Final Exams
-                </td>
-                <td
-                  class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium border-s border-gray-300">
-                  January & June
-                </td>
-              </tr>
-              <tr class="border-b !border-gray-300">
-                <td class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium lg:w-2/3">
-                  Parent-Teacher Meetings
-                </td>
-                <td
-                  class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium border-s border-gray-300">
-                  Each Semester
-                </td>
-              </tr>
-              <tr class="border-b !border-gray-300">
-                <td class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium lg:w-2/3">
-                  Science Fair
-                </td>
-                <td
-                  class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium border-s border-gray-300">
-                  April
-                </td>
-              </tr>
-              <tr class="border-b !border-gray-300">
-                <td class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium lg:w-2/3">
-                  Graduation & Cultural Day
-                </td>
-                <td
-                  class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium border-s border-gray-300">
-                  May - June
-                </td>
-              </tr>
-              <tr class="border-b !border-gray-300">
-                <td class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium lg:w-2/3">
-                  Summer Program
-                </td>
-                <td
-                  class="px-4 sm:px-6 py-3.5 sm:py-4.5 text-sm sm:text-base lg:text-xl font-medium border-s border-gray-300">
-                  July
+                  {{ event.date }}
                 </td>
               </tr>
             </tbody>
           </table>
+
         </div>
       </div>
 
@@ -88,4 +35,23 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
+
+const props = defineProps({
+  important: {
+    type: Object,
+    default: null
+  }
+});
+
+const page = usePage();
+
+const events = computed(() => {
+  if (props.important?.events) {
+    return helpers.getTranslatedText(props.important.events, page);
+  }
+  return null;
+});
 </script>

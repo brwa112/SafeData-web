@@ -23,6 +23,7 @@
 <script setup>
 import { computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
 
 const props = defineProps({
   data: {
@@ -33,16 +34,9 @@ const props = defineProps({
 
 const page = usePage();
 
-// Helper function to get translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return '';
-  const currentLang = page.props.locale || 'en';
-  return translations[currentLang] || translations.en || '';
-};
-
 // Computed properties for content
 const description = computed(() => {
-  const desc = getTranslatedText(props.data.description);
+  const desc = helpers.getTranslatedText(props.data.description, page);
   if (!desc) {
     return `
       <p class="!leading-6 text-base lg:text-lg xl:text-xl font-normal text-justify">

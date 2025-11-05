@@ -80,14 +80,6 @@ const props = defineProps({
 
 const page = usePage();
 
-// Helper to get translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return '';
-  if (typeof translations === 'string') return translations;
-  const locale = page.props.locale || 'en';
-  return translations[locale] || translations['en'] || Object.values(translations)[0] || '';
-};
-
 // Transform backend data to frontend format
 const classItems = computed(() => {
   if (!props.classrooms || props.classrooms.length === 0) {
@@ -121,8 +113,8 @@ const classItems = computed(() => {
     id: classroom.id,
     slug: classroom.slug || classroom.id,
     imageUrl: classroom.imageUrl || (classroom.images && classroom.images.length > 0 ? classroom.images[0].medium || classroom.images[0].url : '/img/class/1.jpg'),
-    title: getTranslatedText(classroom.title),
-    description: helpers.limitWords(getTranslatedText(classroom.content), 100),
+    title: helpers.getTranslatedText(classroom.title, page),
+    description: helpers.limitWords(helpers.getTranslatedText(classroom.content, page), 100),
   }));
 });
 

@@ -139,17 +139,9 @@
 <script setup>
 import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
 
 const page = usePage();
-
-// Helper to get translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return '';
-  if (typeof translations === 'string') return translations;
-  
-  const currentLang = document.documentElement.lang || 'en';
-  return translations[currentLang] || translations.en || translations.ckb || Object.values(translations)[0] || '';
-};
 
 // Contact info from AboutTouch model
 const contactInfo = computed(() => {
@@ -159,7 +151,7 @@ const contactInfo = computed(() => {
   return {
     phone: info.contact_phone || null,
     email: info.contact_email || null,
-    address: info.contact_address ? getTranslatedText(info.contact_address) : null,
+    address: info.contact_address ? helpers.getTranslatedText(info.contact_address, page) : null,
   };
 });
 

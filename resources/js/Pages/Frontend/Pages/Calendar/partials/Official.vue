@@ -8,19 +8,15 @@
             {{ $t('frontend.calendar.official_title') }}
           </h2>
           <p class="relative z-10 !leading-6 text-base lg:text-base xl:text-xl font-normal text-pretty">
-            {{ $t('frontend.calendar.official_description') }}
+            {{ description }}
           </p>
           <img :src="'/img/shape_star.svg'" alt="ShapeOne" class="absolute -top-8 -start-10 3xl:-start-20 opacity-40 3xl:opacity-100 rtl:scale-x-[-1]" />
         </div>
 
         <!-- List -->
         <div class="relative z-[5]">
-          <ul class="list-disc list-inside -space-y-1 ms-6">
-            <li class="text-base lg:text-xl">New Year's Day</li>
-            <li class="text-base lg:text-xl">Nowruz (Kurdish New Year)</li>
-            <li class="text-base lg:text-xl">Eid al-Fitr and Eid al-Adha</li>
-            <li class="text-base lg:text-xl">Independence & National Days</li>
-            <li class="text-base lg:text-xl">Teacher's Day</li>
+          <ul v-if="holidays && holidays.length > 0" class="list-disc list-inside -space-y-1 ms-6">
+            <li v-for="(holiday, index) in holidays" :key="index" class="text-base lg:text-xl">{{ holiday }}</li>
           </ul>
         </div>
 
@@ -39,5 +35,31 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
+
+const props = defineProps({
+  official: {
+    type: Object,
+    default: null
+  }
+});
+
+const page = usePage();
+
+const description = computed(() => {
+  if (props.official?.description) {
+    return helpers.getTranslatedText(props.official.description, page);
+  }
+  return page.props.$t?.('frontend.calendar.official_description') || '';
+});
+
+const holidays = computed(() => {
+  if (props.official?.holidays) {
+    return helpers.getTranslatedText(props.official.holidays, page);
+  }
+  return null;
+});
 </script>
 

@@ -28,28 +28,10 @@
 <script setup>
 import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
 
 const page = usePage();
 const selectedBranch = computed(() => page.props.selectedBranch);
-
-// Get current language from page props
-const currentLang = computed(() => page.props.lang || 'en');
-
-// Helper to get translated text
-const getTranslatedText = (translations) => {
-  if (!translations) return '';
-  
-  // If it's a string, return it directly
-  if (typeof translations === 'string') return translations;
-  
-  // If it's an object, get the translation for current language
-  return translations[currentLang.value] || 
-         translations['en'] || 
-         translations['ckb'] || 
-         translations['ar'] || 
-         Object.values(translations)[0] || 
-         '';
-};
 
 // Computed properties for branch data
 const branchLogo = computed(() => {
@@ -62,7 +44,7 @@ const branchName = computed(() => {
       ? 'Kurd Genius School' 
       : 'قوتابخانەی کورد جینیەس';
   }
-  return getTranslatedText(selectedBranch.value.name);
+  return helpers.getTranslatedText(selectedBranch.value.name, page);
 });
 
 const branchDescription = computed(() => {
@@ -71,7 +53,7 @@ const branchDescription = computed(() => {
       ? 'Quality education and effective English learning environment for students.'
       : 'ژینگەیەکی پەروەردەیی بە کوالێتی و فێربوونی ئینگلیزی کاریگەر بۆ قوتابیان.';
   }
-  return getTranslatedText(selectedBranch.value.description);
+  return helpers.getTranslatedText(selectedBranch.value.description, page);
 });
 
 </script>

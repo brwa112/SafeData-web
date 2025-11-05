@@ -8,34 +8,17 @@
           {{ $t('frontend.calendar.academic_title') }}
         </h2>
         <p class="!leading-6 text-base lg:text-base xl:text-xl font-normal text-pretty">
-          {{ $t('frontend.calendar.academic_description') }}
+          {{ description }}
         </p>
       </div>
 
       <!-- Bottom Content -->
-      <div class="relative z-[5] grid grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-4 sm:w-11/12 mx-auto">
-        <div
-          class="bg-gray-50 ring-2 ring-[#0028DF] border-2 border-[#0028DF]/0 hover:border-[#0028DF] duration-500 rounded-3xl text-center p-1 lg:p-3 h-36 flex items-center justify-center w-full">
+      <div v-if="activities && activities.length > 0"
+        class="relative z-[5] grid grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-4 sm:w-11/12 mx-auto">
+        <div v-for="(activity, index) in activities" :key="index" :class="getRingColor(index)"
+          class="bg-gray-50 ring-2 border-2 border-transparent duration-500 rounded-3xl text-center p-1 lg:p-3 h-36 flex items-center justify-center w-full hover:border-current">
           <span class="text-sm sm:text-base lg:text-xl font-medium">
-            Core subject instruction
-          </span>
-        </div>
-        <div
-          class="bg-gray-50 ring-2 ring-[#FED176] border-2 border-[#FED176]/0 hover:border-[#FED176] duration-500 rounded-3xl text-center p-1 lg:p-3 h-36 flex items-center justify-center w-full">
-          <span class="text-sm sm:text-base lg:text-xl font-medium">
-            Weekly enrichment programs (STEM, arts, languages)
-          </span>
-        </div>
-        <div
-          class="bg-gray-50 ring-2 ring-[#3DA8A5] border-2 border-[#3DA8A5]/0 hover:border-[#3DA8A5] duration-500 rounded-3xl text-center p-1 lg:p-3 h-36 flex items-center justify-center w-full">
-          <span class="text-sm sm:text-base lg:text-xl font-medium">
-            Monthly themes (Science Day, Reading Month, etc.)
-          </span>
-        </div>
-        <div
-          class="bg-gray-50 ring-2 ring-[#FF966D] border-2 border-[#FF966D]/0 hover:border-[#FF966D] duration-500 rounded-3xl text-center p-1 lg:p-3 h-36 flex items-center justify-center w-full">
-          <span class="text-sm sm:text-base lg:text-xl font-medium">
-            Project-based learning and exhibitions
+            {{ activity }}
           </span>
         </div>
       </div>
@@ -54,4 +37,40 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import helpers from '@/helpers';
+
+const props = defineProps({
+  academic: {
+    type: Object,
+    default: null
+  }
+});
+
+const page = usePage();
+
+const description = computed(() => {
+  if (props.academic?.description) {
+    return helpers.getTranslatedText(props.academic.description, page);
+  }
+  return page.props.$t?.('frontend.calendar.academic_description') || '';
+});
+
+const activities = computed(() => {
+  if (props.academic?.activities) {
+    return helpers.getTranslatedText(props.academic.activities, page);
+  }
+  return null;
+});
+
+const getRingColor = (index) => {
+  const colors = [
+    'ring-[#0028DF]',
+    'ring-[#FED176]',
+    'ring-[#3DA8A5]',
+    'ring-[#FF966D]'
+  ];
+  return colors[index % colors.length];
+};
 </script>
