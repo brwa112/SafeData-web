@@ -6,15 +6,15 @@
         <div class="relative z-[5] flex-1 space-y-5">
           <div class="flex flex-wrap items-center gap-x-5">
             <p class="!leading-6 text-base lg:text-base xl:text-lg font-normal">
-              {{ formattedDate }} | {{ news.location }}
+              {{ formattedDate }} <span v-if="branchName">| {{ branchName }}</span>
             </p>
-            <p class="!leading-6 text-base lg:text-base xl:text-lg font-normal">
-              {{ news.hashtag }}
+            <p v-if="hashtags" class="!leading-6 text-base lg:text-base xl:text-lg font-normal">
+              {{ hashtags }}
             </p>
           </div>
           <h2
             class="text-xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-[75px] font-semibold text-black !leading-normal lg:!leading-14 xl:!leading-20 2xl:!leading-[92px]">
-            {{ news.title }}
+            {{ title }}
           </h2>
           <div class="!mt-9">
             <Link :href="branchRoute(`/news/${news.slug || news.id}`)"
@@ -27,7 +27,7 @@
         <!-- Right Content - Image -->
         <div
           class="relative z-[2] w-full sm:w-[528px] lg:w-[472px] xl:w-[552px] 2xl:w-[640px] h-[580px] xl:h-[640px] 2xl:h-[700px] 3xl:h-[760px]">
-          <img :src="`/img/news/${news.id}.jpg`" alt="news" class="w-full h-full object-cover" />
+          <img :src="featuredImage" :alt="title" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
@@ -35,24 +35,64 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import helpers from '@/helpers';
 
 const props = defineProps({
   news: {
     type: Object,
-    default: () => ({
-      id: 2,
-      title: 'Celebrating Knowledge, Creativity, and Community: A Journey Through Learning, Friendship, and the Spirit of Our School',
-      date: '2025-05-17',
-      location: 'Sulaymaniyah',
-      hashtag: '#campus',
-    }),
+    required: true,
   }
 });
 
+const page = usePage();
+
+// Helper function to generate branch-aware routes
+const branchRoute = (path) => {
+  return helpers.branchRoute(path);
+};
+
+// Get translated content
+const title = computed(() => {
+  return props.news?.title 
+    ? helpers.getTranslatedText(props.news.title, page)
+    : '';
+});
+
+const content = computed(() => {
+  return props.news?.content 
+    ? helpers.getTranslatedText(props.news.content, page)
+    : '';
+});
+
+const branchName = computed(() => {
+  return props.news?.branch?.name 
+    ? helpers.getTranslatedText(props.news.branch.name, page)
+    : '';
+});
+
+const categoryName = computed(() => {
+  return props.news?.category?.name 
+    ? helpers.getTranslatedText(props.news.category.name, page)
+    : '';
+});
+
+const hashtags = computed(() => {
+  if (!props.news?.hashtags || props.news.hashtags.length === 0) return '';
+  return props.news.hashtags.map(tag => '#' + helpers.getTranslatedText(tag.name, page)).join(' ');
+});
+
+const featuredImage = computed(() => {
+  if (props.news?.images && props.news.images.length > 0) {
+    return props.news.images[0].url;
+  }
+  return `/img/news/${props.news?.id || 1}.jpg`;
+});
+
 const formattedDate = computed(() => {
-  const d = new Date(props.news.date);
+  if (!props.news?.created_at) return '';
+  const d = new Date(props.news.created_at);
   if (isNaN(d.getTime())) return '';
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 });

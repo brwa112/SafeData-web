@@ -95,7 +95,7 @@ const description = computed(() => {
 });
 
 const authorName = computed(() => {
-  return getTranslatedText(props.data.author) || 'Sozan Abubakr Mawlud';
+  return helpers.getTranslatedText(props.data.author) || 'Sozan Abubakr Mawlud';
 });
 
 const authorImage = computed(() => {

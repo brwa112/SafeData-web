@@ -43,7 +43,7 @@ trait NewsScopes
             return $query;
         }
 
-        return $query->where('category_id', $categoryId);
+        return $query->where('news_category_id', $categoryId);
     }
 
     // Filter by hashtags (multiple)

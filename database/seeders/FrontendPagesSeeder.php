@@ -179,6 +179,10 @@ class FrontendPagesSeeder extends Seeder
                 'name' => ['en' => 'Events', 'ckb' => 'بۆنەکان', 'ar' => 'الفعاليات'],
                 'slug' => 'events',
             ],
+            [
+                'name' => ['en' => 'Activities', 'ckb' => 'چالاکییەکان', 'ar' => 'الأنشطة'],
+                'slug' => 'activities',
+            ],
         ];
 
         foreach ($newsCategories as $category) {
@@ -940,6 +944,201 @@ class FrontendPagesSeeder extends Seeder
                 'category' => 'events',
                 'hashtags' => ['culture', 'diversity', 'community'],
                 'order' => 3,
+            ],
+            [
+                'title' => [
+                    'en' => "Athletic Team Wins Regional Championship",
+                    'ckb' => "تیمی وەرزشی قەهرەمانی هەرێمی بەدەست دەهێنێت",
+                    'ar' => "الفريق الرياضي يفوز ببطولة المنطقة",
+                ],
+                'content' => [
+                    'en' => "Our {$branchNames['en']} basketball team has won the Regional Championship for the second consecutive year. The team's dedication and teamwork led to an impressive victory against strong competition.",
+                    'ckb' => "تیمی تۆپی سەبەتەی {$branchNames['ckb']} قەهرەمانی هەرێمی بۆ دووەم ساڵی پێکەوە بەدەست هێناوە. بەخشندەیی و کاری تیمیی تیمەکە بووە هۆی سەرکەوتنێکی سەرنجڕاکێش بەسەر ڕکابەرانی بەهێز.",
+                    'ar' => "فاز فريق كرة السلة في {$branchNames['ar']} ببطولة المنطقة للعام الثاني على التوالي. أدى تفاني الفريق والعمل الجماعي إلى فوز رائع ضد منافسة قوية.",
+                ],
+                'category' => 'achievement',
+                'hashtags' => ['sports', 'achievement', 'championship'],
+                'order' => 4,
+            ],
+            [
+                'title' => [
+                    'en' => "Annual Science Fair Showcases Student Innovation",
+                    'ckb' => "پانەری ساڵانەی زانست داهێنانی قوتابیان نیشان دەدات",
+                    'ar' => "معرض العلوم السنوي يعرض ابتكارات الطلاب",
+                ],
+                'content' => [
+                    'en' => "The annual Science Fair at {$branchNames['en']} featured over 50 innovative projects from students across all grade levels. Projects ranged from robotics to environmental science, demonstrating the creativity and scientific thinking of our students.",
+                    'ckb' => "پانەری ساڵانەی زانست لە {$branchNames['ckb']} دا زیاتر لە 50 پڕۆژەی داهێنەرانە لە قوتابیانی هەموو ئاستە خوێندنەکان پێشکەش کرد. پڕۆژەکان لە ڕۆبۆتیکەوە تا زانستی ژینگە، داهێنان و بیرکردنەوەی زانستی قوتابیانەکانمانی نیشان دا.",
+                    'ar' => "ضم معرض العلوم السنوي في {$branchNames['ar']} أكثر من 50 مشروعًا مبتكرًا من طلاب جميع المستويات الدراسية. تراوحت المشاريع من الروبوتات إلى علوم البيئة، مما يدل على إبداع والتفكير العلمي لطلابنا.",
+                ],
+                'category' => 'events',
+                'hashtags' => ['science', 'innovation', 'student-projects'],
+                'order' => 5,
+            ],
+            [
+                'title' => [
+                    'en' => "New Computer Lab with Latest Technology",
+                    'ckb' => "تاقیگەی نوێی کۆمپیوتەر بە دوایین تەکنەلۆژیا",
+                    'ar' => "معمل حاسوب جديد بأحدث التقنيات",
+                ],
+                'content' => [
+                    'en' => "We are excited to unveil our new state-of-the-art computer laboratory at {$branchNames['en']}. The lab features 40 high-performance computers, interactive whiteboards, and specialized software for coding and digital design.",
+                    'ckb' => "خۆشحاڵین بە ئاشکراکردنی تاقیگە نوێیەکەمانی کۆمپیوتەر بە دوایین تەکنەلۆژیا لە {$branchNames['ckb']}. تاقیگەکە 40 کۆمپیوتەری بە کارایی بەرز، تەختەی سپیی ئینتەراکتیڤ و نەرمەواڵەی تایبەت بۆ کۆدنووسین و دیزاینی دیجیتاڵی تێدایە.",
+                    'ar' => "نحن متحمسون للكشف عن مختبر الحاسوب الجديد المتطور في {$branchNames['ar']}. يحتوي المختبر على 40 حاسوبًا عالي الأداء وسبورات تفاعلية وبرامج متخصصة للبرمجة والتصميم الرقمي.",
+                ],
+                'category' => 'facilities',
+                'hashtags' => ['technology', 'computer-lab', 'education'],
+                'order' => 6,
+            ],
+            [
+                'title' => [
+                    'en' => "International Day Brings Global Perspectives",
+                    'ckb' => "ڕۆژی نێودەوڵەتی دیدگای جیهانی دەهێنێت",
+                    'ar' => "اليوم الدولي يجلب منظورات عالمية",
+                ],
+                'content' => [
+                    'en' => "Students at {$branchNames['en']} celebrated International Day with presentations about different countries, traditional costumes, music performances, and authentic cuisine. This event promotes cultural awareness and global citizenship.",
+                    'ckb' => "قوتابیانی {$branchNames['ckb']} ڕۆژی نێودەوڵەتییان بە پێشکەشکردنەکان دەربارەی وڵاتانی جیاواز، جلی نەریتی، نمایشی مۆسیقا و خواردنی ڕەسەن ئاهەنگ گرت. ئەم بۆنەیە هۆشیاری کولتووری و هاووڵاتیێتی جیهانی بەرز دەکاتەوە.",
+                    'ar' => "احتفل الطلاب في {$branchNames['ar']} باليوم الدولي مع عروض تقديمية حول بلدان مختلفة وأزياء تقليدية وعروض موسيقية ومأكولات أصيلة. يعزز هذا الحدث الوعي الثقافي والمواطنة العالمية.",
+                ],
+                'category' => 'events',
+                'hashtags' => ['international', 'culture', 'diversity'],
+                'order' => 7,
+            ],
+            [
+                'title' => [
+                    'en' => "Art Exhibition Features Student Masterpieces",
+                    'ckb' => "پێشانگای هونەری شاکارەکانی قوتابیان پێشکەش دەکات",
+                    'ar' => "معرض الفن يعرض روائع الطلاب",
+                ],
+                'content' => [
+                    'en' => "The {$branchNames['en']} Art Department proudly presents its annual art exhibition featuring paintings, sculptures, and digital art created by our talented students. The exhibition will be open to the public for two weeks.",
+                    'ckb' => "بەشی هونەری {$branchNames['ckb']} بە شانازییەوە پێشانگای هونەری ساڵانەی خۆی پێشکەش دەکات کە تابلۆ، پەیکەر و هونەری دیجیتاڵی دروستکراوی لەلایەن قوتابیانە بەهرەدارەکانمانەوە لەخۆدەگرێت. پێشانگاکە بۆ ماوەی دوو هەفتە کراوەیە بۆ گشتی.",
+                    'ar' => "تقدم إدارة الفنون في {$branchNames['ar']} بفخر معرضها الفني السنوي الذي يضم لوحات ومنحوتات وفن رقمي من إبداع طلابنا الموهوبين. سيكون المعرض مفتوحًا للجمهور لمدة أسبوعين.",
+                ],
+                'category' => 'events',
+                'hashtags' => ['art', 'exhibition', 'creativity'],
+                'order' => 8,
+            ],
+            [
+                'title' => [
+                    'en' => "Student Council Launches Community Service Project",
+                    'ckb' => "ئەنجومەنی قوتابیان پڕۆژەی خزمەتگوزاری کۆمەڵایەتی دەستپێدەکات",
+                    'ar' => "مجلس الطلاب يطلق مشروع خدمة المجتمع",
+                ],
+                'content' => [
+                    'en' => "The Student Council at {$branchNames['en']} has initiated a community service project to support local charities and environmental conservation. Students will participate in volunteer activities throughout the semester.",
+                    'ckb' => "ئەنجومەنی قوتابیان لە {$branchNames['ckb']} پڕۆژەیەکی خزمەتگوزاری کۆمەڵایەتی دەستپێکردووە بۆ پشتگیری ڕێکخراوە خێرخوازەکانی ناوخۆیی و پاراستنی ژینگە. قوتابیان لە چالاکییەکانی خۆبەخشانە بەژداری دەکەن لە تەواوی وەرزەکەدا.",
+                    'ar' => "أطلق مجلس الطلاب في {$branchNames['ar']} مشروع خدمة مجتمعية لدعم الجمعيات الخيرية المحلية والحفاظ على البيئة. سيشارك الطلاب في أنشطة تطوعية طوال الفصل الدراسي.",
+                ],
+                'category' => 'activities',
+                'hashtags' => ['community', 'volunteer', 'student-council'],
+                'order' => 9,
+            ],
+            [
+                'title' => [
+                    'en' => "Music Department Performs Spring Concert",
+                    'ckb' => "بەشی مۆسیقا کۆنسێرتی بەهار پێشکەش دەکات",
+                    'ar' => "قسم الموسيقى يقدم حفل الربيع",
+                ],
+                'content' => [
+                    'en' => "The {$branchNames['en']} Music Department will present its Spring Concert featuring performances from the school orchestra, choir, and individual musicians. The concert showcases the musical talents developed throughout the year.",
+                    'ckb' => "بەشی مۆسیقای {$branchNames['ckb']} کۆنسێرتی بەهاری خۆی پێشکەش دەکات کە نمایشەکانی ئۆرکێسترای قوتابخانە، گرووپی کۆرال و مۆسیقاژەنە تاکەکەسەکانی تێدایە. کۆنسێرتەکە بەهرە مۆسیقییەکانی گەشەپێدراو لە درێژایی ساڵدا نیشان دەدات.",
+                    'ar' => "سيقدم قسم الموسيقى في {$branchNames['ar']} حفل الربيع الذي يتضمن عروضًا من أوركسترا المدرسة والجوقة والموسيقيين الفرديين. يعرض الحفل المواهب الموسيقية المطورة على مدار العام.",
+                ],
+                'category' => 'events',
+                'hashtags' => ['music', 'concert', 'performance'],
+                'order' => 10,
+            ],
+            [
+                'title' => [
+                    'en' => "Debate Team Secures First Place at Regional Tournament",
+                    'ckb' => "تیمی مناظرە شوێنی یەکەم لە تۆرنامێنتی هەرێمی دا بەدەست دەهێنێت",
+                    'ar' => "فريق المناظرة يحصل على المركز الأول في البطولة الإقليمية",
+                ],
+                'content' => [
+                    'en' => "Our debate team from {$branchNames['en']} has won first place at the Regional Debate Tournament. The team impressed judges with their critical thinking, research skills, and eloquent arguments on various topics.",
+                    'ckb' => "تیمی مناظرەکەمان لە {$branchNames['ckb']} شوێنی یەکەمی لە تۆرنامێنتی مناظرەی هەرێمی دا بەدەست هێناوە. تیمەکە دادوەرەکانی سەرسام کردن بە بیرکردنەوەی ڕەخنەیی، لێهاتوویی توێژینەوە و ئارگیومێنتە لاوەکانیان لەسەر بابەتە جیاوازەکان.",
+                    'ar' => "فاز فريق المناظرة من {$branchNames['ar']} بالمركز الأول في بطولة المناظرة الإقليمية. أبهر الفريق الحكام بتفكيرهم النقدي ومهارات البحث والحجج البليغة حول مواضيع مختلفة.",
+                ],
+                'category' => 'achievement',
+                'hashtags' => ['debate', 'achievement', 'competition'],
+                'order' => 11,
+            ],
+            [
+                'title' => [
+                    'en' => "Environmental Club Plants 500 Trees",
+                    'ckb' => "کلووبی ژینگە 500 دار دەچێنێت",
+                    'ar' => "نادي البيئة يزرع 500 شجرة",
+                ],
+                'content' => [
+                    'en' => "The Environmental Club at {$branchNames['en']} successfully completed a tree-planting initiative, adding 500 native trees to local parks and green spaces. This project supports biodiversity and combats climate change.",
+                    'ckb' => "کلووبی ژینگە لە {$branchNames['ckb']} بە سەرکەوتوویی دەستپێشخەری چاندنی دار تەواو کردووە، 500 داری ڕەسەن زیاد کردووەتە پارکە ناوخۆییەکان و شوێنە سەوزەکان. ئەم پڕۆژەیە پشتگیری جۆراوجۆری ژیانداری دەکات و دژی گۆڕانی کەشوهەوا دەکات.",
+                    'ar' => "أكمل نادي البيئة في {$branchNames['ar']} بنجاح مبادرة زراعة الأشجار، مضيفًا 500 شجرة محلية إلى الحدائق والمساحات الخضراء المحلية. يدعم هذا المشروع التنوع البيولوجي ويكافح تغير المناخ.",
+                ],
+                'category' => 'activities',
+                'hashtags' => ['environment', 'sustainability', 'community'],
+                'order' => 12,
+            ],
+            [
+                'title' => [
+                    'en' => "Robotics Team Advances to National Finals",
+                    'ckb' => "تیمی ڕۆبۆتیک بەرەو یاری کۆتایی نیشتمانی پێش دەکەوێت",
+                    'ar' => "فريق الروبوتات يتقدم إلى النهائيات الوطنية",
+                ],
+                'content' => [
+                    'en' => "Our robotics team from {$branchNames['en']} has qualified for the National Robotics Championship after winning the regional competition. The team designed and programmed an innovative robot that solved complex challenges.",
+                    'ckb' => "تیمی ڕۆبۆتیکەکەمان لە {$branchNames['ckb']} شایستەی قەهرەمانی ڕۆبۆتیکی نیشتمانی بووە دوای بردنەوەی ڕکابەری هەرێمی. تیمەکە ڕۆبۆتێکی داهێنەرانەی دیزاین کردووە و بەرنامەی بۆ نووسیووە کە تەحەداکانی ئاڵۆز چارەسەر کردووە.",
+                    'ar' => "تأهل فريق الروبوتات من {$branchNames['ar']} لبطولة الروبوتات الوطنية بعد الفوز بالمسابقة الإقليمية. صمم الفريق وبرمج روبوتًا مبتكرًا حل تحديات معقدة.",
+                ],
+                'category' => 'achievement',
+                'hashtags' => ['robotics', 'stem', 'competition'],
+                'order' => 13,
+            ],
+            [
+                'title' => [
+                    'en' => "New Sports Complex Opens with Modern Facilities",
+                    'ckb' => "کۆمپلێکسی نوێی وەرزش بە ئامێرە مۆدێرنەکان دەکرێتەوە",
+                    'ar' => "افتتاح مجمع رياضي جديد بمرافق حديثة",
+                ],
+                'content' => [
+                    'en' => "The new sports complex at {$branchNames['en']} features an Olympic-size swimming pool, indoor basketball courts, a fitness center, and outdoor athletic fields. These facilities will enhance our physical education program.",
+                    'ckb' => "کۆمپلێکسی نوێی وەرزش لە {$branchNames['ckb']} مەلەوانگەیەکی قەبارەی ئۆلۆمپی، یاریگای تۆپی سەبەتەی ژوورەوە، ناوەندێکی تەندروستی و یاریگای وەرزشی دەرەوەی لەخۆدەگرێت. ئەم ئامێرانە بەرنامەی پەروەردەی جەستەیی بەرز دەکەنەوە.",
+                    'ar' => "يحتوي المجمع الرياضي الجديد في {$branchNames['ar']} على مسبح بحجم أولمبي وملاعب كرة سلة داخلية ومركز للياقة البدنية وملاعب رياضية خارجية. ستعزز هذه المرافق برنامج التربية البدنية لدينا.",
+                ],
+                'category' => 'facilities',
+                'hashtags' => ['sports', 'facilities', 'fitness'],
+                'order' => 14,
+            ],
+            [
+                'title' => [
+                    'en' => "Drama Club Presents Award-Winning Play",
+                    'ckb' => "کلووبی دراما شانۆیەکی خەڵاتوەرگیراو پێشکەش دەکات",
+                    'ar' => "نادي الدراما يقدم مسرحية حائزة على جوائز",
+                ],
+                'content' => [
+                    'en' => "The Drama Club at {$branchNames['en']} will perform an adapted version of a classic play. Under the direction of our experienced drama teacher, students have been rehearsing for months to deliver an exceptional performance.",
+                    'ckb' => "کلووبی دراما لە {$branchNames['ckb']} وەشانێکی گونجاوی شانۆیەکی کلاسیکی پێشکەش دەکات. لەژێر سەرپەرشتی مامۆستای دراما بەئەزموونەکەماندا، قوتابیان بۆ ماوەی مانگان ڕاهێنانیان کردووە بۆ پێشکەشکردنی نمایشێکی نایاب.",
+                    'ar' => "سيقدم نادي الدراما في {$branchNames['ar']} نسخة معدلة من مسرحية كلاسيكية. تحت إشراف معلم الدراما ذي الخبرة، يتدرب الطلاب لأشهر لتقديم أداء استثنائي.",
+                ],
+                'category' => 'events',
+                'hashtags' => ['drama', 'theater', 'performance'],
+                'order' => 15,
+            ],
+            [
+                'title' => [
+                    'en' => "Reading Challenge Encourages Literary Excellence",
+                    'ckb' => "تەحەدای خوێندنەوە نموونەی ئەدەبی هاندەدات",
+                    'ar' => "تحدي القراءة يشجع التميز الأدبي",
+                ],
+                'content' => [
+                    'en' => "Students at {$branchNames['en']} are participating in the annual Reading Challenge, aiming to read 100 books collectively. The library has expanded its collection to support this initiative and foster a love for reading.",
+                    'ckb' => "قوتابیانی {$branchNames['ckb']} بەژداری تەحەدای ساڵانەی خوێندنەوە دەکەن، ئامانجیان خوێندنەوەی 100 کتێبە بە کۆمەڵ. کتێبخانەکە کۆکراوەکەی فراوان کردووە بۆ پشتگیری ئەم دەستپێشخەرییە و گەشەپێدانی خۆشەویستی بۆ خوێندنەوە.",
+                    'ar' => "يشارك الطلاب في {$branchNames['ar']} في تحدي القراءة السنوي، بهدف قراءة 100 كتاب بشكل جماعي. وسعت المكتبة مجموعتها لدعم هذه المبادرة وتعزيز حب القراءة.",
+                ],
+                'category' => 'activities',
+                'hashtags' => ['reading', 'literature', 'library'],
+                'order' => 16,
             ],
         ];
 

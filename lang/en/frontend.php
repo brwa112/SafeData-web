@@ -49,6 +49,10 @@ return [
         'latest_news' => 'Latest News',
         'search_placeholder' => 'Search here...',
         'description' => 'Stay updated with the latest news and events from Kurd Genius School. Learn about our achievements, activities, and important announcements.',
+        // Empty state messages
+        'no_news_found' => 'No News Found',
+        'try_different_search' => 'Try adjusting your search or browse a different category.',
+        'no_news_available' => 'There are currently no news articles available.',
     ],
     'know_more' => [
         'title' => 'Know More',
@@ -66,6 +70,9 @@ return [
     ],
     'media' => [
         'title' => 'Media Gallery',
+        // Empty state messages
+        'no_media_found' => 'No Media Found',
+        'no_media_available' => 'There are currently no media items available in our gallery.',
     ],
     'contact_form' => [
         'title' => 'Get in touch with us',
