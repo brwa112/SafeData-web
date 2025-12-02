@@ -22,6 +22,13 @@
                 <span>{{ $t('pages.category') }}</span>
                 </Link>
 
+                <!-- Hashtags Button -->
+                <Link :href="route('control.pages.hashtags.index')"
+                    class="btn btn-sm btn-dark shadow-none flex items-center gap-1">
+                <Svg name="hashtag" class="size-4"></Svg>
+                <span>{{ $t('pages.hashtag') }}</span>
+                </Link>
+
                 <!-- Add New Button -->
                 <button v-if="$can('create_news')" type="button"
                     class="btn btn-sm btn-primary shadow-none flex items-center gap-1" @click="toggleModal()">

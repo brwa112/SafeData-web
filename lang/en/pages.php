@@ -41,6 +41,10 @@ return [
     'title.ckb' => 'kurdish title',
     'content.ckb' => 'kurdish content',
 
+    'name.en' => 'english name',
+    'name.ckb' => 'kurdish name',
+    'name.ar' => 'arabic name',
+
     'order' => 'Order',
     'views' => 'Views',
 ];

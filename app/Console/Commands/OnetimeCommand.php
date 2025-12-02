@@ -10,6 +10,7 @@ use App\Models\Pages\Classroom;
 use App\Models\Pages\Gallery;
 use App\Models\Pages\GalleryCategory;
 use App\Models\Pages\NewsCategory;
+use App\Models\Pages\Hashtag;
 
 class OnetimeCommand extends Command
 {
@@ -52,15 +53,20 @@ class OnetimeCommand extends Command
             Campus::truncate();
             Classroom::truncate();
             Gallery::truncate();
+            Hashtag::truncate();
 
             NewsCategory::truncate();
             GalleryCategory::truncate();
+
+            // Remove pivot relations between news and hashtags
+            DB::table('news_hashtag')->delete();
 
             DB::table('media')->whereIn('model_type', [
                 News::class,
                 Campus::class,
                 Classroom::class,
                 Gallery::class,
+                Hashtag::class,
             ])->delete();
 
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');

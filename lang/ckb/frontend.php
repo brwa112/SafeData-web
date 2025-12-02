@@ -14,21 +14,6 @@ return [
         'school_abbr' => 'KGS',
         'classrooms' => 'پۆلەکان و تاقیگەکان',
     ],
-    'contact' => [
-        'phone' => '+964 770 342 0606',
-        'email' => 'kurdgeniusschool@gmail.com',
-    ],
-    'branches' => [
-        'kurd_genius' => 'کۆمەڵگای پەروەردەیی کورد جینیوس',
-        'kurd_genius_2' => 'کۆمەڵگای پەروەردەیی کورد جینیوس ٢',
-        'kurd_genius_qaiwan' => 'کۆمەڵگای پەروەردەیی کورد جینیوس بەرزاییەکانی قەیوان',
-        'smart_educational' => 'کۆمەڵگای پەروەردەیی زیرەک',
-    ],
-    'languages' => [
-        'english' => 'ئینگلیزی',
-        'kurdish' => 'کوردی',
-        'arabic' => 'عەرەبی',
-    ],
     'hero' => [
         'title' => 'قوتابخانەکانی کورد جینیوس',
         'subtitle_one' => 'پەروەردەی باش، ',

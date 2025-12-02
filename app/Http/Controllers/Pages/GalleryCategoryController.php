@@ -49,6 +49,10 @@ class GalleryCategoryController extends Controller
             'name.ckb' => 'required|string|max:255',
             'name.ar' => 'nullable|string|max:255',
             'is_active' => 'boolean',
+        ], [], [
+            'name.en' => __('pages.name.en'),
+            'name.ckb' => __('pages.name.ckb'),
+            'name.ar' => __('pages.name.ar'),
         ]);
 
         $validated['slug'] = Str::slug($validated['name']['en']);
@@ -74,6 +78,10 @@ class GalleryCategoryController extends Controller
             'name.ckb' => 'required|string|max:255',
             'name.ar' => 'nullable|string|max:255',
             'is_active' => 'boolean',
+        ], [], [
+            'name.en' => __('pages.name.en'),
+            'name.ckb' => __('pages.name.ckb'),
+            'name.ar' => __('pages.name.ar'),
         ]);
 
         // Update slug if name changed

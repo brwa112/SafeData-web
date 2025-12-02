@@ -14,21 +14,6 @@ return [
         'school_name' => 'KURD GENIUS SCHOOLS',
         'school_abbr' => 'KGS',
     ],
-    'contact' => [
-        'phone' => '+964 770 342 0606',
-        'email' => 'kurdgeniusschool@gmail.com',
-    ],
-    'branches' => [
-        'kurd_genius' => 'Kurd Genius Educational Communities',
-        'kurd_genius_2' => 'Kurd Genius Educational Communities 2',
-        'kurd_genius_qaiwan' => 'Kurd Genius Educational Communities Qaiwan Heights',
-        'smart_educational' => 'Smart Educational Communities',
-    ],
-    'languages' => [
-        'english' => 'English',
-        'kurdish' => 'Kurdish',
-        'arabic' => 'Arabic',
-    ],
     'hero' => [
         'title' => 'Kurd Genius Schools',
         'subtitle_one' => 'Quality Education, ',

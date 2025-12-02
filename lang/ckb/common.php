@@ -79,7 +79,6 @@ return [
     'cannot_delete_active_resellers' => 'ئەم پاکێجە فرۆشیاری دووبارەی چالاکی هەیە و ناکرێت بسڕدرێتەوە.',
     'cannot_delete_active_layer_one_group_name_permissions' => 'ئەم مۆڵەتی ناوی گرووپی ئاستی یەکەم کڕیار یان فرۆشیاری چالاکی هەیە و ناکرێت بسڕدرێتەوە.',
     'cannot_delete_active_layer_one_permissions' => 'ئەم مۆڵەتی ئاستی یەکەم مۆڵەتی ناوی گرووپی ئاستی یەکەمی چالاکی هەیە و ناکرێت بسڕدرێتەوە.',
-    // 'cannot_delete_active_user_type' => 'ئەم جۆرە بەکارهێنەرە بەکارهێنەری چالاکی هەیە و ناکرێت بسڕدرێتەوە.',
     'has_attached_language' => 'بەکارهێنەران بەستراون بەم زمانەوە.',
     'storage_limit_exceeded_title' => 'سنووری بیرگە تێپەڕیوە',
     'storage_limit_exceeded_text' => 'پاکێج پێویستی بە :required بیرگە هەیە، بەڵام تەنها :available بەردەستە!',

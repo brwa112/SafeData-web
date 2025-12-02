@@ -143,7 +143,6 @@ return [
     'slug' => 'سلەگ',
     'client_packages' => 'پاکێجەکانی کڕیار',
     'layer_one_permissions' => 'مۆڵەتەکانی ئاستی یەکەم',
-    // 'usertypes' => 'جۆرەکانی بەکارهێنەر',
     'durations' => 'ماوەکان',
     'ports' => 'پۆرتەکان',
     'storage' => 'بیرگە',

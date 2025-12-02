@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pages\NewsCategory;
+use App\Models\Pages\Hashtag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
-class NewsCategoryController extends Controller
+class HashtagController extends Controller
 {
     public function index(Request $request)
     {
-        $query = NewsCategory::query()->withTrashed()->withCount('news');
+        $query = Hashtag::query()->withTrashed()->withCount('news');
 
         // Apply filters
         if ($request->filled('search')) {
@@ -33,10 +33,10 @@ class NewsCategoryController extends Controller
 
         // Pagination
         $perPage = $request->get('number_rows', 10);
-        $categories = $query->paginate($perPage)->withQueryString();
+        $hashtags = $query->paginate($perPage)->withQueryString();
 
-        return Inertia::render('Pages/NewsCategories/Index', [
-            'categories' => $categories,
+        return Inertia::render('Pages/Hashtags/Index', [
+            'hashtags' => $hashtags,
             'filter' => $request->only(['search', 'sort_by', 'sort_direction']),
         ]);
     }
@@ -60,17 +60,17 @@ class NewsCategoryController extends Controller
         // Ensure unique slug
         $originalSlug = $validated['slug'];
         $count = 1;
-        while (NewsCategory::where('slug', $validated['slug'])->exists()) {
+        while (Hashtag::where('slug', $validated['slug'])->exists()) {
             $validated['slug'] = $originalSlug . '-' . $count;
             $count++;
         }
 
-        NewsCategory::create($validated);
+        Hashtag::create($validated);
 
         return redirect()->back();
     }
 
-    public function update(Request $request, NewsCategory $newsCategory)
+    public function update(Request $request, Hashtag $hashtag)
     {
         $validated = $request->validate([
             'name' => 'required|array',
@@ -85,39 +85,39 @@ class NewsCategoryController extends Controller
         ]);
 
         // Update slug if name changed
-        if ($validated['name']['en'] !== $newsCategory->getTranslation('name', 'en')) {
+        if ($validated['name']['en'] !== $hashtag->getTranslation('name', 'en')) {
             $newSlug = Str::slug($validated['name']['en']);
             $originalSlug = $newSlug;
             $count = 1;
-            while (NewsCategory::where('slug', $newSlug)->where('id', '!=', $newsCategory->id)->exists()) {
+            while (Hashtag::where('slug', $newSlug)->where('id', '!=', $hashtag->id)->exists()) {
                 $newSlug = $originalSlug . '-' . $count;
                 $count++;
             }
             $validated['slug'] = $newSlug;
         }
 
-        $newsCategory->update($validated);
+        $hashtag->update($validated);
 
         return redirect()->back();
     }
 
-    public function destroy(NewsCategory $newsCategory)
+    public function destroy(Hashtag $hashtag)
     {
-        $newsCategory->delete();
+        $hashtag->delete();
         return redirect()->back();
     }
 
     public function restore($id)
     {
-        $newsCategory = NewsCategory::withTrashed()->findOrFail($id);
-        $newsCategory->restore();
+        $hashtag = Hashtag::withTrashed()->findOrFail($id);
+        $hashtag->restore();
         return redirect()->back();
     }
 
     public function forceDelete($id)
     {
-        $newsCategory = NewsCategory::withTrashed()->findOrFail($id);
-        $newsCategory->forceDelete();
+        $hashtag = Hashtag::withTrashed()->findOrFail($id);
+        $hashtag->forceDelete();
         return redirect()->back();
     }
 }

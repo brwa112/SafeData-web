@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use App\Models\System\Settings\Settings\Key;
 use App\Models\System\Settings\Settings\Language;
 use App\Models\System\Settings\Settings\Translations;
@@ -70,10 +71,20 @@ class TranslationsSeeder extends Seeder
         }
 
         $this->command->info("🗑️  Clearing existing data...");
-        // Delete in correct order
-        Translations::query()->delete();
-        Key::query()->delete();
-        $this->command->info("✅ Cleared existing translations and keys");
+        // Truncate tables to ensure fresh state and reset auto-increment
+        // Disable foreign key checks around truncation for MySQL
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        try {
+            Translations::truncate();
+            Key::truncate();
+            $this->command->info("✅ Truncated translations and keys tables");
+        } catch (\Throwable $e) {
+            // Fall back to delete if truncate fails (e.g., unsupported DB)
+            Translations::query()->delete();
+            Key::query()->delete();
+            $this->command->warn("⚠️  Truncate failed, performed delete instead: " . $e->getMessage());
+        }
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         // Collect all keys and translations
         $allKeys = collect();

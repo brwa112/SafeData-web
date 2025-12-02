@@ -3,6 +3,7 @@
 use App\Http\Controllers\System\Users\UserController;
 use App\Http\Controllers\Pages\NewsController;
 use App\Http\Controllers\Pages\NewsCategoryController;
+use App\Http\Controllers\Pages\HashtagController;
 use App\Http\Controllers\Pages\GalleryCategoryController;
 use App\Http\Controllers\Pages\BranchController;
 use App\Http\Controllers\Pages\CampusController;
@@ -57,6 +58,15 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{newsCategory}', [NewsCategoryController::class, 'destroy'])->name('destroy');
             Route::delete('/{newsCategory}/force', [NewsCategoryController::class, 'forceDelete'])->name('force_delete');
             Route::post('/{newsCategory}/restore', [NewsCategoryController::class, 'restore'])->name('restore');
+        });
+
+        Route::prefix('hashtags')->as('hashtags.')->group(function () {
+            Route::get('/', [HashtagController::class, 'index'])->name('index');
+            Route::post('/', [HashtagController::class, 'store'])->name('store');
+            Route::post('/{hashtag}', [HashtagController::class, 'update'])->name('update');
+            Route::delete('/{hashtag}', [HashtagController::class, 'destroy'])->name('destroy');
+            Route::delete('/{hashtag}/force', [HashtagController::class, 'forceDelete'])->name('force_delete');
+            Route::post('/{hashtag}/restore', [HashtagController::class, 'restore'])->name('restore');
         });
 
         Route::prefix('campus')->as('campus.')->group(function () {
