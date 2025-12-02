@@ -12,7 +12,8 @@
                         <span>{{ $t('system.system') }}</span>
                     </li>
                     <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <Link :href="route('control.system.settings') + '#pages'" class="duration-200 hover:text-primary">
+                        <Link :href="route('control.system.settings') + '#pages'"
+                            class="duration-200 hover:text-primary">
                         {{ $t("system.pages") }}
                         </Link>
                     </li>
@@ -63,7 +64,8 @@
                             :showValue="false" parent-key="system" placeholder="languages" :require-selection="true" />
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
-                        <Link :href="route('control.system.settings') + '#pages'" class="btn btn-sm btn-outline-secondary">
+                        <Link :href="route('control.system.settings') + '#pages'"
+                            class="btn btn-sm btn-outline-secondary">
                         {{ $t('common.back') }}
                         </Link>
                         <button @click="saveAllSections" :disabled="form.processing" type="button"
@@ -245,8 +247,6 @@ const saveAllSections = () => {
                     delete formData.image_2;
                 }
 
-                console.log('History Form Data:', formData);
-
                 return formData;
             }).post(route('control.system.pages.home.history.update'), {
                 preserveScroll: true,
@@ -303,6 +303,7 @@ const saveAllSections = () => {
                                     // Save Social
                                     socialForm.transform((data) => ({
                                         ...data,
+                                        branch_id: selectBranch.value?.id,
                                         metadata: {
                                             youtube: data.youtube,
                                             facebook: data.facebook,

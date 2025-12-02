@@ -59,10 +59,16 @@ class HandleInertiaRequests extends Middleware
                 ->select('id', 'slug', 'name', 'color')
                 ->get(),
 
-            'info' => AboutTouch::where('is_active', true)
+            'info' => fn() => AboutTouch::where('is_active', true)
+                ->when(session('selected_branch_id'), function ($query) {
+                    $query->where('branch_id', session('selected_branch_id'));
+                })
                 ->select('contact_phone', 'contact_email', 'contact_address', 'map_iframe')
                 ->first(),
-            'social' => HomeKnow::where('is_active', true)
+            'social' => fn() => HomeKnow::where('is_active', true)
+                ->when(session('selected_branch_id'), function ($query) {
+                    $query->where('branch_id', session('selected_branch_id'));
+                })
                 ->select('metadata')
                 ->first(),
         ]);

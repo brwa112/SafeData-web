@@ -14,19 +14,18 @@
                 <div>
                     <label for="mission_description">{{ $t('system.mission_description') }} ({{
                         $t(`system.${selectLanguage.slug}`)
-                    }})</label>
-                    <textarea v-model="form.description[selectLanguage.slug]" id="mission_description"
-                        rows="12" class="form-textarea"></textarea>
-                    <div class="mt-1 text-sm text-danger"
-                        v-if="form.errors['description.' + selectLanguage.slug]"
+                        }})</label>
+                    <textarea v-model="form.description[selectLanguage.slug]" id="mission_description" rows="12"
+                        class="form-textarea"></textarea>
+                    <div class="mt-1 text-sm text-danger" v-if="form.errors['description.' + selectLanguage.slug]"
                         v-html="form.errors['description.' + selectLanguage.slug]">
                     </div>
                 </div>
-                <div>
+                <!-- <div>
                     <label>{{ $t('system.background_image') }}</label>
                     <ImageUpload v-model="form.image" field-name="mission_image"
                         @update:form="(data) => { if (data.remove_mission_image !== undefined) form.remove_mission_image = data.remove_mission_image; }" />
-                </div>
+                </div> -->
             </div>
         </form>
     </div>

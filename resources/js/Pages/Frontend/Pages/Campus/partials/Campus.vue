@@ -21,7 +21,7 @@
       </div>
 
       <!-- List -->
-      <div class="relative">
+      <div v-if="hasData" class="relative">
         <swiper ref="swiperRef" v-bind="swiperSettings" @swiper="onSwiper($event)" @slideChange="onSlideChange($event)"
           class="relative !z-0">
           <swiper-slide v-for="(cumpus, slideIndex) in campusItems" :key="slideIndex" class="group">
@@ -62,6 +62,19 @@
         </div>
       </div>
 
+      <!-- No Campus Found Message -->
+      <div v-else class="flex flex-col items-center justify-center py-16 px-4">
+        <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+        <h3 class="text-xl md:text-2xl font-semibold text-gray-700 mb-2">
+          {{ $t('frontend.campus.no_campus_found') }}
+        </h3>
+        <p class="text-gray-500 text-center max-w-md">
+          {{ $t('frontend.campus.no_campus_available') }}
+        </p>
+      </div>
+
     </div>
   </section>
 </template>
@@ -81,33 +94,13 @@ const props = defineProps({
 
 const page = usePage();
 
+// Check if there's data to display
+const hasData = computed(() => props.campuses && props.campuses.length > 0);
+
 // Transform backend data to frontend format
 const campusItems = computed(() => {
   if (!props.campuses || props.campuses.length === 0) {
-    // Fallback to hardcoded data if no backend data
-    return [
-      {
-        id: 1,
-        slug: '1',
-        imageUrl: '/img/campus/1.jpg',
-        title: 'Campus Life',
-        description: 'Experience vibrant campus life with diverse activities, student clubs, and a supportive community that fosters personal growth and lifelong friendships.',
-      },
-      {
-        id: 2,
-        slug: '2',
-        imageUrl: '/img/campus/2.jpg',
-        title: 'Campus Facilities',
-        description: 'State-of-the-art facilities including modern classrooms, science laboratories, sports centers, and recreational areas designed for optimal learning.',
-      },
-      {
-        id: 3,
-        slug: '3',
-        imageUrl: '/img/campus/3.jpg',
-        title: 'Learning Environment',
-        description: 'A nurturing and stimulating environment that encourages creativity, critical thinking, and collaborative learning among students.',
-      },
-    ];
+    return [];
   }
 
   return props.campuses.map(campus => ({

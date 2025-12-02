@@ -1,5 +1,5 @@
 <template>
-  <section v-if="hasNews || hasFallbackNews" class="w-full sm:container 3xl:max-w-[85%] mx-auto px-4">
+  <section v-if="hasNews" class="w-full sm:container 3xl:max-w-[85%] mx-auto px-4">
     <div class="flex flex-col gap-10 xl:gap-16 py-3 md:py-8 lg:py-16">
       <!-- Top Content -->
       <div class="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2">
@@ -58,37 +58,13 @@ const props = defineProps({
 
 const page = usePage();
 
-// Fallback news data
-const fallbackNews = [
-  {
-    id: 'fallback-1',
-    image: '/img/news/1.jpg',
-    description: 'We believe every student is unique. That\'s why our low student-to-teacher ratio allows for personalized attention and tailored learning paths — ensuring academic success and emotional growth.',
-  },
-  {
-    id: 'fallback-2',
-    image: '/img/news/2.jpg',
-    description: 'We believe every student is unique. That\'s why our low student-to-teacher ratio allows for personalized attention and tailored learning paths — ensuring academic success and emotional growth.',
-  },
-  {
-    id: 'fallback-3',
-    image: '/img/news/3.jpg',
-    description: 'We believe every student is unique. That\'s why our low student-to-teacher ratio allows for personalized attention and tailored learning paths — ensuring academic success and emotional growth.',
-  },
-];
-
 // Computed property for displaying news
 const displayNews = computed(() => {
-  return hasNews.value ? props.data : fallbackNews;
+  return hasNews.value ? props.data : [];
 });
 
 // Check if we have news from database
 const hasNews = computed(() => {
   return props.data && Array.isArray(props.data) && props.data.length > 0;
-});
-
-// Check if we should show fallback
-const hasFallbackNews = computed(() => {
-  return !hasNews.value && fallbackNews.length > 0;
 });
 </script>

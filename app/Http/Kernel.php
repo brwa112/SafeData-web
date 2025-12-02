@@ -37,8 +37,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\SetLocaleFromSession::class,
-            \App\Http\Middleware\HandleInertiaRequests::class,
             \App\Http\Middleware\HandleBranchSelection::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
         ],
 
         'api' => [

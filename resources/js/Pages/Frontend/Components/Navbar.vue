@@ -188,37 +188,37 @@
             <div class="w-full py-4 my-auto mx-auto text-center">
               <Link :href="branchRoute('/')" @click="closeMobileMenu"
                 class="w-full flex items-center justify-center px-6 py-5 text-xl text-gray-800 transition-colors"
-                :class="{ 'font-semibold text-f-primary': $page.component.startsWith('Frontend/Pages/Home') }">
+                :class="{ 'font-semibold !text-f-primary': $page.component.startsWith('Frontend/Pages/Home') }">
               {{ $t('frontend.nav.home') }}
               </Link>
               <Link :href="branchRoute('/about')" @click="closeMobileMenu"
                 class="w-full flex items-center justify-center px-6 py-5 text-xl text-gray-800 transition-colors"
-                :class="{ 'font-semibold text-f-primary': $page.component.startsWith('Frontend/Pages/About') }">
+                :class="{ 'font-semibold !text-f-primary': $page.component.startsWith('Frontend/Pages/About') }">
               {{ $t('frontend.nav.about') }}
               </Link>
               <Link :href="branchRoute('/campus')" @click="closeMobileMenu"
                 class="w-full flex items-center justify-center px-6 py-5 text-xl text-gray-800 transition-colors"
-                :class="{ 'font-semibold text-f-primary': $page.component.startsWith('Frontend/Pages/Campus') }">
+                :class="{ 'font-semibold !text-f-primary': $page.component.startsWith('Frontend/Pages/Campus') }">
               {{ $t('frontend.nav.campus') }}
               </Link>
               <Link :href="branchRoute('/calendar')" @click="closeMobileMenu"
                 class="w-full flex items-center justify-center px-6 py-5 text-xl text-gray-800 transition-colors"
-                :class="{ 'font-semibold text-f-primary': $page.component.startsWith('Frontend/Pages/Calendar') }">
+                :class="{ 'font-semibold !text-f-primary': $page.component.startsWith('Frontend/Pages/Calendar') }">
               {{ $t('frontend.nav.calendar') }}
               </Link>
               <Link :href="branchRoute('/academics')" @click="closeMobileMenu"
                 class="w-full flex items-center justify-center px-6 py-5 text-xl text-gray-800 transition-colors"
-                :class="{ 'font-semibold text-f-primary': $page.component.startsWith('Frontend/Pages/Academic') }">
+                :class="{ 'font-semibold !text-f-primary': $page.component.startsWith('Frontend/Pages/Academic') }">
               {{ $t('frontend.nav.academics') }}
               </Link>
               <Link :href="branchRoute('/admission')" @click="closeMobileMenu"
                 class="w-full flex items-center justify-center px-6 py-5 text-xl text-gray-800 transition-colors"
-                :class="{ 'font-semibold text-f-primary': $page.component.startsWith('Frontend/Pages/Admission') }">
+                :class="{ 'font-semibold !text-f-primary': $page.component.startsWith('Frontend/Pages/Admission') }">
               {{ $t('frontend.nav.admission') }}
               </Link>
               <Link :href="branchRoute('/news')" @click="closeMobileMenu"
                 class="w-full flex items-center justify-center px-6 py-5 text-xl text-gray-800 transition-colors"
-                :class="{ 'font-semibold text-f-primary': $page.component.startsWith('Frontend/Pages/News') }">
+                :class="{ 'font-semibold !text-f-primary': $page.component.startsWith('Frontend/Pages/News') }">
               {{ $t('frontend.nav.news') }}
               </Link>
             </div>
@@ -402,7 +402,7 @@ onMounted(() => {
   if (selectedBranch.value?.color) {
     document.documentElement.style.setProperty('--color-f-primary', selectedBranch.value.color);
   }
-  
+
   // Set initial direction based on current language
   const savedDirection = localStorage.getItem('rtlClass') ||
     ((page.props.locale === 'ar' || page.props.locale === 'ckb') ? 'rtl' : 'ltr');

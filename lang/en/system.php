@@ -320,8 +320,10 @@ return [
     'requirements' => 'Requirements',
     'enter_document_title' => 'Enter document title',
     'map_iframe' => 'Map Iframe',
-
+    'invalid_map_iframe' => 'The map iframe must be a valid iframe.',
+    // sima yusif ramyar rebwar
+    // mnish xoshmawey gyanu datefmt_is_lenient
     'maximum_reasons_reached' => 'You can only add a maximum of 10 reasons.',
     'maximum_features_reached' => 'You can only add a maximum of 10 features.',
-    
+
 ];

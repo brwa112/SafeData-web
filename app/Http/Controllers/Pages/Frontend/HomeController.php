@@ -95,9 +95,8 @@ class HomeController extends Controller
             ] : null,
             'history' => $history ? [
                 'description' => $history->getTranslations('description'),
-                'images' => $history->getMedia('images')->take(2)->map(function ($media) {
-                    return $media->getUrl();
-                })->toArray(),
+                'image_1' => $history->getFirstMediaUrl('image_1'),
+                'image_2' => $history->getFirstMediaUrl('image_2'),
             ] : null,
             'message' => $message ? [
                 'description' => $message->getTranslations('description'),

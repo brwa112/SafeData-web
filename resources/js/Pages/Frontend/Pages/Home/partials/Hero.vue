@@ -25,13 +25,11 @@
             <div
               class="bg-f-primary p-5 text-white flex flex-col justify-between space-y-3 w-full lg:min-w-[520px] min-h-[160px]">
               <div class="bg-white w-[140px] h-[6px] rounded-full"></div>
-              <div class="space-y-1">
-                <h2 class="text-xl sm:text-2xl font-semibold">{{ heroSubtitle || $t('frontend.hero.subtitle_one') }}
-                </h2>
-                <h2 class="text-xl sm:text-2xl font-semibold">{{ $t('frontend.hero.subtitle_two') }}</h2>
-              </div>
+              <h2 class="text-xl sm:text-2xl font-semibold max-w-sm">
+                {{ heroSubtitle || $t('frontend.hero.subtitle_one') }}
+              </h2>
             </div>
-            <button
+            <button @click="scrollToHistory"
               class="bg-gray-950 text-white flex flex-col items-center justify-center lowercase px-3 min-w-[100px] h-[100px] font-normal mb-8">
               <span>{{ $t('frontend.common.see_more') }}</span>
               <div class="block">
@@ -127,6 +125,36 @@ const backgroundVideo = computed(() => {
 const mediaType = computed(() => {
   return props.data?.metadata?.media_type || 'image';
 });
+
+const scrollToHistory = () => {
+  const historySection = document.getElementById('history-section');
+  if (historySection) {
+    const targetPosition = historySection.getBoundingClientRect().top + window.scrollY;
+    const startPosition = window.scrollY;
+    const distance = targetPosition - startPosition;
+    const duration = 800; // ms
+    let startTime = null;
+
+    const animation = (currentTime) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+
+      // Easing function for smooth effect
+      const easeInOutCubic = progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      window.scrollTo(0, startPosition + distance * easeInOutCubic);
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      }
+    };
+
+    requestAnimationFrame(animation);
+  }
+};
 
 const startAnimation = () => {
   if (props.data?.metadata) {

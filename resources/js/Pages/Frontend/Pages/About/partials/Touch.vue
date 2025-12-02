@@ -60,7 +60,7 @@
 
                 <!-- Right Side - Contact Form -->
                 <div class="w-full h-full">
-                    <div class="w-full bg-f-primary/5 p-5 lg:p-8 pt-7 lg:pt-10 rounded-3xl">
+                    <div class="w-full bg-blue-50 p-5 lg:p-8 pt-7 lg:pt-10 rounded-3xl">
                         <!-- Success Message -->
                         <div v-if="showSuccess" class="mb-3 p-2.5 bg-green-50 border border-green-200 rounded-xl">
                             <div class="flex items-center gap-1.5">

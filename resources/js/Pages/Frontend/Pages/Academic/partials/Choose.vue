@@ -14,7 +14,8 @@
         <div class="w-full flex flex-col gap-5">
           <div v-for="(reason, index) in reasons" :key="index"
             class="group relative z-10 w-full flex items-center gap-4 sm:gap-9 lg:gap-13">
-            <img :src="getIcon(index)" alt="reason icon" class="size-10 sm:size-auto object-contain" />
+            <img :src="`/img/academic/${index + 1}.svg`" alt="reason icon"
+              class="size-10 sm:size-auto object-contain" />
             <div
               :class="`relative z-[5] w-full flex-1 text-center bg-white ${getBorderColor(index)} border-e-2 rounded-2xl px-3 sm:px-7 lg:px-8 py-4 sm:py-6.5 overflow-hidden`">
               <div class="relative z-[5] space-y-0.5 group-hover:text-white duration-500">
@@ -61,7 +62,7 @@ const description = computed(() => {
   if (props.choose?.description) {
     return helpers.getTranslatedText(props.choose.description, page);
   }
-  return page.props.locale === 'ckb' 
+  return page.props.locale === 'ckb'
     ? 'ئێمە باوەڕمان وایە هەر خوێندکارێک تایبەتە. بۆیە ڕێژەی کەمی خوێندکار بۆ مامۆستا ڕێگە بە سەرنج و ڕێگای فێربوونی تایبەتمەند دەدات.'
     : 'We offer a holistic, student-centered educational experience that blends academic learning with personal development.';
 });
@@ -75,7 +76,7 @@ const reasons = computed(() => {
       return translatedReasons;
     }
   }
-  
+
   // Fallback data
   return [
     {
@@ -102,17 +103,17 @@ const reasons = computed(() => {
 });
 
 // Helper functions for icons and colors
-const getIcon = (index) => {
-  return `/img/academic/${(index % 5) + 1}.svg`;
-};
+// const getIcon = (index) => {
+//   return `/img/academic/${(index % 5) + 1}.svg`;
+// };
 
 const getBgColor = (index) => {
   const colors = [
     'bg-[#F0457D]/100',
     'bg-[#FFD44D]/100',
     'bg-[#0099F5]/100',
-    'bg-[#F0457D]/100',
-    'bg-[#FFD44D]/100'
+    // 'bg-[#F0457D]/100',
+    // 'bg-[#FFD44D]/100'
   ];
   return colors[index % colors.length];
 };
@@ -122,8 +123,8 @@ const getBorderColor = (index) => {
     'border-[#F0457D]',
     'border-[#FFD44D]',
     'border-[#0099F5]',
-    'border-[#F0457D]',
-    'border-[#FFD44D]'
+    // 'border-[#F0457D]',
+    // 'border-[#FFD44D]'
   ];
   return colors[index % colors.length];
 };

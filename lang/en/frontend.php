@@ -61,10 +61,14 @@ return [
     'campus' => [
         'title' => 'Campus',
         'description' => 'Explore our modern campus facilities designed to provide the best learning environment for our students.',
+        'no_campus_found' => 'No Campus Found',
+        'no_campus_available' => 'There are currently no campus information available.',
     ],
     'classrooms' => [
         'title' => 'Classrooms and Labs',
         'description' => 'Our state-of-the-art classrooms and laboratories provide students with the best learning environment.',
+        'no_classrooms_found' => 'No Classrooms Found',
+        'no_classrooms_available' => 'There are currently no classroom information available.',
     ],
     'about' => [
         'title' => 'About Us',

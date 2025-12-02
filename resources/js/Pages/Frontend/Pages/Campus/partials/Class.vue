@@ -21,7 +21,7 @@
       </div>
 
       <!-- List -->
-      <div class="relative">
+      <div v-if="hasData" class="relative">
         <swiper ref="swiperRef" v-bind="swiperSettings" @swiper="onSwiper($event)" @slideChange="onSlideChange($event)"
           class="relative !z-0">
           <swiper-slide v-for="(clas, slideIndex) in classItems" :key="slideIndex" class="group">
@@ -61,6 +61,19 @@
         </div>
       </div>
 
+      <!-- No Classrooms Found Message -->
+      <div v-else class="flex flex-col items-center justify-center py-16 px-4">
+        <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <h3 class="text-xl md:text-2xl font-semibold text-gray-700 mb-2">
+          {{ $t('frontend.classrooms.no_classrooms_found') }}
+        </h3>
+        <p class="text-gray-500 text-center max-w-md">
+          {{ $t('frontend.classrooms.no_classrooms_available') }}
+        </p>
+      </div>
+
     </div>
   </section>
 </template>
@@ -80,33 +93,13 @@ const props = defineProps({
 
 const page = usePage();
 
+// Check if there's data to display
+const hasData = computed(() => props.classrooms && props.classrooms.length > 0);
+
 // Transform backend data to frontend format
 const classItems = computed(() => {
   if (!props.classrooms || props.classrooms.length === 0) {
-    // Fallback to hardcoded data if no backend data
-    return [
-      {
-        id: 1,
-        slug: '1',
-        imageUrl: '/img/class/1.jpg',
-        title: 'Science Laboratory',
-        description: 'Advanced science laboratories equipped with modern technology to support hands-on learning and scientific research.',
-      },
-      {
-        id: 2,
-        slug: '2',
-        imageUrl: '/img/class/2.jpg',
-        title: 'Computer Lab',
-        description: 'State-of-the-art computer facilities with the latest software and hardware for digital learning.',
-      },
-      {
-        id: 3,
-        slug: '3',
-        imageUrl: '/img/class/3.jpg',
-        title: 'Art Studio',
-        description: 'Creative spaces for artistic expression and hands-on learning in visual arts.',
-      },
-    ];
+    return [];
   }
 
   return props.classrooms.map(classroom => ({

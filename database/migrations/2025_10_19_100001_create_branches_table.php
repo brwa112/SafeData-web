@@ -30,13 +30,11 @@ return new class extends Migration
                 'name' => json_encode([
                     'en' => 'Kurd Genius Educational Communities',
                     'ckb' => 'کۆمەڵگای پەروەردەیی کوردجینیەس',
-                    'ar' => 'مجتمعات كردجينيوس التعليمية'
                 ]),
                 'slug' => 'kurd-genius',
                 'description' => json_encode([
                     'en' => 'Main campus of Kurd Genius Educational Communities',
                     'ckb' => 'کامپی سەرەکی کۆمەڵگای پەروەردەیی کوردجینیەس',
-                    'ar' => 'الحرم الرئيسي لمجتمعات كردجينيوس التعليمية'
                 ]),
                 'logo' => '/img/logo.png',
                 'color' => '#0028DF',
@@ -48,13 +46,11 @@ return new class extends Migration
                 'name' => json_encode([
                     'en' => 'Kurd Genius Educational Communities 2',
                     'ckb' => 'کۆمەڵگای پەروەردەیی کوردجینیەس ٢',
-                    'ar' => 'مجتمعات كردجينيوس التعليمية ٢'
                 ]),
                 'slug' => 'kurd-genius-2',
                 'description' => json_encode([
                     'en' => 'Second branch of Kurd Genius Educational Communities',
                     'ckb' => 'لقی دووەمی کۆمەڵگای پەروەردەیی کوردجینیەس',
-                    'ar' => 'الفرع الثاني لمجتمعات كردجينيوس التعليمية'
                 ]),
                 'logo' => '/img/logo.png',
                 'color' => '#5200DF',
@@ -65,14 +61,12 @@ return new class extends Migration
             [
                 'name' => json_encode([
                     'en' => 'Kurd Genius Educational Communities Qaiwan Heights',
-                    'ckb' => 'کۆمەڵگای پەروەردەیی کوردجینیەس قەیوان هایتس',
-                    'ar' => 'مجتمعات كردجينيوس التعليمية قيوان هايتس'
+                    'ckb' => 'کۆمەڵگای پەروەردەیی کوردجینیەس بەرزاییەکانی قەیوان',
                 ]),
                 'slug' => 'kurd-genius-qaiwan',
                 'description' => json_encode([
                     'en' => 'Qaiwan Heights campus of Kurd Genius',
                     'ckb' => 'کامپی قەیوان هایتسی کوردجینیەس',
-                    'ar' => 'حرم قيوان هايتس لكردجينيوس'
                 ]),
                 'logo' => '/img/logo.png',
                 'color' => '#337B7C',
@@ -84,13 +78,11 @@ return new class extends Migration
                 'name' => json_encode([
                     'en' => 'Smart Educational Communities',
                     'ckb' => 'کۆمەڵگای پەروەردەیی سمارت',
-                    'ar' => 'المجتمعات التعليمية الذكية'
                 ]),
                 'slug' => 'smart-educational',
                 'description' => json_encode([
                     'en' => 'Smart Educational Communities branch',
                     'ckb' => 'لقی کۆمەڵگای پەروەردەیی سمارت',
-                    'ar' => 'فرع المجتمعات التعليمية الذكية'
                 ]),
                 'logo' => '/img/logo.png',
                 'color' => '#5D5466',
