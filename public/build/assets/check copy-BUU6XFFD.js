@@ -1,0 +1,1 @@
+import{o,c as r,a as t}from"./app-Dos3HHH1.js";const n={fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function s(c,e){return o(),r("svg",n,e[0]||(e[0]=[t("path",{"stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"3",d:"m5 13 4 4L19 7"},null,-1)]))}const a={render:s};export{a as default,s as render};
