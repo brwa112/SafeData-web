@@ -29,8 +29,9 @@
                 <!-- Language Selector -->
                 <CustomMultiSelect v-model="selectLanguage" :list="Languages" label="name" value="value"
                     :showValue="false" parent-key="system" placeholder="languages" :require-selection="true" />
-                <button @click="saveAllSections" type="button" class="btn btn-primary">
-                    <span>{{ $t('system.save_changes') }}</span>
+                <button @click="saveAllSections" :disabled="form.processing" type="button" class="btn btn-primary">
+                    <Spinner v-if="form.processing" />
+                    {{ $t('system.save_changes') }}
                 </button>
             </div>
         </div>
@@ -38,7 +39,8 @@
         <div class="pt-4 space-y-4">
 
             <!-- Hero Section -->
-            <HeroSection :form="form" :selectLanguage="selectLanguage" />
+            <HeroSection :form="form" :selectLanguage="selectLanguage" :uploadProgress="uploadProgress"
+                :isUploading="isUploading" />
 
             <!-- History Section -->
             <HistorySection :form="historyForm" :selectLanguage="selectLanguage" />
@@ -118,6 +120,10 @@ const branchList = computed(() => {
     }));
 });
 
+// Upload progress tracking
+const uploadProgress = ref(0);
+const isUploading = ref(false);
+
 // Initial branch: prefer server-selected branch (from middleware) or ?branch_id in URL; coerce to number
 const selectBranch = ref(branchList.value.find(b => Number(b.id) === Number(page.props.ziggy.query.branch_id)) ?? branchList.value[0]);
 
@@ -141,7 +147,8 @@ const form = useForm({
     media_type: props.hero?.metadata?.media_type || 'image',
     background_image: props.hero?.hero_image || null,
     background_video: props.hero?.background_video || null,
-    remove_hero_background: false,
+    remove_hero_image: false,
+    remove_hero_video: false,
     expert_tutors: props.hero?.metadata?.expert_tutors || 23,
     students: props.hero?.metadata?.students || 352,
     experience: props.hero?.metadata?.experience || 6,
@@ -197,6 +204,14 @@ watch(() => page.props.selectedBranch, (newSelected) => {
 }, { immediate: true });
 
 const saveAllSections = () => {
+    // Check if we have a video file to upload
+    const hasVideoUpload = form.background_video instanceof File;
+
+    if (hasVideoUpload) {
+        isUploading.value = true;
+        uploadProgress.value = 0;
+    }
+
     form.transform((data) => {
         const formData = {
             ...data,
@@ -223,13 +238,24 @@ const saveAllSections = () => {
 
         return formData;
     }).post(route('control.system.pages.home.hero.update'), {
+        forceFormData: true,
         preserveScroll: true,
         preserveState: true,
+        onProgress: (progress) => {
+            if (progress.percentage) {
+                uploadProgress.value = progress.percentage;
+            }
+        },
         onError: (errors) => {
+            isUploading.value = false;
+            uploadProgress.value = 0;
             $helpers.toast(trans('system.fix_errors_in_section', { section: trans('system.home_hero') }), 'error');
             console.error('Hero Section Errors:', errors);
         },
         onSuccess: () => {
+            isUploading.value = false;
+            uploadProgress.value = 0;
+
             // Save History
             historyForm.transform((data) => {
                 const formData = {
@@ -249,6 +275,7 @@ const saveAllSections = () => {
 
                 return formData;
             }).post(route('control.system.pages.home.history.update'), {
+                forceFormData: true,
                 preserveScroll: true,
                 preserveState: true,
                 onError: (errors) => {
@@ -272,6 +299,7 @@ const saveAllSections = () => {
 
                         return formData;
                     }).post(route('control.system.pages.home.message.update'), {
+                        forceFormData: true,
                         preserveScroll: true,
                         preserveState: true,
                         onError: (errors) => {
@@ -294,6 +322,7 @@ const saveAllSections = () => {
 
                                 return formData;
                             }).post(route('control.system.pages.home.mission.update'), {
+                                forceFormData: true,
                                 preserveScroll: true,
                                 preserveState: true,
                                 onError: (errors) => {

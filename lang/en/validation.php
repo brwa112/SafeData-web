@@ -188,4 +188,12 @@ return [
 
     'attributes' => [],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Messages
+    |--------------------------------------------------------------------------
+    */
+    'file_too_large' => 'The uploaded file is too large. Maximum allowed size is :max.',
+    'video_max_size' => 'The video must not be larger than :max.',
+
 ];

@@ -34,8 +34,20 @@ class UpdateHeroRequest extends FormRequest
             'metadata.experience' => 'required|integer|min:0',
             'metadata.campuses' => 'required|integer|min:0',
             'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            'background_video' => 'nullable|mimes:mp4,webm|max:51200',
+            'background_video' => 'nullable|mimes:mp4,webm|max:30720', // 30MB max
             'is_active' => 'nullable|boolean',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'background_video.max' => __('validation.video_max_size', ['max' => '30MB']),
         ];
     }
 

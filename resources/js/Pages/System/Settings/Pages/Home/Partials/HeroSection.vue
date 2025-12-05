@@ -82,7 +82,7 @@
                     </div>
                     <div v-if="form.media_type === 'image'">
                         <ImageUpload v-model="form.background_image" field-name="hero_background"
-                            @update:form="(data) => { if (data.remove_hero_background !== undefined) form.remove_hero_background = data.remove_hero_background; }" />
+                            @update:form="(data) => { if (data.remove_hero_background !== undefined) form.remove_hero_image = data.remove_hero_background; }" />
                     </div>
                     <div v-else>
                         <div v-if="videoPreviewUrl" class="mb-3">
@@ -96,8 +96,22 @@
                                 {{ $t('system.remove_video') }}
                             </button>
                         </div>
-                        <input @change="handleVideoUpload" type="file" accept="video/*" class="form-input" />
-                        <p class="text-xs text-gray-500 mt-1">{{ $t('system.upload_background_video') }}</p>
+                        <!-- Upload Progress Bar -->
+                        <div v-if="isUploading" class="mb-3">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-sm font-medium text-primary">{{ $t('system.uploading') }}...</span>
+                                <span class="text-sm font-medium text-primary">{{ uploadProgress }}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                <div class="bg-primary h-2.5 rounded-full transition-all duration-300" 
+                                    :style="{ width: uploadProgress + '%' }"></div>
+                            </div>
+                        </div>
+                        <input @change="handleVideoUpload" type="file" accept="video/mp4,video/webm" class="form-input" :disabled="isUploading" />
+                        <p class="text-xs text-gray-500 mt-1">{{ $t('system.upload_background_video') }} ({{ $t('system.max_size') }}: 30MB)</p>
+                        <div class="mt-1 text-sm text-danger" v-if="form.errors.background_video"
+                            v-html="form.errors.background_video">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,20 +131,35 @@ const props = defineProps({
     selectLanguage: {
         type: Object,
         required: true
+    },
+    uploadProgress: {
+        type: Number,
+        default: 0
+    },
+    isUploading: {
+        type: Boolean,
+        default: false
     }
 });
 
 const handleVideoUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+        // Check file size (30MB max)
+        const maxSize = 30 * 1024 * 1024; // 30MB in bytes
+        if (file.size > maxSize) {
+            alert('Video file is too large. Maximum size is 30MB.');
+            event.target.value = '';
+            return;
+        }
         props.form.background_video = file;
-        props.form.remove_hero_background = false;
+        props.form.remove_hero_video = false;
     }
 };
 
 const removeVideo = () => {
     props.form.background_video = null;
-    props.form.remove_hero_background = true;
+    props.form.remove_hero_video = true;
 };
 
 // Compute video preview URL

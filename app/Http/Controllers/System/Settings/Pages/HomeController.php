@@ -67,10 +67,9 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        // Ensure required fields exist when creating a new record (DB may require non-null title)
+        // Find or create hero by branch_id only (not by user_id)
         $hero = HomeHero::firstOrCreate([
             'branch_id' => $request->input('branch_id'),
-            'user_id' => auth()->id(),
         ], [
             'user_id' => auth()->id(),
             'branch_id' => $request->input('branch_id'),
@@ -90,9 +89,12 @@ class HomeController extends Controller
             'is_active' => $validated['is_active'] ?? false,
         ]);
 
-        // Handle media removal (both image and video use same flag)
-        if ($request->input('remove_hero_background')) {
+        // Handle media removal separately for image and video
+        if ($request->input('remove_hero_image')) {
             $hero->clearMediaCollection('hero_image');
+        }
+
+        if ($request->input('remove_hero_video')) {
             $hero->clearMediaCollection('background_video');
         }
 
@@ -113,10 +115,9 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        // Ensure required fields on create for HomeHistory
+        // Find or create history by branch_id only (not by user_id)
         $history = HomeHistory::firstOrCreate([
             'branch_id' => $request->input('branch_id'),
-            'user_id' => auth()->id(),
         ], [
             'user_id' => auth()->id(),
             'branch_id' => $request->input('branch_id'),
@@ -158,10 +159,9 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        // Ensure required fields on create for HomeMessage
+        // Find or create message by branch_id only (not by user_id)
         $message = HomeMessage::firstOrCreate([
             'branch_id' => $request->input('branch_id'),
-            'user_id' => auth()->id(),
         ], [
             'user_id' => auth()->id(),
             'branch_id' => $request->input('branch_id'),
@@ -193,10 +193,9 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        // Ensure required fields on create for HomeMission
+        // Find or create mission by branch_id only (not by user_id)
         $mission = HomeMission::firstOrCreate([
             'branch_id' => $request->input('branch_id'),
-            'user_id' => auth()->id(),
         ], [
             'user_id' => auth()->id(),
             'branch_id' => $request->input('branch_id'),
@@ -228,10 +227,9 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
 
-        // Ensure required fields on create for HomeKnow (social)
+        // Find or create social by branch_id only (not by user_id)
         $social = HomeKnow::firstOrCreate([
             'branch_id' => $request->input('branch_id'),
-            'user_id' => auth()->id(),
         ], [
             'user_id' => auth()->id(),
             'branch_id' => $request->input('branch_id'),

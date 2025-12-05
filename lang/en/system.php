@@ -328,4 +328,7 @@ return [
     'leave_blank_to_keep_current' => 'Leave blank to keep current password',
     'update_profile' => 'Update Profile',
 
+    'uploading' => 'Uploading...',
+    'max_size' => 'Max Size',
+
 ];

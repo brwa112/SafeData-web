@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,6 +27,19 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        // Handle file upload size errors gracefully
+        $this->renderable(function (PostTooLargeException $e, $request) {
+            if ($request->expectsJson() || $request->header('X-Inertia')) {
+                throw ValidationException::withMessages([
+                    'file' => [__('validation.file_too_large', ['max' => '30MB'])],
+                ]);
+            }
+
+            return back()->withErrors([
+                'file' => __('validation.file_too_large', ['max' => '30MB']),
+            ]);
         });
     }
 }

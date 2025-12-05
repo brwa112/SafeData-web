@@ -27,8 +27,9 @@
                 <!-- Language Selector -->
                 <CustomMultiSelect v-model="selectLanguage" :list="Languages" label="name" value="value"
                     :showValue="false" parent-key="system" placeholder="languages" :require-selection="true" />
-                <button @click="saveAllSections" type="button" class="btn btn-primary">
-                    <span>{{ $t('system.save_changes') }}</span>
+                <button @click="saveAllSections" :disabled="academicForm.processing" type="button" class="btn btn-primary">
+                    <Spinner v-if="academicForm.processing" />
+                    {{ $t('system.save_changes') }}
                 </button>
             </div>
         </div>

@@ -12,7 +12,8 @@
                         <span>{{ $t('system.system') }}</span>
                     </li>
                     <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <Link :href="route('control.system.settings') + '#pages'" class="duration-200 hover:text-primary">
+                        <Link :href="route('control.system.settings') + '#pages'"
+                            class="duration-200 hover:text-primary">
                         {{ $t("system.pages") }}
                         </Link>
                     </li>
@@ -26,8 +27,9 @@
                     :require-selection="true" :isTrans="false" />
                 <CustomMultiSelect v-model="selectLanguage" :list="Languages" label="name" value="value"
                     :showValue="false" parent-key="system" placeholder="languages" :require-selection="true" />
-                <button @click="saveAllSections" type="button" class="btn btn-primary">
-                    <span>{{ $t('system.save_changes') }}</span>
+                <button @click="saveAllSections" :disabled="aboutForm.processing" type="button" class="btn btn-primary">
+                    <Spinner v-if="aboutForm.processing" />
+                    {{ $t('system.save_changes') }}
                 </button>
             </div>
         </div>
@@ -57,7 +59,8 @@
                             :showValue="false" parent-key="system" placeholder="languages" :require-selection="true" />
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
-                        <Link :href="route('control.system.settings') + '#pages'" class="btn btn-sm btn-outline-secondary">
+                        <Link :href="route('control.system.settings') + '#pages'"
+                            class="btn btn-sm btn-outline-secondary">
                         {{ $t('common.back') }}
                         </Link>
                         <button @click="saveAllSections" :disabled="aboutForm.processing" type="button"

@@ -572,6 +572,8 @@
     "system.background_image": "Background Image",
     "system.upload_background_video": "Upload a background video for the hero section",
     "system.remove_video": "Remove Video",
+    "system.uploading": "Uploading",
+    "system.max_size": "Max size",
     "system.fix_errors_in_section": "Please fix the errors in :section",
     "system.home_section_updated": "Home page content updated successfully",
     "system.hero_section_updated": "Hero section updated successfully",
