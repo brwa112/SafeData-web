@@ -1,1 +1,0 @@
-import{o,c as l,a as r}from"./app-CuLAk8Mo.js";const t={xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 24 24"};function c(n,e){return o(),l("svg",t,e[0]||(e[0]=[r("circle",{cx:"12",cy:"6",r:"4",fill:"currentColor"},null,-1),r("ellipse",{cx:"12",cy:"17",fill:"currentColor",opacity:".5",rx:"7",ry:"4"},null,-1)]))}const a={render:c};export{a as default,c as render};
