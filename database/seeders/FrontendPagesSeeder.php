@@ -56,33 +56,33 @@ class FrontendPagesSeeder extends Seeder
         $this->command->info('Seeding global sections...');
         $this->seedCalendarEvents($user);
         $this->seedCategoriesAndHashtags();
-        
+
         // Seed branch-specific sections for EACH branch
         foreach ($branches as $index => $branch) {
             $this->command->info('');
             $this->command->info("Seeding Branch " . ($index + 1) . ": {$branch->getTranslation('name', 'en')}");
-            
+
             $this->seedHomeHero($user, $branch);
             $this->seedHomeHistory($user, $branch);
             $this->seedHomeMessage($user, $branch);
             $this->seedHomeMission($user, $branch);
             $this->seedHomeKnow($user, $branch);
-            
+
             $this->seedAboutAbout($user, $branch);
             $this->seedAboutMessage($user, $branch);
             $this->seedAboutMission($user, $branch);
             $this->seedAboutTouch($user, $branch);
-            
+
             $this->seedAcademicApproach($user, $branch);
             $this->seedAcademicChoose($user, $branch);
-            
+
             $this->seedAdmissionPolicy($user, $branch);
             $this->seedAdmissionDocuments($user, $branch);
-            
+
             $this->seedCalendarAcademic($user, $branch);
             $this->seedCalendarOfficial($user, $branch);
             $this->seedCalendarImportant($user, $branch);
-            
+
             $this->seedCampuses($user, $branch);
             $this->seedClassrooms($user, $branch);
             $this->seedNews($user, $branch);
@@ -267,7 +267,7 @@ class FrontendPagesSeeder extends Seeder
     private function seedHomeHistory($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         HomeHistory::create([
             'user_id' => $user->id,
             'branch_id' => $branch->id,
@@ -332,14 +332,14 @@ class FrontendPagesSeeder extends Seeder
     private function seedAboutAbout($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         AboutAbout::create([
             'user_id' => $user->id,
             'branch_id' => $branch->id,
             'description' => [
                 'en' => "{$branchNames['en']} was established in 2013 by Maya Company, a proud member of the Qaiwan Group of Companies, and is led by Mrs. Sozan Abubakr Mawlud. Since its foundation, the school has consistently ranked among the top performing educational institutions in the Kurdistan Region.",
                 'ckb' => "{$branchNames['ckb']} لە ساڵی ٢٠١٣دا لەلایەن کۆمپانیای مایاوە دامەزراوە، ئەندامێکی شانازی دەرەوەی کۆمپانیاکانی قەیوانە، و لەلایەن خاتوو سۆزان ئەبووبەکر مەولوودەوە بەڕێوە دەبرێت.",
-                'ar' => "تأسست {$branchNames['ar']} في عام 2013 من قبل شركة مايا، وهي عضو فخور في مجموعة قيوان للشركات، وتديرها السيدة سوزان أبوبكر مولود.",
+                // 'ar' => "تأسست {$branchNames['ar']} في عام 2013 من قبل شركة مايا، وهي عضو فخور في مجموعة قيوان للشركات، وتديرها السيدة سوزان أبوبكر مولود.",
             ],
             'is_active' => true,
         ]);
@@ -355,12 +355,12 @@ class FrontendPagesSeeder extends Seeder
             'description' => [
                 'en' => 'We are committed to providing high-quality education that nurtures intellectual curiosity, critical thinking, and personal growth. Our message is to empower students to become confident, compassionate, and responsible global citizens.',
                 'ckb' => 'ئێمە پابەندین بە دابینکردنی پەروەردەیەکی باش کە کنجکاوی زیرەکانە، بیرکردنەوەی ڕەخنەگرانە و گەشەی کەسی پەروەردە دەکات.',
-                'ar' => 'نحن ملتزمون بتوفير تعليم عالي الجودة يغذي الفضول الفكري والتفكير النقدي والنمو الشخصي.',
+                // 'ar' => 'نحن ملتزمون بتوفير تعليم عالي الجودة يغذي الفضول الفكري والتفكير النقدي والنمو الشخصي.',
             ],
             'author' => [
                 'en' => 'Mrs. Sozan Abubakr Mawlud',
                 'ckb' => 'خاتوو سۆزان ئەبووبەکر مەولوود',
-                'ar' => 'السيدة سوزان أبوبكر مولود',
+                // 'ar' => 'السيدة سوزان أبوبكر مولود',
             ],
             'is_active' => true,
         ]);
@@ -376,7 +376,7 @@ class FrontendPagesSeeder extends Seeder
             'description' => [
                 'en' => 'To deliver excellence in education through innovative teaching methods, a supportive learning environment, and a curriculum that balances academic achievement with character development.',
                 'ckb' => 'گەیاندنی باشی لە پەروەردەدا لە ڕێگەی شێوازە نوێیەکانی وانەوتنەوە و ژینگەیەکی پشتیوانی فێربوون.',
-                'ar' => 'تقديم التميز في التعليم من خلال أساليب تدريس مبتكرة وبيئة تعليمية داعمة.',
+                // 'ar' => 'تقديم التميز في التعليم من خلال أساليب تدريس مبتكرة وبيئة تعليمية داعمة.',
             ],
             'is_active' => true,
         ]);
@@ -387,7 +387,7 @@ class FrontendPagesSeeder extends Seeder
     private function seedAboutTouch($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         AboutTouch::create([
             'user_id' => $user->id,
             'branch_id' => $branch->id,
@@ -396,7 +396,7 @@ class FrontendPagesSeeder extends Seeder
             'contact_address' => [
                 'en' => "{$branchNames['en']}, Educational District, Erbil, Kurdistan Region",
                 'ckb' => "{$branchNames['ckb']}، دەڤەری پەروەردە، هەولێر، هەرێمی کوردستان",
-                'ar' => "{$branchNames['ar']}، المنطقة التعليمية، أربيل، إقليم كوردستان",
+                // 'ar' => "{$branchNames['ar']}، المنطقة التعليمية، أربيل، إقليم كوردستان",
             ],
             'is_active' => true,
         ]);
@@ -408,14 +408,14 @@ class FrontendPagesSeeder extends Seeder
     private function seedAcademicApproach($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         AcademicApproach::create([
             'user_id' => $user->id,
             'branch_id' => $branch->id,
             'description' => [
                 'en' => "At {$branchNames['en']}, we believe in fostering a learning environment where students are active participants in their education. Our approach combines traditional wisdom with modern pedagogical methods, ensuring a well-rounded educational experience that prepares students for the challenges of tomorrow.",
                 'ckb' => "لە {$branchNames['ckb']}، ئێمە باوەڕمان بە پەروەردەکردنی ژینگەیەکی فێربوونە کە خوێندکاران بەشداربووی چالاکن لە پەروەردەکەیاندا. ڕێبازەکەمان دانایی نەریتی بە شێوازە پەروەردەیی مۆدێرنەکان تێکەڵ دەکات، دڵنیابوون لە ئەزموونێکی پەروەردەیی هەمەلایەنە کە خوێندکاران بۆ تەحەدای سبەینێ ئامادە دەکات.",
-                'ar' => "في {$branchNames['ar']}، نحن نؤمن بتعزيز بيئة تعليمية حيث يكون الطلاب مشاركين نشطين في تعليمهم. يجمع نهجنا بين الحكمة التقليدية والأساليب التربوية الحديثة، مما يضمن تجربة تعليمية شاملة تعد الطلاب لتحديات الغد.",
+                // 'ar' => "في {$branchNames['ar']}، نحن نؤمن بتعزيز بيئة تعليمية حيث يكون الطلاب مشاركين نشطين في تعليمهم. يجمع نهجنا بين الحكمة التقليدية والأساليب التربوية الحديثة، مما يضمن تجربة تعليمية شاملة تعد الطلاب لتحديات الغد.",
             ],
             'features' => [
                 'en' => [
@@ -432,13 +432,13 @@ class FrontendPagesSeeder extends Seeder
                     ['title' => 'پۆلی پێشکەوتوو بە تەکنەلۆژیا و شێوازی وانەوتنەوەی کردەیی'],
                     ['title' => 'جەختکردنەوە لەسەر هاوکاری، پەیوەندی و بیرکردنەوەی ڕەخنەگرانە'],
                 ],
-                'ar' => [
-                    ['title' => 'معايير دولية مكيفة مع الاحتياجات المحلية'],
-                    ['title' => 'اللغة الإنجليزية والرياضيات والعلوم وتكنولوجيا المعلومات بناءً على المعايير العالمية'],
-                    ['title' => 'تركيز قوي على الكردية والعربية للحفاظ على الهوية'],
-                    ['title' => 'فصول دراسية محسنة بالتكنولوجيا وأساليب تدريس عملية'],
-                    ['title' => 'التركيز على التعاون والتواصل والتفكير النقدي'],
-                ],
+                // 'ar' => [
+                //     ['title' => 'معايير دولية مكيفة مع الاحتياجات المحلية'],
+                //     ['title' => 'اللغة الإنجليزية والرياضيات والعلوم وتكنولوجيا المعلومات بناءً على المعايير العالمية'],
+                //     ['title' => 'تركيز قوي على الكردية والعربية للحفاظ على الهوية'],
+                //     ['title' => 'فصول دراسية محسنة بالتكنولوجيا وأساليب تدريس عملية'],
+                //     ['title' => 'التركيز على التعاون والتواصل والتفكير النقدي'],
+                // ],
             ],
             'order' => 1,
             'is_active' => true,
@@ -450,14 +450,14 @@ class FrontendPagesSeeder extends Seeder
     private function seedAcademicChoose($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         AcademicChoose::create([
             'user_id' => $user->id,
             'branch_id' => $branch->id,
             'description' => [
                 'en' => "We believe every student at {$branchNames['en']} is unique. That's why our low student-to-teacher ratio allows for personalized attention and tailored learning paths — ensuring academic success and emotional growth. Our commitment to excellence has made us one of the most trusted educational institutions in the region.",
                 'ckb' => "ئێمە باوەڕمان وایە هەر خوێندکارێک لە {$branchNames['ckb']} تایبەتە. بۆیە ڕێژەی کەمی خوێندکار بۆ مامۆستا ڕێگە بە سەرنج و ڕێگای فێربوونی تایبەتمەند دەدات - دڵنیابوون لە سەرکەوتنی ئەکادیمی و گەشەی هەستی. پابەندبوونمان بە باشی وایکردووە ببینە یەکێک لە باوەڕپێکراوترین دامەزراوە پەروەردەییەکانی هەرێمەکە.",
-                'ar' => "نحن نؤمن أن كل طالب في {$branchNames['ar']} فريد من نوعه. لهذا السبب تسمح نسبة الطلاب إلى المعلمين المنخفضة لدينا باهتمام شخصي ومسارات تعلم مخصصة - مما يضمن النجاح الأكاديمي والنمو العاطفي. جعلنا التزامنا بالتميز واحدة من أكثر المؤسسات التعليمية الموثوقة في المنطقة.",
+                // 'ar' => "نحن نؤمن أن كل طالب في {$branchNames['ar']} فريد من نوعه. لهذا السبب تسمح نسبة الطلاب إلى المعلمين المنخفضة لدينا باهتمام شخصي ومسارات تعلم مخصصة - مما يضمن النجاح الأكاديمي والنمو العاطفي. جعلنا التزامنا بالتميز واحدة من أكثر المؤسسات التعليمية الموثوقة في المنطقة.",
             ],
             'reasons' => [
                 'en' => [
@@ -474,13 +474,13 @@ class FrontendPagesSeeder extends Seeder
                     ['title' => 'بەهاکانی بەهێز', 'description' => 'بنیاتنانی کەسایەتی لە ڕێگەی سەرکردایەتی، هاوسۆزی و بەرپرسیارێتی کۆمەڵایەتی'],
                     ['title' => 'ئامادەکاری زانکۆ', 'description' => 'ڕێکۆردێکی سەلماوە لە وەرگرتنی خوێندکاران لە زانکۆکانی بەرز'],
                 ],
-                'ar' => [
-                    ['title' => 'أعلى تقدير', 'description' => 'تحصل سنويًا على جوائز من وزارة التربية والتعليم للأداء المتميز'],
-                    ['title' => 'معلمون خبراء', 'description' => 'معلمون ذوو خبرة وشغف بمؤهلات متقدمة'],
-                    ['title' => 'مرافق حديثة', 'description' => 'فصول دراسية ذكية ومختبرات علمية وأدوات تعلم رقمية متطورة'],
-                    ['title' => 'قيم قوية', 'description' => 'بناء الشخصية من خلال القيادة والتعاطف والمسؤولية الاجتماعية'],
-                    ['title' => 'التحضير للجامعة', 'description' => 'سجل حافل بقبول الطلاب في أفضل الجامعات'],
-                ],
+                // 'ar' => [
+                //     ['title' => 'أعلى تقدير', 'description' => 'تحصل سنويًا على جوائز من وزارة التربية والتعليم للأداء المتميز'],
+                //     ['title' => 'معلمون خبراء', 'description' => 'معلمون ذوو خبرة وشغف بمؤهلات متقدمة'],
+                //     ['title' => 'مرافق حديثة', 'description' => 'فصول دراسية ذكية ومختبرات علمية وأدوات تعلم رقمية متطورة'],
+                //     ['title' => 'قيم قوية', 'description' => 'بناء الشخصية من خلال القيادة والتعاطف والمسؤولية الاجتماعية'],
+                //     ['title' => 'التحضير للجامعة', 'description' => 'سجل حافل بقبول الطلاب في أفضل الجامعات'],
+                // ],
             ],
             'order' => 1,
             'is_active' => true,
@@ -493,19 +493,19 @@ class FrontendPagesSeeder extends Seeder
     private function seedAdmissionPolicy($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         AdmissionPolicy::create([
             'user_id' => $user->id,
             'branch_id' => $branch->id,
             'description' => [
                 'en' => "{$branchNames['en']} maintains a fair and transparent admission process. We welcome students from diverse backgrounds who demonstrate a genuine interest in learning and personal growth.",
                 'ckb' => "{$branchNames['ckb']} پرۆسەیەکی دادپەروەرانە و ڕوونی وەرگرتنی هەیە. ئێمە پێشوازی لە خوێندکاران دەکەین لە پاشخانە جیاوازەکانەوە.",
-                'ar' => "{$branchNames['ar']} تحافظ على عملية قبول عادلة وشفافة. نرحب بالطلاب من خلفيات متنوعة الذين يظهرون اهتماماً حقيقياً بالتعلم والنمو الشخصي.",
+                // 'ar' => "{$branchNames['ar']} تحافظ على عملية قبول عادلة وشفافة. نرحب بالطلاب من خلفيات متنوعة الذين يظهرون اهتماماً حقيقياً بالتعلم والنمو الشخصي.",
             ],
             'requirements' => [
                 'en' => 'Students must meet age requirements, submit required documents, pass entrance assessment, and attend an interview with parents.',
                 'ckb' => 'خوێندکاران دەبێت پێداویستیەکانی تەمەن پڕبکەنەوە، بەڵگەنامە پێویستەکان پێشکەش بکەن، هەڵسەنگاندنی چوونەژوورەوە تێبپەڕێنن، و لەگەڵ دایک و باوک چاوپێکەوتنێک ئەنجام بدەن.',
-                'ar' => 'يجب على الطلاب استيفاء متطلبات العمر، وتقديم المستندات المطلوبة، واجتياز تقييم القبول، وحضور مقابلة مع أولياء الأمور.',
+                // 'ar' => 'يجب على الطلاب استيفاء متطلبات العمر، وتقديم المستندات المطلوبة، واجتياز تقييم القبول، وحضور مقابلة مع أولياء الأمور.',
             ],
             'steps' => [
                 'en' => [
@@ -526,15 +526,15 @@ class FrontendPagesSeeder extends Seeder
                     ['level' => 'داگرتن', 'title' => 'داگرتن لە ماڵپەڕی فەرمیمان'],
                     ['level' => 'نامە', 'title' => 'داواکاری ئیمەیڵ: kurdgeniusschool@gmail.com'],
                 ],
-                'ar' => [
-                    ['level' => 'الأول', 'title' => 'تقييم القبول والمقابلة'],
-                    ['level' => 'الثاني', 'title' => 'مراجعة السجلات الأكاديمية والسلوك'],
-                    ['level' => 'الثالث', 'title' => 'الأفضلية للمتقدمين المبكرين والأشقاء'],
-                    ['level' => 'الرابع', 'title' => 'الموافقة النهائية من لجنة القبول'],
-                    ['level' => 'قراءة', 'title' => 'استقبال المدرسة'],
-                    ['level' => 'تحميل', 'title' => 'التحميل من موقعنا الرسمي'],
-                    ['level' => 'رسالة', 'title' => 'طلب عبر البريد الإلكتروني: kurdgeniusschool@gmail.com'],
-                ],
+                // 'ar' => [
+                //     ['level' => 'الأول', 'title' => 'تقييم القبول والمقابلة'],
+                //     ['level' => 'الثاني', 'title' => 'مراجعة السجلات الأكاديمية والسلوك'],
+                //     ['level' => 'الثالث', 'title' => 'الأفضلية للمتقدمين المبكرين والأشقاء'],
+                //     ['level' => 'الرابع', 'title' => 'الموافقة النهائية من لجنة القبول'],
+                //     ['level' => 'قراءة', 'title' => 'استقبال المدرسة'],
+                //     ['level' => 'تحميل', 'title' => 'التحميل من موقعنا الرسمي'],
+                //     ['level' => 'رسالة', 'title' => 'طلب عبر البريد الإلكتروني: kurdgeniusschool@gmail.com'],
+                // ],
             ],
             'is_active' => true,
         ]);
@@ -560,12 +560,12 @@ class FrontendPagesSeeder extends Seeder
                     ['title' => 'پەڕگەکانی ئەکادیمی یان کارتی ڕاپۆرت', 'icon' => '/img/admission/report.svg'],
                     ['title' => 'تۆمارەکانی پزیشکی و کوتان', 'icon' => '/img/admission/medicine.svg'],
                 ],
-                'ar' => [
-                    ['title' => 'نسخة من جواز السفر أو الهوية الوطنية', 'icon' => '/img/admission/passport.svg'],
-                    ['title' => '6 صور حديثة بحجم جواز السفر', 'icon' => '/img/admission/editing.svg'],
-                    ['title' => 'السجلات الأكاديمية أو بطاقات التقرير', 'icon' => '/img/admission/report.svg'],
-                    ['title' => 'السجلات الطبية وسجلات التطعيم', 'icon' => '/img/admission/medicine.svg'],
-                ],
+            //     'ar' => [
+            //         ['title' => 'نسخة من جواز السفر أو الهوية الوطنية', 'icon' => '/img/admission/passport.svg'],
+            //         ['title' => '6 صور حديثة بحجم جواز السفر', 'icon' => '/img/admission/editing.svg'],
+            //         ['title' => 'السجلات الأكاديمية أو بطاقات التقرير', 'icon' => '/img/admission/report.svg'],
+            //         ['title' => 'السجلات الطبية وسجلات التطعيم', 'icon' => '/img/admission/medicine.svg'],
+            //     ],
             ],
             'is_active' => true,
         ]);
@@ -611,18 +611,18 @@ class FrontendPagesSeeder extends Seeder
     private function seedCampuses($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         $campuses = [
             [
                 'title' => [
                     'en' => "{$branchNames['en']} Main Campus",
                     'ckb' => "کەمپی سەرەکی {$branchNames['ckb']}",
-                    'ar' => "الحرم الرئيسي {$branchNames['ar']}",
+                    // 'ar' => "الحرم الرئيسي {$branchNames['ar']}",
                 ],
                 'content' => [
                     'en' => "The {$branchNames['en']} main campus is located in a vibrant educational district, offering students access to modern classrooms, advanced science laboratories, sports facilities, and cultural centers. Our campus spans over 5 acres of beautifully landscaped grounds, providing an ideal environment for learning and personal development.",
                     'ckb' => "کەمپی سەرەکی {$branchNames['ckb']} لە ناوچەیەکی پەروەردەیی گەشاوە جێگیرە، دەرفەتی بەکارهێنانی پۆلی مۆدێرن، تاقیگەی زانستی پێشکەوتوو، ئامێری وەرزشی و ناوەندە کولتووریەکان بۆ قوتابیان دابین دەکات. کەمپەکەمان زیاتر لە ۵ ئێکەر زەوی جوان و سەوز دەگرێتەوە.",
-                    'ar' => "يقع الحرم الرئيسي {$branchNames['ar']} في منطقة تعليمية نابضة بالحياة، ويوفر للطلاب الوصول إلى الفصول الدراسية الحديثة والمختبرات العلمية المتقدمة والمرافق الرياضية والمراكز الثقافية. يمتد حرمنا الجامعي على مساحة تزيد عن 5 أفدنة من الأراضي المنسقة بشكل جميل.",
+                    // 'ar' => "يقع الحرم الرئيسي {$branchNames['ar']} في منطقة تعليمية نابضة بالحياة، ويوفر للطلاب الوصول إلى الفصول الدراسية الحديثة والمختبرات العلمية المتقدمة والمرافق الرياضية والمراكز الثقافية. يمتد حرمنا الجامعي على مساحة تزيد عن 5 أفدنة من الأراضي المنسقة بشكل جميل.",
                 ],
                 'views' => rand(50, 200),
                 'order' => 1,
@@ -632,12 +632,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Science & Technology Wing',
                     'ckb' => 'باڵی زانست و تەکنەلۆژیا',
-                    'ar' => 'جناح العلوم والتكنولوجيا',
+                    // 'ar' => 'جناح العلوم والتكنولوجيا',
                 ],
                 'content' => [
                     'en' => "Our Science & Technology Wing features state-of-the-art laboratories, computer labs, and innovation centers. Students have access to cutting-edge equipment for physics, chemistry, biology, and robotics. The wing includes dedicated spaces for STEM projects, coding workshops, and scientific research.",
                     'ckb' => "باڵی زانست و تەکنەلۆژیامان تاقیگە و لابی کۆمپیوتەری مۆدێرن و ناوەندی داهێنان لەخۆدەگرێت. قوتابیان دەتوانن ئامێرە پێشکەوتووەکان بۆ فیزیا، کیمیا، بایۆلۆجی و ڕۆبۆتیکس بەکاربهێنن. باڵەکە شوێنی تایبەت بۆ پڕۆژەی STEM و وۆرکشۆپی کۆدنووسین و لێکۆڵینەوەی زانستی لەخۆدەگرێت.",
-                    'ar' => "يحتوي جناح العلوم والتكنولوجيا لدينا على مختبرات حديثة ومختبرات حاسوب ومراكز ابتكار. يتمتع الطلاب بإمكانية الوصول إلى المعدات المتطورة للفيزياء والكيمياء والبيولوجيا والروبوتات. يتضمن الجناح مساحات مخصصة لمشاريع STEM وورش البرمجة والبحث العلمي.",
+                    // 'ar' => "يحتوي جناح العلوم والتكنولوجيا لدينا على مختبرات حديثة ومختبرات حاسوب ومراكز ابتكار. يتمتع الطلاب بإمكانية الوصول إلى المعدات المتطورة للفيزياء والكيمياء والبيولوجيا والروبوتات. يتضمن الجناح مساحات مخصصة لمشاريع STEM وورش البرمجة والبحث العلمي.",
                 ],
                 'views' => rand(50, 200),
                 'order' => 2,
@@ -647,12 +647,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Sports & Recreation Complex',
                     'ckb' => 'کۆمپلێکسی وەرزش و کاتی بەتاڵ',
-                    'ar' => 'مجمع الرياضة والترفيه',
+                    // 'ar' => 'مجمع الرياضة والترفيه',
                 ],
                 'content' => [
                     'en' => "The Sports & Recreation Complex offers comprehensive athletic facilities including an indoor gymnasium, outdoor playing fields, swimming pool, and fitness center. We support various sports programs including basketball, football, volleyball, swimming, and athletics. Regular tournaments and inter-school competitions are organized to promote sportsmanship and teamwork.",
                     'ckb' => "کۆمپلێکسی وەرزش و کاتی بەتاڵ ئامێری وەرزشی گشتگیر پێشکەش دەکات لەوانە زەوی لیستنی ناوخۆیی، گۆڕەپانی دەرەکی یاری، حەوزی مەلەوانی، و ناوەندی لەشجوانی. پشتیوانی لە پڕۆگرامە وەرزشییەکان دەکەین وەک تۆپی سەبەتە، تۆپی پێ، تۆپی بالیبال، مەلەوانی و ڕاکردن. پاڵەوانەتی و ڕکابەری نێوان قوتابخانەکان بە بەردەوامی ڕێکدەخرێت.",
-                    'ar' => "يوفر مجمع الرياضة والترفيه مرافق رياضية شاملة بما في ذلك صالة رياضية داخلية وملاعب خارجية ومسبح ومركز للياقة البدنية. ندعم برامج رياضية متنوعة بما في ذلك كرة السلة وكرة القدم والكرة الطائرة والسباحة وألعاب القوى. يتم تنظيم البطولات والمسابقات بين المدارس بانتظام لتعزيز الروح الرياضية والعمل الجماعي.",
+                    // 'ar' => "يوفر مجمع الرياضة والترفيه مرافق رياضية شاملة بما في ذلك صالة رياضية داخلية وملاعب خارجية ومسبح ومركز للياقة البدنية. ندعم برامج رياضية متنوعة بما في ذلك كرة السلة وكرة القدم والكرة الطائرة والسباحة وألعاب القوى. يتم تنظيم البطولات والمسابقات بين المدارس بانتظام لتعزيز الروح الرياضية والعمل الجماعي.",
                 ],
                 'views' => rand(50, 200),
                 'order' => 3,
@@ -662,12 +662,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Library & Learning Resource Center',
                     'ckb' => 'کتێبخانە و ناوەندی سەرچاوەی فێربوون',
-                    'ar' => 'المكتبة ومركز موارد التعلم',
+                    // 'ar' => 'المكتبة ومركز موارد التعلم',
                 ],
                 'content' => [
                     'en' => "Our comprehensive library houses over 10,000 books, digital resources, and multimedia materials in multiple languages. The Learning Resource Center provides quiet study areas, group discussion rooms, and computer workstations. Students have access to online databases, e-books, and research journals to support their academic pursuits.",
                     'ckb' => "کتێبخانە گشتگیرەکەمان زیاتر لە ١٠،٠٠٠ کتێب، سەرچاوەی دیجیتاڵ و کەرەستەی ڕاگەیاندنی فرە لەخۆدەگرێت بە چەندین زمان. ناوەندی سەرچاوەی فێربوون شوێنی بێدەنگ بۆ خوێندن، ژووری گفتوگۆی گرووپی و وێستگەی کاری کۆمپیوتەر دابین دەکات. قوتابیان دەتوانن دەستیان بە بنکەدراوە ئۆنلاینەکان، کتێبی ئەلیکترۆنی و گۆڤاری لێکۆڵینەوە بگات.",
-                    'ar' => "تضم مكتبتنا الشاملة أكثر من 10000 كتاب وموارد رقمية ومواد متعددة الوسائط بلغات متعددة. يوفر مركز موارد التعلم مناطق دراسة هادئة وغرف مناقشة جماعية ومحطات عمل حاسوبية. يتمتع الطلاب بإمكانية الوصول إلى قواعد البيانات عبر الإنترنت والكتب الإلكترونية والمجلات البحثية لدعم متابعاتهم الأكاديمية.",
+                    // 'ar' => "تضم مكتبتنا الشاملة أكثر من 10000 كتاب وموارد رقمية ومواد متعددة الوسائط بلغات متعددة. يوفر مركز موارد التعلم مناطق دراسة هادئة وغرف مناقشة جماعية ومحطات عمل حاسوبية. يتمتع الطلاب بإمكانية الوصول إلى قواعد البيانات عبر الإنترنت والكتب الإلكترونية والمجلات البحثية لدعم متابعاتهم الأكاديمية.",
                 ],
                 'views' => rand(50, 200),
                 'order' => 4,
@@ -677,12 +677,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Arts & Culture Center',
                     'ckb' => 'ناوەندی هونەر و کولتوور',
-                    'ar' => 'مركز الفنون والثقافة',
+                    // 'ar' => 'مركز الفنون والثقافة',
                 ],
                 'content' => [
                     'en' => "The Arts & Culture Center celebrates creativity through music, drama, visual arts, and cultural events. Our facilities include art studios, music rooms, a theater, and exhibition spaces. Students can explore various artistic disciplines and participate in performances, exhibitions, and cultural festivals throughout the year.",
                     'ckb' => "ناوەندی هونەر و کولتوور داهێنان لە ڕێگەی مۆسیقا، دراما، هونەری بینراو و بۆنە کولتوورییەکانەوە ئاهەنگ دەگرێت. ئامێرەکانمان ستودیۆی هونەر، ژووری مۆسیقا، شانۆگەر و شوێنی پێشانگا لەخۆدەگرێت. قوتابیان دەتوانن بوارە هونەرییە جۆراوجۆرەکان بەدوا بکەون و بەشدار بن لە نمایش، پێشانگا و فێستیڤاڵە کولتوورییەکان.",
-                    'ar' => "يحتفي مركز الفنون والثقافة بالإبداع من خلال الموسيقى والدراما والفنون البصرية والفعاليات الثقافية. تشمل مرافقنا استوديوهات فنية وغرف موسيقى ومسرحًا ومساحات للمعارض. يمكن للطلاب استكشاف التخصصات الفنية المختلفة والمشاركة في العروض والمعارض والمهرجانات الثقافية على مدار العام.",
+                    // 'ar' => "يحتفي مركز الفنون والثقافة بالإبداع من خلال الموسيقى والدراما والفنون البصرية والفعاليات الثقافية. تشمل مرافقنا استوديوهات فنية وغرف موسيقى ومسرحًا ومساحات للمعارض. يمكن للطلاب استكشاف التخصصات الفنية المختلفة والمشاركة في العروض والمعارض والمهرجانات الثقافية على مدار العام.",
                 ],
                 'views' => rand(50, 200),
                 'order' => 5,
@@ -692,12 +692,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Student Center & Cafeteria',
                     'ckb' => 'ناوەندی قوتابیان و چێشتخانە',
-                    'ar' => 'مركز الطلاب والكافتيريا',
+                    // 'ar' => 'مركز الطلاب والكافتيريا',
                 ],
                 'content' => [
                     'en' => "The Student Center serves as the social hub of campus life, featuring comfortable lounges, recreation areas, and our modern cafeteria. The cafeteria offers nutritious meals prepared fresh daily, accommodating various dietary requirements. This is where students gather, socialize, and build lasting friendships in a welcoming environment.",
                     'ckb' => "ناوەندی قوتابیان وەک ناوەندی کۆمەڵایەتی ژیانی کەمپ کاردەکات، شوێنی پشوودانی ئاسوودە، شوێنی کاتی بەتاڵ و چێشتخانەی مۆدێرنمان لەخۆدەگرێت. چێشتخانە خواردنی تەندروست پێشکەش دەکات کە ڕۆژانە تازە ئامادەدەکرێت. ئەمە شوێنێکە کە قوتابیان کۆدەبنەوە، پێکەوە کات بەسەردەبەن و هاوڕێیەتی درێژخایەن دروست دەکەن.",
-                    'ar' => "يعمل مركز الطلاب كمحور اجتماعي لحياة الحرم الجامعي، ويضم صالات مريحة ومناطق ترفيهية وكافتيريا حديثة. توفر الكافتيريا وجبات مغذية يتم إعدادها طازجة يوميًا، وتستوعب متطلبات غذائية مختلفة. هذا هو المكان الذي يجتمع فيه الطلاب ويتواصلون اجتماعيًا ويبنون صداقات دائمة في بيئة ترحيبية.",
+                    // 'ar' => "يعمل مركز الطلاب كمحور اجتماعي لحياة الحرم الجامعي، ويضم صالات مريحة ومناطق ترفيهية وكافتيريا حديثة. توفر الكافتيريا وجبات مغذية يتم إعدادها طازجة يوميًا، وتستوعب متطلبات غذائية مختلفة. هذا هو المكان الذي يجتمع فيه الطلاب ويتواصلون اجتماعيًا ويبنون صداقات دائمة في بيئة ترحيبية.",
                 ],
                 'views' => rand(50, 200),
                 'order' => 6,
@@ -707,12 +707,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Innovation & Maker Space',
                     'ckb' => 'شوێنی داهێنان و دروستکردن',
-                    'ar' => 'مساحة الابتكار والإبداع',
+                    // 'ar' => 'مساحة الابتكار والإبداع',
                 ],
                 'content' => [
                     'en' => "Our Innovation & Maker Space empowers students to bring their ideas to life through hands-on creation and experimentation. Equipped with 3D printers, laser cutters, electronics workbenches, and crafting tools, this space encourages creativity, problem-solving, and entrepreneurial thinking. Students can work on personal projects, participate in maker challenges, and develop prototypes.",
                     'ckb' => "شوێنی داهێنان و دروستکردنمان هێز بە قوتابیان دەدات بۆ ژیاندار کردنی بیرۆکەکانیان لە ڕێگەی دروستکردن و تاقیکردنەوە. ئەم شوێنە بە پرینتەری ٣D، بڕینی لەیزەر، مێزی کاری ئەلیکترۆنیات و ئامێری پیشەکاری تێکەڵ کراوە، ئەم شوێنە داهێنان، چارەسەرکردنی کێشە و بیرکردنەوەی بازرگانی هاندەدات.",
-                    'ar' => "تمكّن مساحة الابتكار والإبداع لدينا الطلاب من تحويل أفكارهم إلى واقع من خلال الإنشاء والتجريب العملي. مجهزة بطابعات ثلاثية الأبعاد وقواطع ليزر ومناضد عمل إلكترونية وأدوات الحرف اليدوية، تشجع هذه المساحة على الإبداع وحل المشكلات والتفكير الريادي.",
+                    // 'ar' => "تمكّن مساحة الابتكار والإبداع لدينا الطلاب من تحويل أفكارهم إلى واقع من خلال الإنشاء والتجريب العملي. مجهزة بطابعات ثلاثية الأبعاد وقواطع ليزر ومناضد عمل إلكترونية وأدوات الحرف اليدوية، تشجع هذه المساحة على الإبداع وحل المشكلات والتفكير الريادي.",
                 ],
                 'views' => rand(50, 200),
                 'order' => 7,
@@ -759,12 +759,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Science Laboratory',
                     'ckb' => 'تاقیگەی زانست',
-                    'ar' => 'مختبر العلوم',
+                    // 'ar' => 'مختبر العلوم',
                 ],
                 'content' => [
                     'en' => 'Our state-of-the-art science laboratory is equipped with modern technology and equipment, providing students with hands-on experience in conducting experiments and research. The laboratory includes microscopes, lab benches, safety equipment, and digital displays to support various scientific disciplines including physics, chemistry, and biology. Students learn through practical experimentation and inquiry-based learning.',
                     'ckb' => 'تاقیگە زانستیەکانمان بە تەکنەلۆژیای مۆدێرن و ئامێرەکانی پێشکەوتوو چەکدار کراوە، کە ئەزموونی مەشقی بۆ قوتابیان دابین دەکات لە ئەنجامدانی تاقیکردنەوە و توێژینەوەدا. تاقیگەکە میکرۆسکۆپ، میزی تاقیگە، ئامێری پاراستن و پیشاندەری دیجیتاڵی تێدایە بۆ پشتگیریکردنی بوارە زانستییە جیاوازەکان.',
-                    'ar' => 'مختبرنا العلمي الحديث مجهز بأحدث التقنيات والمعدات، مما يوفر للطلاب خبرة عملية في إجراء التجارب والأبحاث. يشمل المختبر مجاهر ومناضد معملية ومعدات السلامة وشاشات رقمية لدعم التخصصات العلمية المختلفة.',
+                    // 'ar' => 'مختبرنا العلمي الحديث مجهز بأحدث التقنيات والمعدات، مما يوفر للطلاب خبرة عملية في إجراء التجارب والأبحاث. يشمل المختبر مجاهر ومناضد معملية ومعدات السلامة وشاشات رقمية لدعم التخصصات العلمية المختلفة.',
                 ],
                 'views' => rand(50, 200),
                 'order' => 1,
@@ -774,12 +774,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Computer Laboratory',
                     'ckb' => 'تاقیگەی کۆمپیوتەر',
-                    'ar' => 'مختبر الحاسوب',
+                    // 'ar' => 'مختبر الحاسوب',
                 ],
                 'content' => [
                     'en' => 'Our modern computer laboratory is equipped with 40 high-performance computers, projectors, and coding software for programming classes. Students have access to industry-standard development tools and software, preparing them for careers in technology and computer science. The lab supports courses in programming, web development, graphic design, and digital literacy.',
                     'ckb' => 'تاقیگەی کۆمپیوتەری مۆدێرنەکەمان چەکدار کراوە بە ٤٠ کۆمپیوتەری بەرزکارایی، پرۆژێکتەر و نەرمەڕەقی کۆدنووسی بۆ وانەکانی بەرنامەسازی. قوتابیان دەستڕاگەیشتنیان هەیە بە ئامرازەکانی پەرەپێدان و نەرمەڕەقی ستانداردی پیشەسازی.',
-                    'ar' => 'مختبر الحاسوب الحديث لدينا مجهز بـ 40 جهاز كمبيوتر عالي الأداء وأجهزة عرض وبرامج برمجة. يتمتع الطلاب بإمكانية الوصول إلى أدوات وبرامج تطوير معيارية في الصناعة.',
+                    // 'ar' => 'مختبر الحاسوب الحديث لدينا مجهز بـ 40 جهاز كمبيوتر عالي الأداء وأجهزة عرض وبرامج برمجة. يتمتع الطلاب بإمكانية الوصول إلى أدوات وبرامج تطوير معيارية في الصناعة.',
                 ],
                 'views' => rand(50, 200),
                 'order' => 2,
@@ -789,12 +789,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Library & Resource Center',
                     'ckb' => 'کتێبخانە و سەنتەری سەرچاوەکان',
-                    'ar' => 'المكتبة ومركز الموارد',
+                    // 'ar' => 'المكتبة ومركز الموارد',
                 ],
                 'content' => [
                     'en' => 'Our comprehensive library offers over 10,000 books, digital resources, and dedicated study spaces for students. The library is designed to foster a love of reading and provide resources for academic research. Features include quiet study rooms, computer access, and a wide selection of reference materials across all subjects. Professional librarians are available to assist students with research and reading recommendations.',
                     'ckb' => 'کتێبخانە گشتگیرەکەمان زیاتر لە ١٠،٠٠٠ کتێب، سەرچاوەی دیجیتاڵ و شوێنی تایبەتی خوێندن بۆ قوتابیان دابین دەکات. کتێبخانەکە دیزاین کراوە بۆ پەروەردەکردنی خۆشەویستی خوێندنەوە و دابینکردنی سەرچاوەکان بۆ توێژینەوەی ئەکادیمی.',
-                    'ar' => 'تقدم مكتبتنا الشاملة أكثر من 10000 كتاب وموارد رقمية ومساحات دراسة مخصصة للطلاب. تم تصميم المكتبة لتعزيز حب القراءة وتوفير الموارد للبحث الأكاديمي.',
+                    // 'ar' => 'تقدم مكتبتنا الشاملة أكثر من 10000 كتاب وموارد رقمية ومساحات دراسة مخصصة للطلاب. تم تصميم المكتبة لتعزيز حب القراءة وتوفير الموارد للبحث الأكاديمي.',
                 ],
                 'views' => rand(50, 200),
                 'order' => 3,
@@ -804,12 +804,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Art Studio',
                     'ckb' => 'ستودیۆی هونەر',
-                    'ar' => 'استوديو الفنون',
+                    // 'ar' => 'استوديو الفنون',
                 ],
                 'content' => [
                     'en' => 'Our spacious art studio provides a creative environment for students to explore various artistic mediums including painting, drawing, sculpture, and mixed media. The studio is equipped with professional-grade art supplies, easels, pottery wheels, and a kiln for ceramics. Students develop their artistic skills while expressing their creativity and imagination through various art forms.',
                     'ckb' => 'ستودیۆی فراوانی هونەرمان ژینگەیەکی داهێنەر دابین دەکات بۆ قوتابیان بۆ گەڕان بە ناوەندە هونەریە جۆراوجۆرەکاندا وەک نیگارکێشان، کێشان، پەیکەر و میدیای تێکەڵ. ستودیۆکە بە پێداویستیەکانی هونەری ئاستی پیشەیی چەکدار کراوە.',
-                    'ar' => 'يوفر استوديو الفن الواسع لدينا بيئة إبداعية للطلاب لاستكشاف وسائط فنية مختلفة بما في ذلك الرسم والنحت والوسائط المختلطة. الاستوديو مجهز بمستلزمات فنية احترافية.',
+                    // 'ar' => 'يوفر استوديو الفن الواسع لدينا بيئة إبداعية للطلاب لاستكشاف وسائط فنية مختلفة بما في ذلك الرسم والنحت والوسائط المختلطة. الاستوديو مجهز بمستلزمات فنية احترافية.',
                 ],
                 'views' => rand(50, 200),
                 'order' => 4,
@@ -819,12 +819,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Music Room',
                     'ckb' => 'ژووری مۆسیقا',
-                    'ar' => 'غرفة الموسيقى',
+                    // 'ar' => 'غرفة الموسيقى',
                 ],
                 'content' => [
                     'en' => 'The music room is a soundproof space designed for musical education and practice. It features a variety of instruments including pianos, guitars, drums, and traditional instruments. Students learn music theory, composition, and performance skills. The room is equipped with recording equipment and audio technology for modern music production and learning.',
                     'ckb' => 'ژووری مۆسیقا شوێنێکی دژ بە دەنگە کە دیزاین کراوە بۆ پەروەردەی مۆسیقی و مەشق. ئامێرە جۆراوجۆرەکانی مۆسیقای تێدایە وەک پیانۆ، گیتار، درامز و ئامێرە نەریتیەکان. قوتابیان تیۆری مۆسیقا و کۆمپۆزیشن و لێهاتوویی نمایش فێر دەبن.',
-                    'ar' => 'غرفة الموسيقى عبارة عن مساحة عازلة للصوت مصممة للتعليم والممارسة الموسيقية. يحتوي على مجموعة متنوعة من الآلات بما في ذلك البيانو والغيتار والطبول والآلات التقليدية.',
+                    // 'ar' => 'غرفة الموسيقى عبارة عن مساحة عازلة للصوت مصممة للتعليم والممارسة الموسيقية. يحتوي على مجموعة متنوعة من الآلات بما في ذلك البيانو والغيتار والطبول والآلات التقليدية.',
                 ],
                 'views' => rand(50, 200),
                 'order' => 5,
@@ -834,12 +834,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Robotics Lab',
                     'ckb' => 'تاقیگەی ڕۆبۆتیکس',
-                    'ar' => 'مختبر الروبوتات',
+                    // 'ar' => 'مختبر الروبوتات',
                 ],
                 'content' => [
                     'en' => 'Our cutting-edge robotics lab enables students to design, build, and program robots using industry-standard equipment and software. The lab features LEGO robotics kits, Arduino boards, 3D printers, and various sensors and motors. Students participate in robotics competitions and develop problem-solving skills through hands-on engineering projects.',
                     'ckb' => 'تاقیگەی ڕۆبۆتیکسی پێشکەوتوومان توانای ئەوە بە قوتابیان دەدات کە ڕۆبۆت دیزاین بکەن، دروست بکەن و بەرنامە بۆ دابنێن بە بەکارهێنانی ئامێر و نەرمەڕەقی ستانداردی پیشەسازی. تاقیگەکە کیتی ڕۆبۆتیکسی LEGO و بۆردی Arduino و پرینتەری ٣D و هەستەوەر و مۆتۆری جۆراوجۆری تێدایە.',
-                    'ar' => 'يمكّن مختبر الروبوتات المتطور لدينا الطلاب من تصميم وبناء وبرمجة الروبوتات باستخدام المعدات والبرامج القياسية في الصناعة. يحتوي المختبر على مجموعات روبوتات LEGO ولوحات Arduino وطابعات ثلاثية الأبعاد.',
+                    // 'ar' => 'يمكّن مختبر الروبوتات المتطور لدينا الطلاب من تصميم وبناء وبرمجة الروبوتات باستخدام المعدات والبرامج القياسية في الصناعة. يحتوي المختبر على مجموعات روبوتات LEGO ولوحات Arduino وطابعات ثلاثية الأبعاد.',
                 ],
                 'views' => rand(50, 200),
                 'order' => 6,
@@ -849,12 +849,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => 'Multipurpose Hall',
                     'ckb' => 'هۆڵی فرە مەبەست',
-                    'ar' => 'القاعة متعددة الأغراض',
+                    // 'ar' => 'القاعة متعددة الأغراض',
                 ],
                 'content' => [
                     'en' => 'The multipurpose hall is a versatile space used for assemblies, performances, sports activities, and special events. The hall can accommodate up to 500 people and is equipped with a professional sound system, lighting, and projection equipment. It serves as the heart of school events and community gatherings, hosting everything from graduation ceremonies to cultural performances.',
                     'ckb' => 'هۆڵی فرە مەبەست شوێنێکی فرە بەکارە کە بەکاردێت بۆ کۆبوونەوە، نمایش، چالاکی وەرزشی و بۆنە تایبەتەکان. هۆڵەکە دەتوانێت تا ٥٠٠ کەس بگرێتەوە و بە سیستەمی دەنگی پیشەیی، ڕووناکی و ئامێری پرۆژێکشن چەکدار کراوە.',
-                    'ar' => 'القاعة متعددة الأغراض عبارة عن مساحة متعددة الاستخدامات تستخدم للتجمعات والعروض والأنشطة الرياضية والفعاليات الخاصة. يمكن للقاعة استيعاب ما يصل إلى 500 شخص ومجهزة بنظام صوت احترافي وإضاءة ومعدات عرض.',
+                    // 'ar' => 'القاعة متعددة الأغراض عبارة عن مساحة متعددة الاستخدامات تستخدم للتجمعات والعروض والأنشطة الرياضية والفعاليات الخاصة. يمكن للقاعة استيعاب ما يصل إلى 500 شخص ومجهزة بنظام صوت احترافي وإضاءة ومعدات عرض.',
                 ],
                 'views' => rand(50, 200),
                 'order' => 7,
@@ -897,7 +897,7 @@ class FrontendPagesSeeder extends Seeder
     private function seedNews($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         // News articles with relationships
         $news = [
             [
@@ -909,7 +909,7 @@ class FrontendPagesSeeder extends Seeder
                 'content' => [
                     'en' => "We are proud to announce that our students at {$branchNames['en']} have achieved outstanding results in the National Science and Mathematics Competition. This remarkable achievement demonstrates the dedication of our students and the quality of education.",
                     'ckb' => "شانازی بەوە دەکەین کە ڕابگەیەنین قوتابیانەکانمان لە {$branchNames['ckb']} دا ئەنجامی نایاب لە ڕکابەریی نیشتمانی زانست و بیرکاری دا بەدەست هێناوە. ئەم دەستکەوتە سەرنجڕاکێشە بەڵگەیە لەسەر بەخشندەیی قوتابیانەکانمان و کوالیتی پەروەردە.",
-                    'ar' => "يسعدنا أن نعلن أن طلابنا في {$branchNames['ar']} حققوا نتائج متميزة في مسابقة العلوم والرياضيات الوطنية. يوضح هذا الإنجاز الرائع تفاني طلابنا وجودة التعليم.",
+                    // 'ar' => "يسعدنا أن نعلن أن طلابنا في {$branchNames['ar']} حققوا نتائج متميزة في مسابقة العلوم والرياضيات الوطنية. يوضح هذا الإنجاز الرائع تفاني طلابنا وجودة التعليم.",
                 ],
                 'category' => 'achievement',
                 'hashtags' => ['excellence', 'science', 'achievement'],
@@ -919,12 +919,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "New STEM Laboratory Opens at {$branchNames['en']}",
                     'ckb' => "تاقیگەی نوێی STEM لە {$branchNames['ckb']} دا دەکرێتەوە",
-                    'ar' => "افتتاح مختبر STEM الجديد في {$branchNames['ar']}",
+                    // 'ar' => "افتتاح مختبر STEM الجديد في {$branchNames['ar']}",
                 ],
                 'content' => [
                     'en' => "Our new STEM laboratory at {$branchNames['en']} is equipped with the latest technology and equipment to inspire the next generation of scientists and innovators. The facility includes advanced robotics, 3D printing, and programming stations.",
                     'ckb' => "تاقیگە نوێیەکەمان بۆ STEM لە {$branchNames['ckb']} دا چەکدار کراوە بە دوایین تەکنەلۆژیا و ئامێر بۆ ئیلهام بەخشین بە نەوەی داهاتووی زانایان و داهێنەران. ئامێرەکە ڕۆبۆتی پێشکەوتوو، چاپکردنی سێ ڕەهەندی و وێستگەکانی بەرنامەسازی لەخۆدەگرێت.",
-                    'ar' => "مختبرنا الجديد لـ STEM في {$branchNames['ar']} مجهز بأحدث التقنيات والمعدات لإلهام الجيل القادم من العلماء والمبتكرين. يتضمن المرفق الروبوتات المتقدمة والطباعة ثلاثية الأبعاد ومحطات البرمجة.",
+                    // 'ar' => "مختبرنا الجديد لـ STEM في {$branchNames['ar']} مجهز بأحدث التقنيات والمعدات لإلهام الجيل القادم من العلماء والمبتكرين. يتضمن المرفق الروبوتات المتقدمة والطباعة ثلاثية الأبعاد ومحطات البرمجة.",
                 ],
                 'category' => 'facilities',
                 'hashtags' => ['stem', 'innovation', 'education'],
@@ -934,12 +934,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Cultural Festival Celebrates Diversity at {$branchNames['en']}",
                     'ckb' => "فێستیڤاڵی کولتووری جۆراوجۆری لە {$branchNames['ckb']} دا ئاهەنگ دەگرێت",
-                    'ar' => "المهرجان الثقافي يحتفل بالتنوع في {$branchNames['ar']}",
+                    // 'ar' => "المهرجان الثقافي يحتفل بالتنوع في {$branchNames['ar']}",
                 ],
                 'content' => [
                     'en' => "The {$branchNames['en']} Cultural Festival showcased the rich diversity of our student community through performances, art exhibitions, and traditional food. Students, parents, and staff came together to celebrate the various cultures represented at our school.",
                     'ckb' => "فێستیڤاڵی کولتووری {$branchNames['ckb']} جۆراوجۆری دەوڵەمەندی کۆمەڵگای قوتابیانمانی نیشان دا لە ڕێگەی نمایش، پێشانگای هونەری و خواردنی نەریتی. قوتابیان، دایک و باوک و ستاف پێکەوە کۆبوونەوە بۆ ئاهەنگ گرتنی کولتوورە جیاوازەکانی نوێنەراوە لە قوتابخانەکەمان.",
-                    'ar' => "عرض مهرجان {$branchNames['ar']} الثقافي التنوع الغني لمجتمع طلابنا من خلال العروض والمعارض الفنية والطعام التقليدي. اجتمع الطلاب وأولياء الأمور والموظفون للاحتفال بالثقافات المختلفة الممثلة في مدرستنا.",
+                    // 'ar' => "عرض مهرجان {$branchNames['ar']} الثقافي التنوع الغني لمجتمع طلابنا من خلال العروض والمعارض الفنية والطعام التقليدي. اجتمع الطلاب وأولياء الأمور والموظفون للاحتفال بالثقافات المختلفة الممثلة في مدرستنا.",
                 ],
                 'category' => 'events',
                 'hashtags' => ['culture', 'diversity', 'community'],
@@ -949,12 +949,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Athletic Team Wins Regional Championship",
                     'ckb' => "تیمی وەرزشی قەهرەمانی هەرێمی بەدەست دەهێنێت",
-                    'ar' => "الفريق الرياضي يفوز ببطولة المنطقة",
+                    // 'ar' => "الفريق الرياضي يفوز ببطولة المنطقة",
                 ],
                 'content' => [
                     'en' => "Our {$branchNames['en']} basketball team has won the Regional Championship for the second consecutive year. The team's dedication and teamwork led to an impressive victory against strong competition.",
                     'ckb' => "تیمی تۆپی سەبەتەی {$branchNames['ckb']} قەهرەمانی هەرێمی بۆ دووەم ساڵی پێکەوە بەدەست هێناوە. بەخشندەیی و کاری تیمیی تیمەکە بووە هۆی سەرکەوتنێکی سەرنجڕاکێش بەسەر ڕکابەرانی بەهێز.",
-                    'ar' => "فاز فريق كرة السلة في {$branchNames['ar']} ببطولة المنطقة للعام الثاني على التوالي. أدى تفاني الفريق والعمل الجماعي إلى فوز رائع ضد منافسة قوية.",
+                    // 'ar' => "فاز فريق كرة السلة في {$branchNames['ar']} ببطولة المنطقة للعام الثاني على التوالي. أدى تفاني الفريق والعمل الجماعي إلى فوز رائع ضد منافسة قوية.",
                 ],
                 'category' => 'achievement',
                 'hashtags' => ['sports', 'achievement', 'championship'],
@@ -964,12 +964,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Annual Science Fair Showcases Student Innovation",
                     'ckb' => "پانەری ساڵانەی زانست داهێنانی قوتابیان نیشان دەدات",
-                    'ar' => "معرض العلوم السنوي يعرض ابتكارات الطلاب",
+                    // 'ar' => "معرض العلوم السنوي يعرض ابتكارات الطلاب",
                 ],
                 'content' => [
                     'en' => "The annual Science Fair at {$branchNames['en']} featured over 50 innovative projects from students across all grade levels. Projects ranged from robotics to environmental science, demonstrating the creativity and scientific thinking of our students.",
                     'ckb' => "پانەری ساڵانەی زانست لە {$branchNames['ckb']} دا زیاتر لە 50 پڕۆژەی داهێنەرانە لە قوتابیانی هەموو ئاستە خوێندنەکان پێشکەش کرد. پڕۆژەکان لە ڕۆبۆتیکەوە تا زانستی ژینگە، داهێنان و بیرکردنەوەی زانستی قوتابیانەکانمانی نیشان دا.",
-                    'ar' => "ضم معرض العلوم السنوي في {$branchNames['ar']} أكثر من 50 مشروعًا مبتكرًا من طلاب جميع المستويات الدراسية. تراوحت المشاريع من الروبوتات إلى علوم البيئة، مما يدل على إبداع والتفكير العلمي لطلابنا.",
+                    // 'ar' => "ضم معرض العلوم السنوي في {$branchNames['ar']} أكثر من 50 مشروعًا مبتكرًا من طلاب جميع المستويات الدراسية. تراوحت المشاريع من الروبوتات إلى علوم البيئة، مما يدل على إبداع والتفكير العلمي لطلابنا.",
                 ],
                 'category' => 'events',
                 'hashtags' => ['science', 'innovation', 'student-projects'],
@@ -979,12 +979,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "New Computer Lab with Latest Technology",
                     'ckb' => "تاقیگەی نوێی کۆمپیوتەر بە دوایین تەکنەلۆژیا",
-                    'ar' => "معمل حاسوب جديد بأحدث التقنيات",
+                    // 'ar' => "معمل حاسوب جديد بأحدث التقنيات",
                 ],
                 'content' => [
                     'en' => "We are excited to unveil our new state-of-the-art computer laboratory at {$branchNames['en']}. The lab features 40 high-performance computers, interactive whiteboards, and specialized software for coding and digital design.",
                     'ckb' => "خۆشحاڵین بە ئاشکراکردنی تاقیگە نوێیەکەمانی کۆمپیوتەر بە دوایین تەکنەلۆژیا لە {$branchNames['ckb']}. تاقیگەکە 40 کۆمپیوتەری بە کارایی بەرز، تەختەی سپیی ئینتەراکتیڤ و نەرمەواڵەی تایبەت بۆ کۆدنووسین و دیزاینی دیجیتاڵی تێدایە.",
-                    'ar' => "نحن متحمسون للكشف عن مختبر الحاسوب الجديد المتطور في {$branchNames['ar']}. يحتوي المختبر على 40 حاسوبًا عالي الأداء وسبورات تفاعلية وبرامج متخصصة للبرمجة والتصميم الرقمي.",
+                    // 'ar' => "نحن متحمسون للكشف عن مختبر الحاسوب الجديد المتطور في {$branchNames['ar']}. يحتوي المختبر على 40 حاسوبًا عالي الأداء وسبورات تفاعلية وبرامج متخصصة للبرمجة والتصميم الرقمي.",
                 ],
                 'category' => 'facilities',
                 'hashtags' => ['technology', 'computer-lab', 'education'],
@@ -994,12 +994,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "International Day Brings Global Perspectives",
                     'ckb' => "ڕۆژی نێودەوڵەتی دیدگای جیهانی دەهێنێت",
-                    'ar' => "اليوم الدولي يجلب منظورات عالمية",
+                    // 'ar' => "اليوم الدولي يجلب منظورات عالمية",
                 ],
                 'content' => [
                     'en' => "Students at {$branchNames['en']} celebrated International Day with presentations about different countries, traditional costumes, music performances, and authentic cuisine. This event promotes cultural awareness and global citizenship.",
                     'ckb' => "قوتابیانی {$branchNames['ckb']} ڕۆژی نێودەوڵەتییان بە پێشکەشکردنەکان دەربارەی وڵاتانی جیاواز، جلی نەریتی، نمایشی مۆسیقا و خواردنی ڕەسەن ئاهەنگ گرت. ئەم بۆنەیە هۆشیاری کولتووری و هاووڵاتیێتی جیهانی بەرز دەکاتەوە.",
-                    'ar' => "احتفل الطلاب في {$branchNames['ar']} باليوم الدولي مع عروض تقديمية حول بلدان مختلفة وأزياء تقليدية وعروض موسيقية ومأكولات أصيلة. يعزز هذا الحدث الوعي الثقافي والمواطنة العالمية.",
+                    // 'ar' => "احتفل الطلاب في {$branchNames['ar']} باليوم الدولي مع عروض تقديمية حول بلدان مختلفة وأزياء تقليدية وعروض موسيقية ومأكولات أصيلة. يعزز هذا الحدث الوعي الثقافي والمواطنة العالمية.",
                 ],
                 'category' => 'events',
                 'hashtags' => ['international', 'culture', 'diversity'],
@@ -1009,12 +1009,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Art Exhibition Features Student Masterpieces",
                     'ckb' => "پێشانگای هونەری شاکارەکانی قوتابیان پێشکەش دەکات",
-                    'ar' => "معرض الفن يعرض روائع الطلاب",
+                    // 'ar' => "معرض الفن يعرض روائع الطلاب",
                 ],
                 'content' => [
                     'en' => "The {$branchNames['en']} Art Department proudly presents its annual art exhibition featuring paintings, sculptures, and digital art created by our talented students. The exhibition will be open to the public for two weeks.",
                     'ckb' => "بەشی هونەری {$branchNames['ckb']} بە شانازییەوە پێشانگای هونەری ساڵانەی خۆی پێشکەش دەکات کە تابلۆ، پەیکەر و هونەری دیجیتاڵی دروستکراوی لەلایەن قوتابیانە بەهرەدارەکانمانەوە لەخۆدەگرێت. پێشانگاکە بۆ ماوەی دوو هەفتە کراوەیە بۆ گشتی.",
-                    'ar' => "تقدم إدارة الفنون في {$branchNames['ar']} بفخر معرضها الفني السنوي الذي يضم لوحات ومنحوتات وفن رقمي من إبداع طلابنا الموهوبين. سيكون المعرض مفتوحًا للجمهور لمدة أسبوعين.",
+                    // 'ar' => "تقدم إدارة الفنون في {$branchNames['ar']} بفخر معرضها الفني السنوي الذي يضم لوحات ومنحوتات وفن رقمي من إبداع طلابنا الموهوبين. سيكون المعرض مفتوحًا للجمهور لمدة أسبوعين.",
                 ],
                 'category' => 'events',
                 'hashtags' => ['art', 'exhibition', 'creativity'],
@@ -1024,12 +1024,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Student Council Launches Community Service Project",
                     'ckb' => "ئەنجومەنی قوتابیان پڕۆژەی خزمەتگوزاری کۆمەڵایەتی دەستپێدەکات",
-                    'ar' => "مجلس الطلاب يطلق مشروع خدمة المجتمع",
+                   // 'ar' => "مجلس الطلاب يطلق مشروع خدمة المجتمع",
                 ],
                 'content' => [
                     'en' => "The Student Council at {$branchNames['en']} has initiated a community service project to support local charities and environmental conservation. Students will participate in volunteer activities throughout the semester.",
                     'ckb' => "ئەنجومەنی قوتابیان لە {$branchNames['ckb']} پڕۆژەیەکی خزمەتگوزاری کۆمەڵایەتی دەستپێکردووە بۆ پشتگیری ڕێکخراوە خێرخوازەکانی ناوخۆیی و پاراستنی ژینگە. قوتابیان لە چالاکییەکانی خۆبەخشانە بەژداری دەکەن لە تەواوی وەرزەکەدا.",
-                    'ar' => "أطلق مجلس الطلاب في {$branchNames['ar']} مشروع خدمة مجتمعية لدعم الجمعيات الخيرية المحلية والحفاظ على البيئة. سيشارك الطلاب في أنشطة تطوعية طوال الفصل الدراسي.",
+                    // 'ar' => "أطلق مجلس الطلاب في {$branchNames['ar']} مشروع خدمة مجتمعية لدعم الجمعيات الخيرية المحلية والحفاظ على البيئة. سيشارك الطلاب في أنشطة تطوعية طوال الفصل الدراسي.",
                 ],
                 'category' => 'activities',
                 'hashtags' => ['community', 'volunteer', 'student-council'],
@@ -1039,12 +1039,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Music Department Performs Spring Concert",
                     'ckb' => "بەشی مۆسیقا کۆنسێرتی بەهار پێشکەش دەکات",
-                    'ar' => "قسم الموسيقى يقدم حفل الربيع",
+                   // 'ar' => "قسم الموسيقى يقدم حفل الربيع",
                 ],
                 'content' => [
                     'en' => "The {$branchNames['en']} Music Department will present its Spring Concert featuring performances from the school orchestra, choir, and individual musicians. The concert showcases the musical talents developed throughout the year.",
                     'ckb' => "بەشی مۆسیقای {$branchNames['ckb']} کۆنسێرتی بەهاری خۆی پێشکەش دەکات کە نمایشەکانی ئۆرکێسترای قوتابخانە، گرووپی کۆرال و مۆسیقاژەنە تاکەکەسەکانی تێدایە. کۆنسێرتەکە بەهرە مۆسیقییەکانی گەشەپێدراو لە درێژایی ساڵدا نیشان دەدات.",
-                    'ar' => "سيقدم قسم الموسيقى في {$branchNames['ar']} حفل الربيع الذي يتضمن عروضًا من أوركسترا المدرسة والجوقة والموسيقيين الفرديين. يعرض الحفل المواهب الموسيقية المطورة على مدار العام.",
+                    // 'ar' => "سيقدم قسم الموسيقى في {$branchNames['ar']} حفل الربيع الذي يتضمن عروضًا من أوركسترا المدرسة والجوقة والموسيقيين الفرديين. يعرض الحفل المواهب الموسيقية المطورة على مدار العام.",
                 ],
                 'category' => 'events',
                 'hashtags' => ['music', 'concert', 'performance'],
@@ -1054,12 +1054,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Debate Team Secures First Place at Regional Tournament",
                     'ckb' => "تیمی مناظرە شوێنی یەکەم لە تۆرنامێنتی هەرێمی دا بەدەست دەهێنێت",
-                    'ar' => "فريق المناظرة يحصل على المركز الأول في البطولة الإقليمية",
+                   // 'ar' => "فريق المناظرة يحصل على المركز الأول في البطولة الإقليمية",
                 ],
                 'content' => [
                     'en' => "Our debate team from {$branchNames['en']} has won first place at the Regional Debate Tournament. The team impressed judges with their critical thinking, research skills, and eloquent arguments on various topics.",
                     'ckb' => "تیمی مناظرەکەمان لە {$branchNames['ckb']} شوێنی یەکەمی لە تۆرنامێنتی مناظرەی هەرێمی دا بەدەست هێناوە. تیمەکە دادوەرەکانی سەرسام کردن بە بیرکردنەوەی ڕەخنەیی، لێهاتوویی توێژینەوە و ئارگیومێنتە لاوەکانیان لەسەر بابەتە جیاوازەکان.",
-                    'ar' => "فاز فريق المناظرة من {$branchNames['ar']} بالمركز الأول في بطولة المناظرة الإقليمية. أبهر الفريق الحكام بتفكيرهم النقدي ومهارات البحث والحجج البليغة حول مواضيع مختلفة.",
+                   // 'ar' => "فاز فريق المناظرة من {$branchNames['ar']} بالمركز الأول في بطولة المناظرة الإقليمية. أبهر الفريق الحكام بتفكيرهم النقدي ومهارات البحث والحجج البليغة حول مواضيع مختلفة.",
                 ],
                 'category' => 'achievement',
                 'hashtags' => ['debate', 'achievement', 'competition'],
@@ -1069,12 +1069,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Environmental Club Plants 500 Trees",
                     'ckb' => "کلووبی ژینگە 500 دار دەچێنێت",
-                    'ar' => "نادي البيئة يزرع 500 شجرة",
+                  //  'ar' => "نادي البيئة يزرع 500 شجرة",
                 ],
                 'content' => [
                     'en' => "The Environmental Club at {$branchNames['en']} successfully completed a tree-planting initiative, adding 500 native trees to local parks and green spaces. This project supports biodiversity and combats climate change.",
                     'ckb' => "کلووبی ژینگە لە {$branchNames['ckb']} بە سەرکەوتوویی دەستپێشخەری چاندنی دار تەواو کردووە، 500 داری ڕەسەن زیاد کردووەتە پارکە ناوخۆییەکان و شوێنە سەوزەکان. ئەم پڕۆژەیە پشتگیری جۆراوجۆری ژیانداری دەکات و دژی گۆڕانی کەشوهەوا دەکات.",
-                    'ar' => "أكمل نادي البيئة في {$branchNames['ar']} بنجاح مبادرة زراعة الأشجار، مضيفًا 500 شجرة محلية إلى الحدائق والمساحات الخضراء المحلية. يدعم هذا المشروع التنوع البيولوجي ويكافح تغير المناخ.",
+                  //  'ar' => "أكمل نادي البيئة في {$branchNames['ar']} بنجاح مبادرة زراعة الأشجار، مضيفًا 500 شجرة محلية إلى الحدائق والمساحات الخضراء المحلية. يدعم هذا المشروع التنوع البيولوجي ويكافح تغير المناخ.",
                 ],
                 'category' => 'activities',
                 'hashtags' => ['environment', 'sustainability', 'community'],
@@ -1084,12 +1084,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Robotics Team Advances to National Finals",
                     'ckb' => "تیمی ڕۆبۆتیک بەرەو یاری کۆتایی نیشتمانی پێش دەکەوێت",
-                    'ar' => "فريق الروبوتات يتقدم إلى النهائيات الوطنية",
+                   // 'ar' => "فريق الروبوتات يتقدم إلى النهائيات الوطنية",
                 ],
                 'content' => [
                     'en' => "Our robotics team from {$branchNames['en']} has qualified for the National Robotics Championship after winning the regional competition. The team designed and programmed an innovative robot that solved complex challenges.",
                     'ckb' => "تیمی ڕۆبۆتیکەکەمان لە {$branchNames['ckb']} شایستەی قەهرەمانی ڕۆبۆتیکی نیشتمانی بووە دوای بردنەوەی ڕکابەری هەرێمی. تیمەکە ڕۆبۆتێکی داهێنەرانەی دیزاین کردووە و بەرنامەی بۆ نووسیووە کە تەحەداکانی ئاڵۆز چارەسەر کردووە.",
-                    'ar' => "تأهل فريق الروبوتات من {$branchNames['ar']} لبطولة الروبوتات الوطنية بعد الفوز بالمسابقة الإقليمية. صمم الفريق وبرمج روبوتًا مبتكرًا حل تحديات معقدة.",
+                   // 'ar' => "تأهل فريق الروبوتات من {$branchNames['ar']} لبطولة الروبوتات الوطنية بعد الفوز بالمسابقة الإقليمية. صمم الفريق وبرمج روبوتًا مبتكرًا حل تحديات معقدة.",
                 ],
                 'category' => 'achievement',
                 'hashtags' => ['robotics', 'stem', 'competition'],
@@ -1099,12 +1099,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "New Sports Complex Opens with Modern Facilities",
                     'ckb' => "کۆمپلێکسی نوێی وەرزش بە ئامێرە مۆدێرنەکان دەکرێتەوە",
-                    'ar' => "افتتاح مجمع رياضي جديد بمرافق حديثة",
+                   // 'ar' => "افتتاح مجمع رياضي جديد بمرافق حديثة",
                 ],
                 'content' => [
                     'en' => "The new sports complex at {$branchNames['en']} features an Olympic-size swimming pool, indoor basketball courts, a fitness center, and outdoor athletic fields. These facilities will enhance our physical education program.",
                     'ckb' => "کۆمپلێکسی نوێی وەرزش لە {$branchNames['ckb']} مەلەوانگەیەکی قەبارەی ئۆلۆمپی، یاریگای تۆپی سەبەتەی ژوورەوە، ناوەندێکی تەندروستی و یاریگای وەرزشی دەرەوەی لەخۆدەگرێت. ئەم ئامێرانە بەرنامەی پەروەردەی جەستەیی بەرز دەکەنەوە.",
-                    'ar' => "يحتوي المجمع الرياضي الجديد في {$branchNames['ar']} على مسبح بحجم أولمبي وملاعب كرة سلة داخلية ومركز للياقة البدنية وملاعب رياضية خارجية. ستعزز هذه المرافق برنامج التربية البدنية لدينا.",
+                   // 'ar' => "يحتوي المجمع الرياضي الجديد في {$branchNames['ar']} على مسبح بحجم أولمبي وملاعب كرة سلة داخلية ومركز للياقة البدنية وملاعب رياضية خارجية. ستعزز هذه المرافق برنامج التربية البدنية لدينا.",
                 ],
                 'category' => 'facilities',
                 'hashtags' => ['sports', 'facilities', 'fitness'],
@@ -1114,12 +1114,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Drama Club Presents Award-Winning Play",
                     'ckb' => "کلووبی دراما شانۆیەکی خەڵاتوەرگیراو پێشکەش دەکات",
-                    'ar' => "نادي الدراما يقدم مسرحية حائزة على جوائز",
+                   // 'ar' => "نادي الدراما يقدم مسرحية حائزة على جوائز",
                 ],
                 'content' => [
                     'en' => "The Drama Club at {$branchNames['en']} will perform an adapted version of a classic play. Under the direction of our experienced drama teacher, students have been rehearsing for months to deliver an exceptional performance.",
                     'ckb' => "کلووبی دراما لە {$branchNames['ckb']} وەشانێکی گونجاوی شانۆیەکی کلاسیکی پێشکەش دەکات. لەژێر سەرپەرشتی مامۆستای دراما بەئەزموونەکەماندا، قوتابیان بۆ ماوەی مانگان ڕاهێنانیان کردووە بۆ پێشکەشکردنی نمایشێکی نایاب.",
-                    'ar' => "سيقدم نادي الدراما في {$branchNames['ar']} نسخة معدلة من مسرحية كلاسيكية. تحت إشراف معلم الدراما ذي الخبرة، يتدرب الطلاب لأشهر لتقديم أداء استثنائي.",
+                   // 'ar' => "سيقدم نادي الدراما في {$branchNames['ar']} نسخة معدلة من مسرحية كلاسيكية. تحت إشراف معلم الدراما ذي الخبرة، يتدرب الطلاب لأشهر لتقديم أداء استثنائي.",
                 ],
                 'category' => 'events',
                 'hashtags' => ['drama', 'theater', 'performance'],
@@ -1129,12 +1129,12 @@ class FrontendPagesSeeder extends Seeder
                 'title' => [
                     'en' => "Reading Challenge Encourages Literary Excellence",
                     'ckb' => "تەحەدای خوێندنەوە نموونەی ئەدەبی هاندەدات",
-                    'ar' => "تحدي القراءة يشجع التميز الأدبي",
+                   // 'ar' => "تحدي القراءة يشجع التميز الأدبي",
                 ],
                 'content' => [
                     'en' => "Students at {$branchNames['en']} are participating in the annual Reading Challenge, aiming to read 100 books collectively. The library has expanded its collection to support this initiative and foster a love for reading.",
                     'ckb' => "قوتابیانی {$branchNames['ckb']} بەژداری تەحەدای ساڵانەی خوێندنەوە دەکەن، ئامانجیان خوێندنەوەی 100 کتێبە بە کۆمەڵ. کتێبخانەکە کۆکراوەکەی فراوان کردووە بۆ پشتگیری ئەم دەستپێشخەرییە و گەشەپێدانی خۆشەویستی بۆ خوێندنەوە.",
-                    'ar' => "يشارك الطلاب في {$branchNames['ar']} في تحدي القراءة السنوي، بهدف قراءة 100 كتاب بشكل جماعي. وسعت المكتبة مجموعتها لدعم هذه المبادرة وتعزيز حب القراءة.",
+                   // 'ar' => "يشارك الطلاب في {$branchNames['ar']} في تحدي القراءة السنوي، بهدف قراءة 100 كتاب بشكل جماعي. وسعت المكتبة مجموعتها لدعم هذه المبادرة وتعزيز حب القراءة.",
                 ],
                 'category' => 'activities',
                 'hashtags' => ['reading', 'literature', 'library'],
@@ -1152,7 +1152,7 @@ class FrontendPagesSeeder extends Seeder
 
             $newsArticle = News::updateOrCreate(
                 array_merge($item, [
-                    'user_id' => $user->id, 
+                    'user_id' => $user->id,
                     'branch_id' => $branch->id,
                     'news_category_id' => $categoryId
                 ])
@@ -1175,7 +1175,7 @@ class FrontendPagesSeeder extends Seeder
     private function seedGallery($user, $branch)
     {
         $branchNames = $branch->getTranslations('name');
-        
+
         // Get gallery categories by slug
         $campusCategory = \App\Models\Pages\GalleryCategory::where('slug', 'campus-life')->first();
         $labCategory = \App\Models\Pages\GalleryCategory::where('slug', 'laboratories')->first();
@@ -1225,7 +1225,7 @@ class FrontendPagesSeeder extends Seeder
                 'order' => 6,
                 'is_active' => true,
             ],
-            
+
             // Laboratories Category (6 items)
             [
                 'title' => ['en' => 'STEM Lab Highlights', 'ckb' => 'هەڵسەنگاندنەکانی تاقیگەی STEM', 'ar' => 'معالم مختبر STEM'],
@@ -1269,7 +1269,7 @@ class FrontendPagesSeeder extends Seeder
                 'order' => 12,
                 'is_active' => true,
             ],
-            
+
             // Cultural Events Category (6 items)
             [
                 'title' => ['en' => 'Cultural Events', 'ckb' => 'ڕووداوە کەلتوورییەکان', 'ar' => 'الفعاليات الثقافية'],
@@ -1320,12 +1320,12 @@ class FrontendPagesSeeder extends Seeder
                 'user_id' => $user->id,
                 'branch_id' => $branch->id,
             ]));
-            
+
             // Add images to gallery items
             // Using placeholder images (1-8 cycling through available media images)
             $imageNumber = ($index % 8) + 1;
             $imagePath = public_path("img/media/{$imageNumber}.jpg");
-            
+
             if (file_exists($imagePath)) {
                 $gallery->addMedia($imagePath)
                     ->preservingOriginal()

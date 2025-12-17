@@ -185,6 +185,27 @@ class DatabaseSeeder extends Seeder
                 'slug' => 'admission',
                 'description' => 'Manage admission page settings and content',
             ],
+            [
+                'name' => 'products',
+                'slug' => 'products',
+                'description' => 'Manage products page settings and content',
+            ],
+            [
+                'name' => 'services',
+                'slug' => 'services',
+                'description' => 'Manage services page settings and content',
+            ],
+            [
+                'name' => 'clients',
+                'slug' => 'clients',
+                'description' => 'Manage clients page settings and content',
+            ],
+            [
+                'name' => 'hostings',
+                'slug' => 'hostings',
+                'description' => 'Manage hostings page settings and content',
+            ],
+
         ];
 
         foreach ($permissionsData as $permissionData) {

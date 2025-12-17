@@ -23,7 +23,7 @@ export default {
         '4xl': '160rem', // 2560px
       },
       colors: {
-        'f-primary': 'var(--color-f-primary, #0028DF)',
+        'f-primary': '#0E0E0E',
         'f-secondary': '#CE8440',
         primary: {
           DEFAULT: '#4361ee',
@@ -72,10 +72,10 @@ export default {
         },
       },
       fontFamily: {
-        nunito: ['Jost', 'Rabar', 'sans-serif'],
-        mont: ['Montserrat', 'Rabar', 'sans-serif'],
-        audi: ['Audiowide'],
-        allerta: ['Allerta Stencil'],
+        nunito: ['Nunito', 'Rabar', 'sans-serif'],
+        'mont': ['Montserrat'],
+        'audi': ['Audiowide'],
+        'allerta': ['Allerta Stencil'],
       },
       spacing: {
         4.5: '18px',

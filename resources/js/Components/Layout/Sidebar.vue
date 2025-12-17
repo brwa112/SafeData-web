@@ -30,7 +30,7 @@
 
                         <li class="nav-item">
                             <ul>
-                                <li v-if="$can('view_news')" class="nav-item">
+                                <!-- <li v-if="$can('view_news')" class="nav-item">
                                     <Link :href="route('control.pages.news.index')" class="nav-link group w-full"
                                         :class="{ active: $page.component === 'Pages/News/Index' }">
                                         <div class="flex items-center">
@@ -94,10 +94,58 @@
                                             </span>
                                         </div>
                                     </Link>
+                                </li> -->
+                                <li v-if="$can('view_services')" class="nav-item">
+                                    <Link :href="route('control.pages.services.index')" class="nav-link group w-full"
+                                        :class="{ active: $page.component === 'Pages/Service/Index' }">
+                                        <div class="flex items-center">
+                                            <Svg name="service" class="size-5"></Svg>
+                                            <span
+                                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-gray-300 dark:group-hover:text-gray-200">
+                                                {{ $t('nav.services') }}
+                                            </span>
+                                        </div>
+                                    </Link>
                                 </li>
+                                <li v-if="$can('view_products')" class="nav-item">
+                                    <Link :href="route('control.pages.products.index')" class="nav-link group w-full"
+                                        :class="{ active: $page.component === 'Pages/Product/Index' }">
+                                        <div class="flex items-center">
+                                            <Svg name="box" class="size-5"></Svg>
+                                            <span
+                                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-gray-300 dark:group-hover:text-gray-200">
+                                                {{ $t('nav.products') }}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                </li>
+                                <li v-if="$can('view_hostings')" class="nav-item">
+                                    <Link :href="route('control.pages.hostings.index')" class="nav-link group w-full"
+                                        :class="{ active: $page.component === 'Pages/Hosting/Index' }">
+                                        <div class="flex items-center">
+                                            <Svg name="box" class="size-5"></Svg>
+                                            <span
+                                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-gray-300 dark:group-hover:text-gray-200">
+                                                {{ $t('nav.hostings') }}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                </li>
+                                <li v-if="$can('view_clients')" class="nav-item">
+                                    <Link :href="route('control.pages.clients.index')" class="nav-link group w-full"
+                                        :class="{ active: $page.component === 'Pages/Client/Index' }">
+                                        <div class="flex items-center">
+                                            <Svg name="user" class="size-5"></Svg>
+                                            <span
+                                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-gray-300 dark:group-hover:text-gray-200">
+                                                {{ $t('nav.clients') }}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                </li>
+
                             </ul>
                         </li>
-
                         <h2 v-if="$can('view_users')"
                             class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                             <Svg name="line" class="w-4 h-5"></Svg>

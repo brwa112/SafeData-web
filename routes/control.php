@@ -1,32 +1,36 @@
 <?php
 
-use App\Http\Controllers\System\Users\UserController;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pages\NewsController;
-use App\Http\Controllers\Pages\NewsCategoryController;
-use App\Http\Controllers\Pages\HashtagController;
-use App\Http\Controllers\Pages\GalleryCategoryController;
 use App\Http\Controllers\Pages\BranchController;
 use App\Http\Controllers\Pages\CampusController;
+use App\Http\Controllers\Pages\ClientController;
+use App\Http\Controllers\Pages\HashtagController;
+use App\Http\Controllers\Pages\HostingController;
+use App\Http\Controllers\Pages\ProductController;
+use App\Http\Controllers\Pages\ServiceController;
 use App\Http\Controllers\Pages\ClassroomController;
 use App\Http\Controllers\Profile\ProfileController;
-use App\Http\Controllers\System\Settings\Pages\AboutController;
-use App\Http\Controllers\System\Settings\Pages\AcademicController;
-use App\Http\Controllers\System\Settings\Pages\AdmissionController;
-use App\Http\Controllers\System\Settings\Pages\CalendarController;
-use App\Http\Controllers\System\Settings\Pages\HomeController;
-use App\Http\Controllers\System\Users\PermissionController;
-use App\Http\Controllers\System\Users\RoleController;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use App\Http\Controllers\System\Settings\Settings\LogController;
-use App\Http\Controllers\System\Settings\Settings\TranslationsController;
-use App\Http\Controllers\System\Settings\Settings\KeyLanguageController;
-use App\Http\Controllers\System\Settings\Settings\LanguageController;
-use App\Http\Controllers\System\Settings\Settings\ThemeController;
-use App\Http\Controllers\System\Settings\Settings\ImportExportController;
-use App\Http\Controllers\System\Settings\Settings\SyncTranslationController;
-use App\Http\Controllers\System\Settings\Settings\GroupPermissionController;
 use App\Http\Controllers\Analytics\VisitorController;
+use App\Http\Controllers\System\Users\RoleController;
+use App\Http\Controllers\System\Users\UserController;
+use App\Http\Controllers\Pages\NewsCategoryController;
+use App\Http\Controllers\Pages\GalleryCategoryController;
+use App\Http\Controllers\System\Users\PermissionController;
+use App\Http\Controllers\System\Settings\Pages\HomeController;
+use App\Http\Controllers\System\Settings\Pages\AboutController;
+use App\Http\Controllers\System\Settings\Settings\LogController;
+use App\Http\Controllers\System\Settings\Pages\AcademicController;
+use App\Http\Controllers\System\Settings\Pages\CalendarController;
+use App\Http\Controllers\System\Settings\Settings\ThemeController;
+use App\Http\Controllers\System\Settings\Pages\AdmissionController;
+use App\Http\Controllers\System\Settings\Settings\LanguageController;
+use App\Http\Controllers\System\Settings\Settings\KeyLanguageController;
+use App\Http\Controllers\System\Settings\Settings\ImportExportController;
+use App\Http\Controllers\System\Settings\Settings\TranslationsController;
+use App\Http\Controllers\System\Settings\Settings\GroupPermissionController;
+use App\Http\Controllers\System\Settings\Settings\SyncTranslationController;
 
 // if (app()->isProduction()) {
 //     URL::forceScheme('https');
@@ -47,7 +51,15 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('pages')->as('pages.')->group(function () {
-
+        Route::resource('services', ServiceController::class);
+        Route::resource('products', ProductController::class);
+        Route::resource('hostings', HostingController::class);
+        Route::prefix('clients')->as('clients.')->group(function () {
+            Route::get('/', [ClientController::class, 'index'])->name('index');
+            Route::post('/', [ClientController::class, 'store'])->name('store');
+            Route::post('/{client}', [ClientController::class, 'update'])->name('update');
+            Route::delete('/{client}', [ClientController::class, 'destroy'])->name('destroy');
+        });
         Route::prefix('news')->as('news.')->group(function () {
             Route::get('/', [NewsController::class, 'index'])->name('index');
             Route::post('/', [NewsController::class, 'store'])->name('store');
