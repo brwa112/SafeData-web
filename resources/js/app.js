@@ -33,7 +33,8 @@ const app = createApp({});
 const appName = import.meta.env.VITE_APP_NAME || 'KurdGenius';
 
 const { el, App, props, plugin } = createInertiaApp({
-  title: (title) => `${title ? title + ' - ' : ''}${appName}`,
+  // title: (title) => `${title ? title + ' - ' : ''}${appName}`,
+  title: (title) => `${title ? title + '' : ''}`,
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
     const page = pages[`./Pages/${name}.vue`];
