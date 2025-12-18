@@ -61,6 +61,7 @@
                                             <form @submit.prevent="save()" v-shortkey="['ctrl', 's']" @shortkey="save"
                                                 class="space-y-5">
                                                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm">
+                                                    <!-- Name -->
                                                     <div class="col-span-full">
                                                         <label for="name">
                                                             {{ $t('common.name') }}
@@ -72,6 +73,8 @@
                                                             v-html="form.errors.name">
                                                         </div>
                                                     </div>
+
+                                                    <!-- Description -->
                                                     <div class="col-span-full">
                                                         <label for="description">
                                                             {{ $t('common.description') }}
@@ -85,6 +88,8 @@
                                                             v-html="form.errors.description">
                                                         </div>
                                                     </div>
+
+                                                    <!-- Icon -->
                                                     <div class="col-span-full">
                                                         <label for="icon">
                                                             {{ $t('pages.icon') }}
@@ -96,6 +101,18 @@
                                                             v-html="form.errors.icon">
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-span-full">
+                                                        <label for="logo">
+                                                            {{ $t('pages.logo') }}
+                                                        </label>
+                                                        <ImageUplaod v-model="logoForm.logo" v-model:form="logoForm" />
+                                                        <!-- <image-upload /> -->
+                                                        <div class="mt-1 text-danger" v-if="form.errors.logo"
+                                                            v-html="form.errors.logo">
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                                 <div class="flex justify-end items-center mt-5">
                                                     <button @click="toggleModal()" type="button"
@@ -130,9 +147,9 @@
                     <template #user="data">
                         <Link class="flex items-center gap-2 text-center"
                             :href="route('control.system.users.edit', data.value.user.id)">
-                        <img :src="data.value.user.avatar ? data.value.user.avatar : `/assets/images/avatar.png`"
-                            class="w-9 h-9 rounded-full max-w-none" alt="user-profile" />
-                        <div class="text-[15px] font-bold">{{ data.value.user.name }}</div>
+                            <img :src="data.value.user.avatar ? data.value.user.avatar : `/assets/images/avatar.png`"
+                                class="w-9 h-9 rounded-full max-w-none" alt="user-profile" />
+                            <div class="text-[15px] font-bold">{{ data.value.user.name }}</div>
                         </Link>
                     </template>
 
@@ -140,6 +157,14 @@
                         <div class="truncate max-w-96">
                             {{ data.value.description }}
                         </div>
+                    </template>
+
+                    <template #logo="data">
+                        <button type="button" @click="showImage(data.value.logo)"
+                            class="flex items-center gap-2 text-center">
+                            <img :src="data.value.logo ? data.value.logo : `/assets/images/avatar.png`"
+                                class="size-10 rounded-md max-w-none" alt="user-profile" />
+                        </button>
                     </template>
 
                     <template #updated_at="data">
@@ -189,11 +214,18 @@ import Svg from '@/Components/Svg.vue';
 import Spinner from '@/Components/Spinner.vue';
 import Datatable from '@/Components/Datatable.vue';
 import { initializeFilters, useFilters, updateFilters, resetFilters, doesFilterApplied } from '@/Plugins/FiltersPlugin';
+import ImageUplaod from '@/Components/Inputs/ImageUpload.vue';
+
 
 const props = defineProps([
     'services',
     'filter',
 ]);
+
+const items = ref([]);
+const index = ref(null);
+const allcontrols = ref(true);
+const visible = ref(false);
 
 const rtlClass = inject('rtlClass');
 const $helpers = inject('helpers');
@@ -213,15 +245,41 @@ const apply_filter = () => {
     });
 };
 
+const showImage = (src) => {
+    items.value = [
+        {
+            src: src,
+        },
+    ];
+    index.value = 0;
+    visible.value = true;
+};
+
 let form = useForm({
     id: '',
     name: '',
     description: '',
     icon: '',
+    logo: null,
+    remove_logo: false,
     user_id: usePage().props.auth.user.id,
 });
 
+
+const logoForm = ref({});
+
+watch(logoForm.value, (newValue) => {
+    form.logo = newValue.logo;
+    form.remove_logo = newValue.remove_logo;
+});
+
 const save = () => {
+
+    // Handle logo upload/removal
+    if (logoForm?.value) {
+        form.logo = logoForm.value.logo instanceof File ? logoForm.value.logo : null;
+        form.remove_logo = logoForm.value.remove_logo;
+    }
 
     if (form?.id) {
         form.put(route('control.pages.services.update', form), {
@@ -242,15 +300,21 @@ const save = () => {
 }
 
 const toggleModal = (row) => {
-
     if (row) {
         form = useForm({
             id: row.id,
             name: row.name,
             description: row.description,
             icon: row.icon,
+            logo: '',
+            remove_logo: false,
             user_id: row.user.id,
         });
+        // logo.value = row.logo;
+        logoForm.value = {
+            logo: row.logo,
+            remove_logo: false,
+        };
     }
     showModal.value = !showModal.value;
 
@@ -259,8 +323,15 @@ const toggleModal = (row) => {
             name: '',
             description: '',
             icon: '',
+            logo: null,
+            remove_logo: false,
             user_id: usePage().props.auth.user.id,
         });
+
+        logoForm.value = {
+            logo: '',
+            remove_logo: false,
+        }
     }
 };
 
@@ -286,6 +357,11 @@ const columns =
         {
             field: 'description',
             title: wTrans('common.description'),
+            sort: false,
+        },
+        {
+            field: 'logo',
+            title: wTrans('pages.logo'),
             sort: false,
         },
         {

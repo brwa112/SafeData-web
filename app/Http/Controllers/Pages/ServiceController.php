@@ -40,7 +40,14 @@ class ServiceController extends Controller
     {
         $this->authorize('create', Service::class);
 
-        Service::create($request->validated());
+        $service = Service::create($request->validated());
+
+        if ($request->hasFile('logo')) {
+            $service->clearMediaCollection('logo');
+            $service->addMediaFromRequest('logo')->preservingOriginal()->toMediaCollection('logo');
+        } elseif ($request->input('remove_logo')) {
+            $service->clearMediaCollection('logo');
+        }
     }
 
     public function update(ServiceRequest $request, Service $service)
@@ -48,6 +55,13 @@ class ServiceController extends Controller
         $this->authorize('update', $service);
 
         $service->update($request->validated());
+
+        if ($request->hasFile('logo')) {
+            $service->clearMediaCollection('logo');
+            $service->addMediaFromRequest('logo')->preservingOriginal()->toMediaCollection('logo');
+        } elseif ($request->input('remove_logo')) {
+            $service->clearMediaCollection('logo');
+        }
     }
 
     public function destroy(Service $service)
