@@ -15,6 +15,8 @@ use App\Policies\ThemesPolicy;
 use App\Policies\HostingPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\ServicePolicy;
+use App\Policies\SettingPolicy;
+use App\Models\Pages\SocialLink;
 use App\Models\System\Users\User;
 use App\Policies\PermissionPolicy;
 use App\Models\System\Users\Permission;
@@ -35,6 +37,7 @@ class AuthServiceProvider extends ServiceProvider
         Product::class => ProductPolicy::class,
         Hosting::class => HostingPolicy::class,
         Client::class => ClientPolicy::class,
+        SocialLink::class => SettingPolicy::class,
     ];
 
     public function boot(): void

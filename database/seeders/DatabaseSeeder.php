@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         // DB::transaction(function () {
             $user = $this->createTestUser();
             // user types removed: createUserTypes() skipped
-            $this->createPermissions($user);
+            // $this->createPermissions($user);
             $this->callAdditionalSeeders();
             $this->createUserSettings($user);
             $this->createDeveloperUser();
@@ -94,99 +94,7 @@ class DatabaseSeeder extends Seeder
         $this->createUserSettings($user);
     }
 
-    private function createPermissions(User $user): void
-    {
-        $permissionsData = [
-            [
-                'name' => 'dashboard',
-                'slug' => 'dashboard',
-                'description' => 'Access to the main dashboard',
-            ],
-            [
-                'name' => 'users',
-                'slug' => 'users',
-                'description' => 'Manage users and their permissions',
-            ],
-            [
-                'name' => 'permissions',
-                'slug' => 'permissions',
-                'description' => 'System settings and configurations',
-            ],
-            [
-                'name' => 'group_permissions',
-                'slug' => 'group-permissions',
-                'description' => 'System settings and configurations',
-            ],
-            [
-                'name' => 'languages',
-                'slug' => 'languages',
-            ],
-            [
-                'name' => 'keys',
-                'slug' => 'keys',
-                'description' => 'Custom permissions for specific use cases',
-            ],
-            [
-                'name' => 'translations',
-                'slug' => 'translations',
-                'description' => 'Manage translations for the application',
-            ],
-            [
-                'name' => 'themes',
-                'slug' => 'themes',
-                'description' => 'Manage themes for the application',
-            ],
-            [
-                'name' => 'logs',
-                'slug' => 'logs',
-                'description' => 'View system logs and activities',
-            ],
-            [
-                'name' => 'roles',
-                'slug' => 'roles',
-                'description' => 'Manage roles and their permissions',
-            ],
-            [
-                'name' => 'products',
-                'slug' => 'products',
-                'description' => 'Manage products page settings and content',
-            ],
-            [
-                'name' => 'services',
-                'slug' => 'services',
-                'description' => 'Manage services page settings and content',
-            ],
-            [
-                'name' => 'clients',
-                'slug' => 'clients',
-                'description' => 'Manage clients page settings and content',
-            ],
-            [
-                'name' => 'hostings',
-                'slug' => 'hostings',
-                'description' => 'Manage hostings page settings and content',
-            ],
-            [
-                'name' => 'settings',
-                'slug' => 'settings',
-                'description' => 'Manage settings page settings and content',
-            ],
 
-
-        ];
-
-        foreach ($permissionsData as $permissionData) {
-            GroupPermission::firstOrCreate(
-                [
-                    'name' => $permissionData['name'],
-                    'slug' => $permissionData['slug'],
-                    'description' => $permissionData['description'] ?? null,
-                    'user_id' => $user->id,
-                ],
-                array_merge($permissionData, ['user_id' => $user->id])
-            );
-        }
-    }
 
     private function createUserSettings(User $user): void
     {
