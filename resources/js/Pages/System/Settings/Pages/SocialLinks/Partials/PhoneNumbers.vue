@@ -22,9 +22,13 @@
                 <li v-if="phoneNumbersList.length > 0" v-for="(number, index) in phoneNumbersList" :key="index"
                     class="flex items-center justify-between p-2 border border-gray-200 dark:border-gray-700 rounded">
                     <span>{{ number.phone_number }}</span>
-                    <button @click="callDelete(number.id)" class="text-danger text-sm">
-                        {{ $t('common.delete') }}
-                    </button>
+                 
+                    <div class="text-center">
+                        <button type="button" v-tippy @click="callDelete(number.id)">
+                            <Svg name="trash" class="size-5"></Svg>
+                        </button>
+                        <tippy>{{ $t('common.delete') }}</tippy>
+                    </div>
                 </li>
                 <li v-if="phoneNumbersList.length === 0">
                     <span class="text-gray-500">
