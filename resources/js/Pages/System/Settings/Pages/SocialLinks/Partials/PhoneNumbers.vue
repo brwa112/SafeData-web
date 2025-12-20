@@ -41,14 +41,14 @@
                         {{ number.phone_number }}
                     </div>
                     <button type="button" @click="editPhoneNumber(number)"
-                        class="btn btn-warning btn-sm h-[38px] w-[38px] flex items-center justify-center"
+                        class="btn btn-primary btn-sm h-[38px] w-[38px] flex items-center justify-center"
                         :disabled="phoneForm.processing" v-tippy="$t('common.edit')">
-                        <Svg name="pencil" class="size-4"></Svg>
+                        <Svg name="pencil" class="size-5"></Svg>
                     </button>
                     <button type="button" @click="callDelete(number.id)"
                         class="btn btn-danger btn-sm h-[38px] w-[38px] flex items-center justify-center"
                         :disabled="phoneForm.processing" v-tippy="$t('common.delete')">
-                        <Svg name="trash" class="size-4"></Svg>
+                        <Svg name="trash" class="size-5"></Svg>
                     </button>
                 </li>
 
