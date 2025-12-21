@@ -28,12 +28,12 @@ class DatabaseSeeder extends Seeder
         // DB::transaction(function () {
         $user = $this->createTestUser();
         // user types removed: createUserTypes() skipped
-        $this->createPermissions($user);
+        // $this->createPermissions($user);
         $this->callAdditionalSeeders();
         $this->createUserSettings($user);
         $this->createDeveloperUser();
         $this->createTheme($user);
-        $this->createSocialLink();
+        $this->createSocialLinks();
     }
 
     private function createTheme($user): void
@@ -51,8 +51,8 @@ class DatabaseSeeder extends Seeder
         $links = [
             'facebook' => 'https://www.facebook.com/safedatacompany',
             'telegram' => 'https://www.instagram.com/safedatacompany?igsh=MThvbmM4Zm80MDJ4eg==',
-            'email' => 'https://linkedin.com/',
-            'instagram' => 'info@safedatait.com',
+            'email' => 'info@safedatait.com',
+            'instagram' => 'https://www.instagram.com/safedatacompany?igsh=MThvbmM4Zm80MDJ4eg==',
         ];
         SocialLink::create([
             'facebook' => $links['facebook'],

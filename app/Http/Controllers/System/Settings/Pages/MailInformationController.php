@@ -27,7 +27,7 @@ class MailInformationController extends Controller
         $data = $request->validated();
 
         // encrypted password before saving
-        $data['password'] = encrypt($data['password']);
+        // $data['password'] = encrypt($data['password']);
 
         // Call updateOrCreate directly on the model class
         MailInformation::updateOrCreate([], $data);

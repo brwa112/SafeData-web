@@ -50,19 +50,18 @@ class HomeController extends Controller
         $messageContent = $request->message;
         // dd($messageContent);
         $mail_information = MailInformation::first();
+    //    return  $mail_information;
         if ($mail_information) {
             config([
                 'mail.mailers.smtp.host' => $mail_information->host,
                 'mail.mailers.smtp.port' => $mail_information->port,
                 'mail.mailers.smtp.encryption' => $mail_information->encryption,
                 'mail.mailers.smtp.username' => $mail_information->username,
-                'mail.mailers.smtp.password' => decrypt($mail_information->password),
+                'mail.mailers.smtp.password' => $mail_information->password,
                 'mail.from.address' => $mail_information->from_address,
                 'mail.from.name' => $mail_information->from_name,
             ]);
         }
-
-
         // $meessg = Mail::send([], [], function ($message) use ($email, $subject, $messageContent, $mail_information) {
         //     $message->to($mail_information->username)
         //         ->replyTo($email, $email)  // Shows client's email as name
@@ -76,7 +75,8 @@ class HomeController extends Controller
         // });
 
         Mail::send([], [], function ($message) use ($email, $subject, $messageContent, $mail_information) {
-            $message->to($mail_information->username)
+            $message
+                ->to($mail_information->username)  // Send to site admin
                 ->replyTo($email, $email)  // Client can be replied to
                 ->subject("Contact Form: {$subject}")  // Clear subject
                 ->html("

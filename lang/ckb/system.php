@@ -321,4 +321,12 @@ return [
     'phone_numbers' => 'ژمارەی تەلەفۆنەکان',
     'phone_number' => 'ژمارەی تەلەفۆن',
     'no_phone_numbers_added' => 'هیچ ژمارەی تەلەفۆنێک زیاد نەکراوە تاکو ئێستا.',
+
+    'mail_information' => 'زانیاری نامە',
+    'mail_informations' => 'زانیاریی نامەکان',
+    'host' => 'هۆست',
+    'encryption' => 'ئینکرێپشن',
+    'from_address' => 'لە ناونیشان',
+    'from_name' => 'لە ناو',
+    'mailer' => 'مەیلەر',
 ];

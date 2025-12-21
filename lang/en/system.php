@@ -362,4 +362,13 @@ return [
     'phone_numbers' => 'Phone Numbers',
     'phone_number' => 'Phone Number',
     'no_phone_numbers_added' => 'No phone numbers added yet.',
+
+    'mail_information' => 'Mail Information',
+    'mail_informations' => 'Mail Informations',
+    'mailer' => 'Mailer',
+    'host' => 'Host',
+    'encryption' => 'Encryption',
+    'from_address' => 'From Address',
+    'from_name' => 'From Name',
+
 ];

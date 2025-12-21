@@ -209,11 +209,8 @@
     "dashboard.name": "Name",
     "dashboard.email": "Email",
     "dashboard.no_data": "No data available",
-<<<<<<< HEAD
-=======
     "dashboard.languages": "Languages",
     "dashboard.created_at": "Created At",
->>>>>>> acf620d74372a1db439748d8d552f79c6cec94a6
     "form.please_select": "Please select",
     "form.no_results_found": "No results found",
     "form.facebook_link": "Facebook Link",
@@ -695,8 +692,6 @@
     "system.delete_all_visitors": "Delete All",
     "system.confirm_delete_all_visitors": "Are you sure you want to delete all visitor records? This action cannot be undone!",
     "system.select_date_range": "Select Date Range",
-<<<<<<< HEAD
-=======
     "system.social_links": "Social Media Links",
     "system.social_link": "Social Media Link",
     "system.link": "Link",
@@ -706,7 +701,6 @@
     "system.phone_numbers": "Phone Numbers",
     "system.phone_number": "Phone Number",
     "system.no_phone_numbers_added": "No phone numbers added yet.",
->>>>>>> acf620d74372a1db439748d8d552f79c6cec94a6
     "user.homele": "Homele",
     "user.user": "User",
     "user.add_property": "Add Property",
