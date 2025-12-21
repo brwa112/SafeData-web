@@ -199,7 +199,7 @@
                     </template>
 
                 </Datatable>
-
+                {{ services }}
             </div>
         </div>
     </div>

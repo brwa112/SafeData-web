@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pages\SocialLink;
 use App\Models\System\Settings\Settings\Language;
 use App\Models\System\Settings\System\GroupPermission;
 use Illuminate\Database\Seeder;
@@ -25,14 +26,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // DB::transaction(function () {
-            $user = $this->createTestUser();
-            // user types removed: createUserTypes() skipped
-            $this->createPermissions($user);
-            $this->callAdditionalSeeders();
-            $this->createUserSettings($user);
-            $this->createDeveloperUser();
-            $this->createTheme($user);
-            Artisan::call('translations:cache');
+        $user = $this->createTestUser();
+        // user types removed: createUserTypes() skipped
+        $this->createPermissions($user);
+        $this->callAdditionalSeeders();
+        $this->createUserSettings($user);
+        $this->createDeveloperUser();
+        $this->createTheme($user);
+        $this->createSocialLink();
+        Artisan::call('translations:cache');
         // });
     }
 
@@ -47,13 +49,28 @@ class DatabaseSeeder extends Seeder
             $user->theme()->firstOrCreate($theme);
         }
     }
-
+    public function createSocialLink()
+    {
+        $links = [
+            'facebook' => 'https://www.facebook.com/yourpage',
+            'instagram' => 'https://www.instagram.com/yourprofile',
+            'telegram' => 'https://t.me/yourchannel',
+            'email' => 'mailto:info@safedata.com',
+        ];
+        //social links seeding removed
+        SocialLink::firstOrCreate([
+            'facebook' => $links['facebook'],
+            'instagram' => $links['instagram'],
+            'telegram' => $links['telegram'],
+            'email' => $links['email'],
+        ]);
+    }
     // user types were removed from the system; seeding not required
 
     private function createTestUser(): User
     {
         $user = [
-                [
+            [
                 'name' => 'Super Admin',
                 'email' => 'super@safedatait.com',
                 'password' => 'password',
