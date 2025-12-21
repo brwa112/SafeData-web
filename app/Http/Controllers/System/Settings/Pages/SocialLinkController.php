@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Pages\SocialLink;
 use App\Models\Pages\PhoneNumbers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SocialRequest;
 
 class SocialLinkController extends Controller
 {
+    // Display social links and phone numbers
     public function index(Request $request)
     {
         $this->authorize('viewAny', SocialLink::class);
@@ -21,6 +23,19 @@ class SocialLinkController extends Controller
         ]);
     }
 
+    // Update social links
+    public function update(SocialRequest $request)
+    {
+        $this->authorize('viewAny', SocialLink::class);
+
+        $data = $request->validated();
+
+        $socialLink = SocialLink::first();
+
+        $socialLink->updateOrCreate([], $data);
+    }
+
+    // Store a new phone number
     public function storePhone(Request $request)
     {
         $this->authorize('viewAny', SocialLink::class);
@@ -35,6 +50,7 @@ class SocialLinkController extends Controller
         return redirect()->back();
     }
 
+    // Update an existing phone number
     public function updatePhone(Request $request, $id)
     {
         $this->authorize('viewAny', SocialLink::class);
@@ -51,23 +67,7 @@ class SocialLinkController extends Controller
         return redirect()->back();
     }
 
-    public function update(Request $request)
-    {
-        $this->authorize('viewAny', SocialLink::class);
-
-        $data = $request->validate([
-            'facebook'  => 'required|url|max:255',
-            'instagram' => 'required|url|max:1024',
-            'telegram'  => 'nullable|url|max:255',
-            'email'     => 'email|max:255',
-        ]);
-
-        $socialLink = SocialLink::first();
-        $socialLink->updateOrCreate([], $data);
-
-        return redirect()->back();
-    }
-
+    // Delete a phone number
     public function destroy($id)
     {
         $this->authorize('viewAny', SocialLink::class);

@@ -8,6 +8,7 @@ use App\Models\Pages\Client;
 use App\Policies\LogsPolicy;
 use App\Policies\UserPolicy;
 use App\Models\Pages\Hosting;
+use App\Models\Pages\MailInformation;
 use App\Models\Pages\Product;
 use App\Models\Pages\Service;
 use App\Policies\ClientPolicy;
@@ -38,6 +39,7 @@ class AuthServiceProvider extends ServiceProvider
         Hosting::class => HostingPolicy::class,
         Client::class => ClientPolicy::class,
         SocialLink::class => SettingPolicy::class,
+        MailInformation::class => SettingPolicy::class,
     ];
 
     public function boot(): void

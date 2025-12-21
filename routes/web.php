@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Route;
 // Default routes (will use first branch or session branch)
 Route::middleware('track.visitors')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
-    Route::post('/send-mail', [HomeController::class, 'sendMail'])->name('send.mail');
+    Route::post('/send-mail', [HomeController::class, 'sendMail'])
+        ->name('send.mail')
+        ->middleware('mail.config');
 });
 
 // Route Locale

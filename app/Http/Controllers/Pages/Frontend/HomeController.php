@@ -35,6 +35,7 @@ class HomeController extends Controller
         ]);
     }
 
+
     public function sendMail(Request $request)
     {
         $request->validate([
@@ -47,18 +48,40 @@ class HomeController extends Controller
         $subject = $request->subject ?? 'No Subject';
         $messageContent = $request->message;
 
-        Mail::send([], [], function ($message) use ($email, $subject, $messageContent) {
-            $message->to('info@safedatait.com')
-                ->replyTo($email, $email)  // Shows client's email as name
-                ->subject($subject . ' - from ' . $email)  // Shows email in subject
-                ->html("
-                    <p><strong>From:</strong> {$email}</p>
-                    <p><strong>Subject:</strong> {$subject}</p>
-                    <p><strong>Message:</strong></p>
-                    <p>{$messageContent}</p>
-                ");
-        });
+        try {
+            Mail::send([], [], function ($message) use ($email, $subject, $messageContent) {
+                $message->to('info@safedatait.com')
+                    ->replyTo($email, $email)  // Client can be replied to
+                    ->subject("Contact Form: {$subject}")  // Clear subject
+                    ->html("
+                    <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+                        <div style='background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px;'>
+                            <h2 style='margin: 0; color: #333;'>New Contact Form Submission</h2>
+                        </div>
 
-        return back()->with('success', 'Message sent successfully!');
+                        <div style='background-color: white; padding: 20px; border: 1px solid #dee2e6; border-radius: 5px;'>
+                            <p style='margin: 10px 0;'><strong style='color: #555;'>From:</strong> {$email}</p>
+                            <p style='margin: 10px 0;'><strong style='color: #555;'>Subject:</strong> {$subject}</p>
+                            <hr style='border: 0; border-top: 1px solid #dee2e6; margin: 20px 0;'>
+                            <p style='margin: 10px 0;'><strong style='color: #555;'>Message:</strong></p>
+                            <div style='padding: 15px; background-color: #f8f9fa; border-radius: 5px;'>
+                                <p style='margin: 0; white-space: pre-wrap;'>" . nl2br(htmlspecialchars($messageContent)) . "</p>
+                            </div>
+                        </div>
+
+                        <div style='margin-top: 20px; padding: 15px; background-color: #e7f3ff; border-radius: 5px;'>
+                            <p style='margin: 0; font-size: 14px; color: #666;'>
+                                <strong>Note:</strong> Click 'Reply' to respond directly to {$email}
+                            </p>
+                        </div>
+                    </div>
+                ");
+            });
+
+            return back()->with('success', 'Message sent successfully!');
+        } catch (\Exception $e) {
+            \Log::error('Mail sending failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send message. Please try again.');
+        }
     }
 }

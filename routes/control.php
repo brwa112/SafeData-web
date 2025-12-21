@@ -16,6 +16,7 @@ use App\Http\Controllers\System\Settings\Settings\ThemeController;
 use App\Http\Controllers\System\Settings\Pages\SocialLinkController;
 use App\Http\Controllers\System\Settings\Settings\LanguageController;
 use App\Http\Controllers\System\Settings\Settings\KeyLanguageController;
+use App\Http\Controllers\System\Settings\Pages\MailInformationController;
 use App\Http\Controllers\System\Settings\Settings\ImportExportController;
 use App\Http\Controllers\System\Settings\Settings\TranslationsController;
 use App\Http\Controllers\System\Settings\Settings\GroupPermissionController;
@@ -116,6 +117,10 @@ Route::middleware('auth')->group(function () {
                 // Social Links
                 Route::get('/social-links', [SocialLinkController::class, 'index'])->name('social-links.index');
                 Route::put('/social-links', [SocialLinkController::class, 'update'])->name('social-links.update');
+
+                // Mail Information
+                Route::get('/mail-information', [MailInformationController::class, 'index'])->name('mail-information.index');
+                Route::put('/mail-information', [MailInformationController::class, 'update'])->name('mail-information.update');
 
                 // Phone Numbers
                 Route::post('/social-links/phone', [SocialLinkController::class, 'storePhone'])->name('social-links.store-phone');

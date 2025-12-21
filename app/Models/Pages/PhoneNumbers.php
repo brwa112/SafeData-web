@@ -23,6 +23,6 @@ class PhoneNumbers extends Model
             ->logOnly(['name', 'description', 'url'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Product {$eventName}");
+            ->setDescriptionForEvent(fn(string $eventName) => "PhoneNumbers {$eventName}");
     }
 }
