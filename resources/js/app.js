@@ -28,12 +28,33 @@ import 'floating-vue/dist/style.css'
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 
-const app = createApp({});
+import 'notivue/notifications.css'
+import 'notivue/animations.css'
 
-const appName = import.meta.env.VITE_APP_NAME || 'KurdGenius';
+import {
+  createNotivue,
+  Notivue,
+  Notification,
+  push,
+  lightTheme,
+  darkTheme,
+} from 'notivue'
 
-const { el, App, props, plugin } = createInertiaApp({
-  // title: (title) => `${title ? title + ' - ' : ''}${appName}`,
+import 'notivue/notifications.css'
+import 'notivue/animations.css'
+
+// Setup Notivue with dynamic theme
+const notivue = createNotivue({
+    position: 'top-center',
+    limit: 4,
+    enqueue: true,
+    avoidDuplicates: true,
+    // theme: isDarkMode ? darkTheme : lightTheme
+})
+
+const appName = import.meta.env.VITE_APP_NAME || 'Safe-Data';
+
+createInertiaApp({
   title: (title) => `${title ? title + '' : ''}`,
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
@@ -43,7 +64,13 @@ const { el, App, props, plugin } = createInertiaApp({
     return page;
   },
   setup({ el, App, props, plugin }) {
-    const app = createApp({ render: () => h(App, props), provide: { helpers } })
+    const app = createApp({
+      render: () => h(App, props),
+      // Add provide here
+      provide: {
+        helpers: helpers
+      }
+    })
       .use(plugin)
       .use(ZiggyVue)
       .use(i18nVue, {
@@ -58,10 +85,13 @@ const { el, App, props, plugin } = createInertiaApp({
       .use(vue3JsonExcel)
       .use(Maska)
       .use(VueEasymde)
+      .use(notivue)
       .component('Popper', Popper)
       .component('Svg', Svg)
       .component('Spinner', Spinner)
       .component('VDropdown', Dropdown)
+      .component('Notivue', Notivue)
+      .component('Notification', Notification)
       .component('Swiper', Swiper)
       .component('SwiperSlide', SwiperSlide)
       .use(Vue3Shortkey)
@@ -75,7 +105,7 @@ const { el, App, props, plugin } = createInertiaApp({
       .use(PermissionPlugin)
       .use(BranchRoutePlugin);
 
-    // Make helpers available globally
+    // Make helpers available globally (for $helpers)
     app.config.globalProperties.$helpers = helpers;
 
     app.mount(el);

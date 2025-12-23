@@ -3,23 +3,17 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 import useClipboard from 'vue-clipboard3';
 const { toClipboard } = useClipboard();
+import { push } from 'notivue'
 
 import Swal from 'sweetalert2';
 
 export default {
 
     toast: (msg = '', type = 'success') => {
-        const toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 3500,
-            customClass: { container: 'toast' },
-        });
-        toast.fire({
-            icon: type,
-            title: msg,
-            padding: '10px 20px',
+        push[type]({
+            message: msg,
+            duration: 3500,
+
         });
     },
 
@@ -257,11 +251,11 @@ export default {
     /**
      * Get translated value from multilingual object
      * Useful for Spatie Translatable models that return: {"en": "...", "ckb": "...", "ar": "..."}
-     * 
+     *
      * @param {Object|String} obj - Translation object or plain string
      * @param {String} locale - Specific locale to use (optional, defaults to browser/page locale)
      * @returns {String} Translated text with fallback chain: requested locale → 'en' → first available
-     * 
+     *
      * @example
      * getTranslation({en: 'Hello', ckb: 'سڵاو', ar: 'مرحبا'}, 'ckb') // Returns: 'سڵاو'
      * getTranslation('Plain text') // Returns: 'Plain text'
@@ -284,11 +278,11 @@ export default {
     /**
      * Generate branch-aware URL for frontend routes
      * Automatically prepends the selected branch slug to paths when available
-     * 
+     *
      * @param {String} path - The path to navigate to (e.g., '/about', '/news')
      * @param {String|null} branchSlug - Optional branch slug override (defaults to current branch from page props)
      * @returns {String} Full path with branch prefix if applicable
-     * 
+     *
      * @example
      * branchRoute('/about') // Returns: '/kurd-genius/about' (if kurd-genius is selected)
      * branchRoute('/') // Returns: '/kurd-genius' (if kurd-genius is selected)
@@ -334,18 +328,18 @@ export default {
     getTranslatedText(translations, page = null) {
         if (!translations) return '';
         if (typeof translations === 'string') return translations;
-        
+
         // Try to get current language from multiple sources
-        const currentLang = page?.props?.locale || 
-                          page?.props?.lang || 
-                          (typeof window !== 'undefined' && document.documentElement.lang) || 
+        const currentLang = page?.props?.locale ||
+                          page?.props?.lang ||
+                          (typeof window !== 'undefined' && document.documentElement.lang) ||
                           'en';
-        
-        return translations[currentLang] || 
-               translations.en || 
-               translations.ckb || 
-               translations.ar || 
-               Object.values(translations)[0] || 
+
+        return translations[currentLang] ||
+               translations.en ||
+               translations.ckb ||
+               translations.ar ||
+               Object.values(translations)[0] ||
                '';
     }
 

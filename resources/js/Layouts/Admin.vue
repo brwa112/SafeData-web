@@ -44,10 +44,14 @@
                     <!--  END CONTENT AREA  -->
                 </div>
             </div>
+            <!-- ADD NOTIVUE HERE - Right before the closing div -->
+            <Notivue v-slot="item">
+                <Notification :item="item" :theme="notivueTheme"   :icons="outlinedIcons"/>
+            </Notivue>
         </div>
     </template>
 <script setup>
-import { ref, onMounted, provide, watch } from 'vue'
+import { ref, onMounted, provide, watch, computed } from 'vue'
 import Sidebar from '@/Components/Layout/Sidebar.vue'
 import Header from '@/Components/Layout/Header.vue'
 import Footer from '@/Components/Layout/Footer.vue'
@@ -55,6 +59,7 @@ import { getDefaultSettings } from '@/settings.js'
 import { usePage } from '@inertiajs/vue3'
 import useTranslate from '@/plugins/useTranslate'
 import { useFontSettings } from '@/Composables/useFontSize'
+import { darkTheme, lightTheme } from 'notivue' // Add this import
 
 const page = usePage()
 
@@ -70,6 +75,11 @@ const sidebar = ref(settings.sidebar)
 const navbar = ref(settings.navbar)
 const isShowMainLoader = ref(settings.isShowMainLoader)
 const language = ref(settings.locale)
+
+// Add computed property for Notivue theme
+const notivueTheme = computed(() => {
+    return theme.value === 'dark' ? darkTheme : lightTheme
+})
 
 const toggleSidebar = () => {
     sidebar.value = !sidebar.value
