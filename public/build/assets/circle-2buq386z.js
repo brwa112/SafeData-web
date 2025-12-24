@@ -1,0 +1,1 @@
+import{c as r,o as c,a as o}from"./app-B63b1ANF.js";const t={viewBox:"0 0 6 6"};function n(s,e){return c(),r("svg",t,[...e[0]||(e[0]=[o("circle",{cx:"3",cy:"3",r:"3"},null,-1)])])}const l={render:n};export{l as default,n as render};

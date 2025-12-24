@@ -14,7 +14,6 @@
                     <div class="relative z-10 flex gap-3">
                         <div class="shrink-0 w-9 h-9 2xl:w-16 2xl:h-16 flex items-center justify-center">
                             <img :src="service.logo" class="w-full h-full object-contain" />
-                            {{ service.logo }}
                         </div>
                         <div class="flex flex-col justify-center gap-1">
                             <h2 class="text-base sm:text-lg 2xl:text-xl font-medium">{{ service.name }}</h2>

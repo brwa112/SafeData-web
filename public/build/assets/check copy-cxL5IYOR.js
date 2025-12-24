@@ -1,0 +1,1 @@
+import{c as o,o as r,a as t}from"./app-B63b1ANF.js";const n={fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function s(c,e){return r(),o("svg",n,[...e[0]||(e[0]=[t("path",{"stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"3",d:"m5 13 4 4L19 7"},null,-1)])])}const a={render:s};export{a as default,s as render};
