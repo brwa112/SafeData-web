@@ -24,21 +24,16 @@ jobs:
     - name: ⏳ Wait for files to sync
       run: sleep 20
 
-    - name: 🔧 Test if API endpoint exists
+    - name: 🔧 Run Migrations via Direct IP
       run: |
-        echo "Testing if the API endpoint is accessible..."
-        curl -X GET https://safedatait.com/api/deploy/migrate -I -L
-
-    - name: 🔧 Run Migrations via HTTP
-      run: |
-        echo "Running migrations..."
-        response=$(curl -X POST https://safedatait.com/api/deploy/migrate \
-          -H "X-Deploy-Token: 7k9mP2vL8nQ4wR6xT3yU1zB5cD0eF7gH9jK2mN4pQ6sT8vW0xY3zA5bC7dE9fG1h" \
+        echo "Running migrations (bypassing Cloudflare)..."
+        response=$(curl -X POST http://192.250.229.30/api/deploy/migrate \
+          -H "Host: safedatait.com" \
+          -H "X-Deploy-Token: ${{ secrets.DEPLOY_TOKEN }}" \
           -w "\n%{http_code}" \
           --max-time 300 \
           --retry 3 \
           --retry-delay 5 \
-          -L \
           -s)
         
         http_code=$(echo "$response" | tail -n1)
