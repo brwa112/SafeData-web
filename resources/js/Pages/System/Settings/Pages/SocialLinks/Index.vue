@@ -82,8 +82,6 @@ const linksForm = useForm({
     email: props.links?.email || '',
 });
 
-
-
 const saveAllSections = () => {
     linksForm.transform((data) => ({
         ...data,
